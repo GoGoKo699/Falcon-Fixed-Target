@@ -101,7 +101,7 @@ E(x):=
 2\sum_{k=1}^{11}e^{-xk^2}
 +
 \frac{2e^{-144x}}{1-e^{-25x}}.
-\tag{1}
+\qquad\text{(1)}
 ```
 
 This bound is valid for every positive $`x`$. To keep it sharp for small
@@ -110,7 +110,7 @@ arguments, the program also uses Jacobi's identity
 ```math
 \vartheta(x)=\sqrt{\frac\pi x}\,
 \vartheta\!\left(\frac{\pi^2}{x}\right).
-\tag{2}
+\qquad\text{(2)}
 ```
 
 If the entire input ball lies below $`1`$, it evaluates the upper expression
@@ -120,7 +120,7 @@ If the entire input ball lies below $`1`$, it evaluates the upper expression
 \le
 \sqrt{\frac\pi x}
 \left(1+E\!\left(\frac{\pi^2}{x}\right)\right)-1.
-\tag{3}
+\qquad\text{(3)}
 ```
 
 The transformed argument is then greater than $`\pi^2`$, so one transformation
@@ -139,7 +139,7 @@ $`\vartheta(x)-1`$. Powers close to $`1`$ are evaluated as
 &\le\mathrm{expm1}\!\left(
 m\mathrm{log1p}(U_\vartheta(x))\right).
 \end{aligned}
-\tag{4}
+\qquad\text{(4)}
 ```
 
 Arb's log1p and expm1 functions preserve accuracy when the correction is
@@ -215,7 +215,7 @@ Thus the contribution of this interval to the zero-arc bound is at most
 \sqrt{(1-e^{-t})^2+4e^{-t}\sin^2(\ell/2)}
 }.
 \end{aligned}
-\tag{5}
+\qquad\text{(5)}
 ```
 
 For the parity arc, replace $`B^2`$ inside the last theta factor by $`4B^2`$

@@ -53,3 +53,5 @@ All norms of integer vectors are Euclidean. Norms of quotient densities use the 
 | [Forgery extraction](security_transfer.md) | The public simulator and an adversary | Conditional ROM and QROM unforgeability bounds under stated NTRU problems |
 
 The [interpretation](interpretation.md) explains why the resulting statement addresses fixed-target norm retries and how to read its concrete losses. The [related-work account](../references/related_work.md) identifies the inherited harmonic-analysis and cryptographic tools and the difference from the closest signature analyses.
+
+For the prerequisites and their connections to this sequence, use the [Peikert bridge](../learning/ANCHOR.md) alongside the [30-milestone map](../learning/MILESTONES.md). The [learning entrypoint](../learning/README.md) offers routes through the geometric and cryptographic parts of the project.
