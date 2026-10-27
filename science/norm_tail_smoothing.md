@@ -93,7 +93,7 @@ $`U`$ is
 
 ```math
 \frac{d\nu}{dU}(y)=\frac{p(y)-r(y)}{1-\delta}.
-\tag{1}
+\qquad\text{(1)}
 ```
 
 This is the image of an **ambient** Gaussian after acceptance. It is
@@ -120,7 +120,7 @@ R^2=\sum_{w\in\widehat G\setminus\{0\}}
 \mathbb E\left[e^{2\pi i\langle w,X\rangle}
 \mathbf1_{\{\|X\|^2\ge K\}}\right]
 \right|^2.
-\tag{2}
+\qquad\text{(2)}
 ```
 
 Signs of character representatives do not affect any bound below.
@@ -136,7 +136,7 @@ $`\rho_c(\mathbb Z+u)\le\rho_c(\mathbb Z)`$, proves
 
 ```math
 \rho_c(\Lambda^*)\le\vartheta(c/B^2)^d.
-\tag{3}
+\qquad\text{(3)}
 ```
 
 To justify the translated-mass inequality used here and later, Poisson
@@ -155,7 +155,7 @@ also gives
 
 ```math
 \vartheta(c)\le1+\sqrt{\pi/c}.
-\tag{4}
+\qquad\text{(4)}
 ```
 
 Define
@@ -170,7 +170,7 @@ Poisson summation and (3) imply, for every real translate $`z`$,
 \frac{(\pi/c)^{d/2}}{N}(1-\eta_c)
 \le\rho_c(\Lambda+z)
 \le\frac{(\pi/c)^{d/2}}{N}(1+\eta_c).
-\tag{5}
+\qquad\text{(5)}
 ```
 
 The lower bound is useful when $`\eta_c<1`$, as it is at the parameters
@@ -196,7 +196,7 @@ denominator before taking absolute values yields
 \le\frac{\rho_A(\Lambda^*)-\rho_A(\mathbb Z^d)}
 {\rho_A(\mathbb Z^d)}
 \le\eta_\alpha.
-\tag{6}
+\qquad\text{(6)}
 ```
 
 This cancellation is why no additional ambient-normalization error is
@@ -207,7 +207,7 @@ For $`0<\varepsilon<2`$, weighted Cauchy–Schwarz gives
 ```math
 \rho_A(C)^2\le
 \rho_{\varepsilon A}(C)\rho_{(2-\varepsilon)A}(C).
-\tag{7}
+\qquad\text{(7)}
 ```
 
 The Fourier coefficient of the unconditioned quotient image at $`w`$ is
@@ -221,7 +221,7 @@ Q_0^2\le
 \left[
 \vartheta\!\left(\frac{(2-\varepsilon)A}{B^2}\right)^d-1
 \right].
-\tag{8}
+\qquad\text{(8)}
 ```
 
 The numerical certificate uses $`\varepsilon=1/100`$ in (8).
@@ -254,7 +254,7 @@ For each character $`w`$, the tail Fourier coefficient is exactly
 e^{-iK\theta}}
 {1-e^{-t-i\theta}}\,d\theta.
 \end{aligned}
-\tag{9}
+\qquad\text{(9)}
 ```
 
 Indeed, expand the denominator as
@@ -288,7 +288,7 @@ $`f(x+b)=(-1)^{ab}f(x)`$. Consequently
 ```math
 f(x)=\sum_{\ell=0}^{b-1}c_\ell
 e^{2\pi i(\ell+\eta)x/b},\qquad |c_\ell|=b^{-1/2}.
-\tag{10}
+\qquad\text{(10)}
 ```
 
 Here is a direct proof of the magnitude. The sequence
@@ -314,7 +314,7 @@ Complex Poisson summation is valid since $`\Re z>0`$. Combining it with
 \le
 \left(\frac\pi{bh}\right)^{d/2}
 \rho_{A_v}\!\left(b^{-1}(\mathbb Z^d+\eta\mathbf1)-w\right).
-\tag{11}
+\qquad\text{(11)}
 ```
 
 In one dimension the sums over the $`b`$ frequency shifts and the Poisson
@@ -331,7 +331,7 @@ $`\Lambda^*/\mathbb Z^d`$. For any $`c>0`$,
 \rho_c\!\left(b^{-1}(\mathbb Z^d+\eta\mathbf1)-w\right)
 =
 \rho_{c/b^2}(\Lambda^*+\eta\mathbf1).
-\tag{12}
+\qquad\text{(12)}
 ```
 
 To see this, multiply each vector inside the mass by $`b`$. The resulting
@@ -346,7 +346,7 @@ calculation instead gives
 ```math
 |\ker(b:\widehat G\to\widehat G)|\,
 \rho_{c/b^2}(\mathbb Z^d+b\Lambda^*+\eta\mathbf1).
-\tag{13}
+\qquad\text{(13)}
 ```
 
 Thus (12) cannot be used unchanged at a denominator sharing a prime
@@ -364,7 +364,7 @@ of the product in (9), normalized by $`Z_\alpha^d`$, is at most
 \vartheta\!\left(\frac{\varepsilon A_v}{b^2}\right)
 \vartheta\!\left(\frac{(2-\varepsilon)A_v}{b^2B^2}\right)
 \right]^{d/2}.
-\tag{14}
+\qquad\text{(14)}
 ```
 
 It is also an upper bound after the trivial character is omitted.
@@ -408,7 +408,7 @@ total minor-arc length by $`2\pi`$ therefore gives
 ```math
 \overline R_{\mathrm{minor}}
 =\frac{e^{-tK}C^{d/2}}{1-e^{-t}}.
-\tag{15}
+\qquad\text{(15)}
 ```
 
 This argument does not require an enumeration or a disjoint partition of
@@ -428,7 +428,7 @@ For $`b=1`$, $`a=0`$, and $`\eta=0`$,
 \sum_{w\ne0}\rho_c(\mathbb Z^d-w)
 =\rho_c(\Lambda^*)-\rho_c(\mathbb Z^d)
 \le\vartheta(c/B^2)^d-1.
-\tag{16}
+\qquad\text{(16)}
 ```
 
 This is the character sum arising after weighted Cauchy–Schwarz.
@@ -453,7 +453,7 @@ $`\Lambda^*+\mathbf1/2`$ into $`\Lambda^*\setminus\{0\}`$. Therefore
 \rho_c(\Lambda^*+\mathbf1/2)
 \le\rho_{c/4}(\Lambda^*)-1
 \le\vartheta\!\left(\frac{c}{4B^2}\right)^d-1.
-\tag{17}
+\qquad\text{(17)}
 ```
 
 For an even-index quotient this removal of the zero term need not be
@@ -488,7 +488,7 @@ Equations (16)–(17), inserted into the derivation of (14), yield
 \int_0^L
 \frac{H_1(v;\varepsilon(v))}
 {\sqrt{(1-e^{-t})^2+4e^{-t}\sin^2(v/2)}}\,dv,
-\tag{18}
+\qquad\text{(18)}
 ```
 
 and
@@ -497,7 +497,7 @@ and
 \overline R_{\mathrm{parity}}
 =\frac{e^{-tK}}{\pi(1+e^{-t}\cos L)}
 \int_0^L H_4(v;\varepsilon(v))\,dv.
-\tag{19}
+\qquad\text{(19)}
 ```
 
 For (19), $`|1+e^{-t-iv}|\ge1+e^{-t}\cos L`$ when $`|v|\le L`$.
@@ -513,7 +513,7 @@ R\le\overline R:=
 \overline R_{\mathrm{zero}}+
 \overline R_{\mathrm{parity}}+
 \overline R_{\mathrm{minor}}.
-\tag{20}
+\qquad\text{(20)}
 ```
 
 The certificate enlarges both major-arc integrals to
@@ -539,7 +539,7 @@ Markov's inequality and (5) give, for every coset $`y`$,
 D_0:=e^{-tK}\left(\frac\alpha\beta\right)^{d/2}
 \frac{1+\eta_\beta}{1-\eta_\alpha}.
 \end{aligned}
-\tag{21}
+\qquad\text{(21)}
 ```
 
 In particular $`\delta\le D_0`$ and $`a_y\ge1-D_0`$.
@@ -564,7 +564,7 @@ and $`\delta\le D_0`$ to obtain
 &\le\frac{(R+D_0Q_0)^2}{(1-\eta_\alpha)^2}
 \le V,
 \end{aligned}
-\tag{22}
+\qquad\text{(22)}
 ```
 
 where $`V`$ is the last expression with the certified upper bounds for
@@ -586,7 +586,7 @@ Consequently
 ```math
 \chi^2(\nu\|U)
 \le\frac{(Q_0+R)^2}{(1-D_0)^2}.
-\tag{23}
+\qquad\text{(23)}
 ```
 
 The following are conservative upper bounds on the base-two logarithms
@@ -620,7 +620,7 @@ shows
 \le
 \frac{1+\eta_\alpha}{1-\eta_\alpha}
 e^{\sigma^2s^2/2}.
-\tag{24}
+\qquad\text{(24)}
 ```
 
 Chernoff's inequality, optimized at $`s=L_0/\sigma^2`$, and a union bound
@@ -632,7 +632,7 @@ therefore give
 C_{\mathrm{cap}}:=
 2m\frac{1+\eta_\alpha}{1-\eta_\alpha}
 e^{-L_0^2/(2\sigma^2)}.
-\tag{25}
+\qquad\text{(25)}
 ```
 
 For $`m=n`$ and $`L_0=2048`$, this is below $`2^{-100.14568}`$ for $`n=512`$
@@ -653,7 +653,7 @@ centered $`L^2`$ norms imply
 \le\left(\sqrt V+\frac{C_{\mathrm{cap}}}{2}\right)^2,
 \qquad
 a'_y\ge1-D_0-C_{\mathrm{cap}}.
-\tag{26}
+\qquad\text{(26)}
 ```
 
 For completeness, the ambient rejected-tail density grows by
@@ -668,7 +668,7 @@ the ambient image conditioned on both tests, then
 \le
 \frac{\left(Q_0+R+(1+\eta_\alpha)C_{\mathrm{cap}}/2\right)^2}
 {(1-D_0-C_{\mathrm{cap}})^2}.
-\tag{27}
+\qquad\text{(27)}
 ```
 
 The certificate checks (26)–(27). Their additions are small enough that

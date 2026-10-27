@@ -117,7 +117,7 @@ over the real coefficient algebra. The key-generation check is
 \|(g,-f)\|,
 \left\|\left(\frac{qf^*}{D},\frac{qg^*}{D}\right)\right\|
 \right\}\le B_0.
-\tag{1}
+\qquad\text{(1)}
 ```
 
 This is a bound on the two orthogonal polynomial blocks. The following
@@ -131,7 +131,7 @@ projection cannot increase a vector's norm. For the second block, the identity
 ```math
 u_2-\frac{Gg^*+Ff^*}{D}\,u_1
    =v:=\left(\frac{qf^*}{D},\frac{qg^*}{D}\right)
-\tag{2}
+\qquad\text{(2)}
 ```
 
 gives its projection onto $`W^\perp`$. Indeed, the polynomial inner product
@@ -143,7 +143,7 @@ only decrease that norm. Equation (1) proves
 
 ```math
 \max_i\|\widetilde b_i\|\le B_0.
-\tag{3}
+\qquad\text{(3)}
 ```
 
 This proof works for **any ordering within each block**, provided the entire
