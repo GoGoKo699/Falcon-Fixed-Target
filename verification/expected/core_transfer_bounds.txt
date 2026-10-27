@@ -1,0 +1,67 @@
+CoreFalcon security-transfer arithmetic
+backend: python-flint 0.8.0 / Arb
+precision_bits: 256
+All printed balls enclose analytic upper-bound expressions.
+Tail contracts are imported from norm_circle_interval.py.
+
+PARAMETERS n=512 d=1024 T=34034726 K=34034727
+official_sigma: [165.7366171829775901565193921 +/- 5.94e-27]
+eta_upper_expression: [2.057951587424801142651568497e-11 +/- 3.84e-41]
+log2_uniform_coset_rejection_bound: [-14.31496384328543660791407647 +/- 1.93e-27]
+log2_accepted_image_chi2_bound: [-81.43464549250110035660853636 +/- 4.34e-27]
+public_Gaussian_pool_size: 2^64 + 2^50
+negative_log2_pool_failure_upper_bound: [36022188655435.81038541999895 +/- 6.98e-16]
+CERTIFIED pool_failure < 2^-1000
+optional_real_attempt_limit_per_query: 32
+negative_log2_real_cap_failure_upper_bound: [394.0788429832338136615077842 +/- 3.63e-26]
+CERTIFIED real_cap_failure < 2^-390
+compressed_norm_based_length_upper_bound_bytes: 746
+published_maximum_compressed_buffer_bytes: 752
+
+PARAMETERS n=1024 d=2048 T=70265242 K=70265243
+official_sigma: [168.3885714465439394270191108 +/- 1.58e-26]
+eta_upper_expression: [1.455191522826092098944606723e-11 +/- 2.74e-39]
+log2_uniform_coset_rejection_bound: [-28.62992839880546099171410521 +/- 4.12e-27]
+log2_accepted_image_chi2_bound: [-83.51999297863017167004532600 +/- 1.33e-27]
+public_Gaussian_pool_size: 2^64 + 2^36
+negative_log2_pool_failure_upper_bound: [8213017500.179356665388388573 +/- 3.10e-19]
+CERTIFIED pool_failure < 2^-1000
+optional_real_attempt_limit_per_query: 16
+negative_log2_real_cap_failure_upper_bound: [394.0788543802155686374928372 +/- 2.96e-28]
+CERTIFIED real_cap_failure < 2^-390
+compressed_norm_based_length_upper_bound_bytes: 1455
+published_maximum_compressed_buffer_bytes: 1462
+
+TRANSFER n=512 q_S=2^64 lambda_sim=120 rho=73
+conditioned_sampler_excess_multiplier: [1.000049066808035574565691070 +/- 4.47e-28]
+image_transfer_loss_bits: [0.0003976893622636008897374349423 +/- 3.74e-33]
+sampler_transfer_loss_bits: [1.623111562738991868013268016 +/- 4.38e-28]
+sampler_conditioning_increment_bits: [7.963699593604343316172380948e-5 +/- 1.25e-33]
+total_transfer_loss_bits: [3.267344868539611633286567095 +/- 2.16e-28]
+CERTIFIED transfer_loss < 3.268 bits
+
+TRANSFER n=512 q_S=2^64 lambda_sim=128 rho=75
+conditioned_sampler_excess_multiplier: [1.000049066808039613848483515 +/- 6.34e-29]
+image_transfer_loss_bits: [0.0004087764007639617976260180885 +/- 4.09e-32]
+sampler_transfer_loss_bits: [1.668197995174626763953525326 +/- 5.85e-29]
+sampler_conditioning_increment_bits: [8.184913472552029473129961028e-5 +/- 2.67e-33]
+total_transfer_loss_bits: [3.375273438242057392417818011 +/- 3.04e-28]
+CERTIFIED transfer_loss < 3.376 bits
+
+TRANSFER n=1024 q_S=2^64 lambda_sim=256 rho=151
+conditioned_sampler_excess_multiplier: [1.000000002407314219895434351 +/- 2.90e-29]
+image_transfer_loss_bits: [0.0002063792570084418521582090790 +/- 3.63e-32]
+sampler_transfer_loss_bits: [1.690658262443189700844015018 +/- 1.83e-28]
+sampler_conditioning_increment_bits: [4.069945666365559634234232537e-9 +/- 3.15e-37]
+total_transfer_loss_bits: [3.386228880110794169186239452 +/- 6.18e-29]
+CERTIFIED transfer_loss < 3.387 bits
+
+ORACLE EXAMPLES (probability terms, not overall security levels)
+q_S=2^64 q_H=2^64 salt_bits=320
+log2_ROM_reprogramming_probability_bound: [-191.4150374992788438185723306 +/- 7.68e-27]
+log2_QROM_reprogramming_probability_bound: [-62.91503749927884381852670889 +/- 2.34e-27]
+q_S=2^64 q_H=2^128 salt_bits=320
+log2_ROM_reprogramming_probability_bound: [-127.9999999999999999999608957 +/- 2.75e-26]
+log2_QROM_reprogramming_probability_bound: [-31.41503749927884381850715673 +/- 1.39e-27]
+
+PASS: all stated arithmetic inequalities were certified.

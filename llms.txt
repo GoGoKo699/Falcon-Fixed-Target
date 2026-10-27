@@ -1,0 +1,24 @@
+# Falcon Fixed Target
+
+Scientific question: Can CoreFalcon retain the same fresh hash target during private norm retries while admitting a concrete security proof?
+
+## Entry points
+
+- README.md: principal results, scope, and reproduction route.
+- science/README.md: connected argument and common notation.
+- science/signing_model.md: signing and verification algorithms, adversary access, and representation.
+
+## Specialist route
+
+- science/falcon_parameters.md: specification parameters and the ordinary Gram–Schmidt basis hypothesis.
+- science/norm_tail_smoothing.md: exact discrete contour, rational arcs, finite-quotient summation, and accepted-image bounds.
+- science/numerical_certificate.md: arithmetic enclosures and their relation to the analytic proof.
+- science/security_transfer.md: conditioning lemma, joint Rényi comparison, ROM/QROM reductions, and all charged losses.
+- science/interpretation.md: target bias, meaning of the variance, and scope of the conclusion.
+- references/related_work.md: closest comparisons and inherited ingredients.
+- references/bibliography.bib: primary bibliographic records.
+- verification/README.md: commands, dependencies, expected outputs, and limits of finite checks.
+
+## Essential distinctions
+
+The Gaussian is discrete and the norm cutoff is an integer threshold. The public accepted Gaussian image is not a uniform-target fresh-retry law. The variance is over uniform targets, not a pointwise rejection estimate. The concrete FFO application concerns its exact-arithmetic abstraction. The main predicate is the norm test; total padded encoding length is separate. Signing queries remain classical in the QROM. The Rényi transfer loss is only one component of the complete security bound. NTRU hardness is an assumption, not an output of the numerical certificate.

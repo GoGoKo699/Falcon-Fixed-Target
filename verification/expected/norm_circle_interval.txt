@@ -1,0 +1,54 @@
+backend python-flint 0.8.0
+FLINT 3.3.1
+precision_bits 256
+output_semantics balls_enclose_upper_bound_expressions
+parameter_n 512
+d 1024 T 34034726 K 34034727
+rectangles_per_major_arc 5120
+sigma_input_ball [165.73661718298 +/- 3.01e-12]
+specification_sigma [165.736617182977590156519392105931584537863239 +/- 9.45e-44]
+specification_unrounded_norm_squared [34034726.7000942630262256697111662778851392191 +/- 3.35e-38]
+B [129.701241705698407704478931559964915716769830 +/- 2.66e-43]
+alpha [1.8202584832223e-5 +/- 3.95e-19]
+beta [1.50434584064681935013023609679607537325038629e-5 +/- 7.26e-51]
+t [3.159126425755e-6 +/- 2.39e-19]
+extended_L [0.00770225070411171507266680881559590591104197780 +/- 1.09e-48]
+minor_per_dimension_bound [0.8908831452265 +/- 5.28e-14]
+eta_alpha_bound [2.05795158742e-11 +/- 5.28e-23]
+log2_D0_bound [-14.3149638433 +/- 3.51e-11]
+log2_R_zero_bound [-68.2547871425 +/- 5.59e-11]
+log2_R_parity_bound [-45.6004538243 +/- 4.13e-11]
+log2_R_minor_bound [-222.1927787219 +/- 6.71e-11]
+log2_R_bound [-45.6004536057 +/- 5.33e-11]
+log2_Q0_bound [-40.767500000030 +/- 7.89e-13]
+log2_acceptance_variance_bound [-91.1968751090 +/- 5.06e-11]
+log2_accepted_image_chi2_bound [-81.43535666746 +/- 5.67e-12]
+log2_coordinate_cap_bound [-100.14568985250 +/- 3.18e-12]
+log2_norm_plus_cap_variance_bound [-91.1968751090 +/- 5.06e-11]
+log2_norm_plus_cap_image_chi2_bound [-81.43535666746 +/- 5.67e-12]
+CERTIFIED R_lt_2pow(-4559/100) variance_with_cap_lt_2pow(-90) image_chi2_with_cap_lt_2pow(-81)
+parameter_n 1024
+d 2048 T 70265242 K 70265243
+rectangles_per_major_arc 5120
+sigma_input_ball [168.38857144654 +/- 5.01e-12]
+specification_sigma [168.388571446543939427019110784244619320387431 +/- 3.79e-43]
+specification_unrounded_norm_squared [70265242.2195353145455318329209727365288888389 +/- 1.05e-38]
+B [129.701241705698407704478931559964915716769830 +/- 2.66e-43]
+alpha [1.7633754056220e-5 +/- 3.88e-19]
+beta [1.45733502978136715473964844894936177762880575e-5 +/- 2.52e-50]
+t [3.060403758406e-6 +/- 3.60e-19]
+extended_L [0.00746155535248059983226700005862073230145948545 +/- 2.86e-48]
+minor_per_dimension_bound [0.8863538667775 +/- 3.19e-14]
+eta_alpha_bound [1.455191522826e-11 +/- 6.33e-24]
+log2_D0_bound [-28.6299283988 +/- 4.41e-11]
+log2_R_zero_bound [-84.4101735666 +/- 7.72e-11]
+log2_R_parity_bound [-60.4174554337 +/- 8.81e-11]
+log2_R_minor_bound [-470.1417012918 +/- 6.71e-11]
+log2_R_bound [-60.4174553472 +/- 6.31e-11]
+log2_Q0_bound [-41.760000000021 +/- 6.44e-13]
+log2_acceptance_variance_bound [-120.832040079 +/- 4.05e-10]
+log2_accepted_image_chi2_bound [-83.51999301479 +/- 6.12e-12]
+log2_coordinate_cap_bound [-95.70363704465 +/- 2.66e-12]
+log2_norm_plus_cap_variance_bound [-120.8320400793 +/- 8.52e-11]
+log2_norm_plus_cap_image_chi2_bound [-83.51999301479 +/- 6.12e-12]
+CERTIFIED R_lt_2pow(-6041/100) variance_with_cap_lt_2pow(-120) image_chi2_with_cap_lt_2pow(-83)
