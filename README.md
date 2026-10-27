@@ -39,6 +39,14 @@ Start with the [scientific overview](science/README.md) and the [signing model](
 | Which ingredients are inherited, and how does this compare with Falcon+? | [Related work](references/related_work.md) and [bibliography](references/bibliography.bib) |
 | Which calculations can be reproduced? | [Verification](verification/README.md) |
 
+## Learn the project
+
+The single educational anchor is **Chris Peikert, *A Decade of Lattice Cryptography* (2016)**. The [Peikert bridge](learning/ANCHOR.md) identifies the relevant source sections, translates the Gaussian and lattice conventions, and develops the steps from preimage-sampleable functions to this project's fixed-target question. A worked probability example separates the three accepted target laws used in the argument.
+
+The [30-milestone map](learning/MILESTONES.md) follows the scientific dependencies. Its **14 background/preliminaries milestones** connect lattices, Gaussian sampling, conditioning, and signature security into one model. Its **16 narrative/innovation milestones** follow the discrete norm-tail estimate through certification, accepted-output simulation, and the complete security bound.
+
+Start at the [learning entrypoint](learning/README.md), use the bridge alongside the milestones, and consult the canonical science pages for exact statements and proofs. The [LLM reading guide](llms.txt) maps scientific questions and study routes to those files.
+
 ## Reproduce the calculations
 
 From the repository root:
