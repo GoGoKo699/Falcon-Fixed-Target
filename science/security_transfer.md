@@ -157,7 +157,7 @@ X_0<2^{-81}\quad(n=512),
 X_0<2^{-83}\quad(n=1024).
 ```
 
-These bounds use both the untruncated Gaussian image and the rejected-tail profile. A bound on $`\operatorname{Var}_U(G_y(A))`$ alone would compare a different pair of experiments; see [the distribution definitions](signing_model.md#5-three-accepted-laws-that-must-remain-distinct).
+These bounds use both the untruncated Gaussian image and the rejected-tail profile. A bound on $`\mathrm{Var}_U(G_y(A))`$ alone would compare a different pair of experiments; see [the distribution definitions](signing_model.md#5-three-accepted-laws-that-must-remain-distinct).
 
 ## 4. An exact moment profile for the ideal FFO sampler
 
@@ -261,9 +261,9 @@ Here $`C\ge q_S`$. Let $`\pi_C`$ be the probability that preprocessing obtains e
 
 ```math
 1-\pi_C
-=\Pr[\operatorname{Bin}(C,\delta)>C-q_S]
+=\Pr[\mathrm{Bin}(C,\delta)>C-q_S]
 \le
-\Pr[\operatorname{Bin}(C,D_0)>C-q_S]
+\Pr[\mathrm{Bin}(C,D_0)>C-q_S]
 =:\varepsilon_{\mathrm{pool}}.
 ```
 
@@ -307,7 +307,7 @@ The game $`t\text{-}\mathsf{NTRU\mbox{-}ISIS}_{n,q,T}`$ is:
 3. Give $`(h,c_1,\ldots,c_t)`$ to the solver.
 4. The solver returns $`(j,u,v)`$ and wins if $`j\in\{1,\ldots,t\}`$, $`u+hv=c_j\bmod q`$, and $`\|(u,v)\|^2\le T`$.
 
-Write its solver advantage as $`\operatorname{Adv}^{t\text{-}\mathrm{ISIS}}(B)`$. A quantum solver receives the same classical challenge. This is the one-key inhomogeneous NTRU problem used in the cited Falcon analyses. Its relationship to ordinary NTRU-SIS hardness must be supplied separately when making a numerical hardness estimate. [Fouque et al., Definition 10 and Figure 5](https://eprint.iacr.org/2024/1769); [Beckmann–Majenz, Definition 20 and Figure 6](https://arxiv.org/pdf/2602.16268v3).
+Write its solver advantage as $`\mathrm{Adv}^{t\text{-}\mathrm{ISIS}}(B)`$. A quantum solver receives the same classical challenge. This is the one-key inhomogeneous NTRU problem used in the cited Falcon analyses. Its relationship to ordinary NTRU-SIS hardness must be supplied separately when making a numerical hardness estimate. [Fouque et al., Definition 10 and Figure 5](https://eprint.iacr.org/2024/1769); [Beckmann–Majenz, Definition 20 and Figure 6](https://arxiv.org/pdf/2602.16268v3).
 
 ### Unconditioned Gaussian NTRU-SPISIS*
 
@@ -346,12 +346,12 @@ At signing query $`j`$, the new salt is independent of the prior transcript. For
 **Theorem 1 — ROM security.** Under the hypotheses in §1, for every classical adversary $`A`$ making at most $`q_S`$ signing and $`q_H`$ hash queries, there are solvers $`B_{\mathrm{I}}`$ and, for SUF-CMA, $`B_{\mathrm{S}}`$ such that
 
 ```math
-\operatorname{Adv}^{\mathrm{EUF}}(A)
+\mathrm{Adv}^{\mathrm{EUF}}(A)
 \le
 \varepsilon_{\mathrm{repr}}^{\mathrm{ROM}}
 +M_*^{q_S/\rho}
 \left(
-\frac{\operatorname{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I})}
+\frac{\mathrm{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I})}
      {1-\varepsilon_{\mathrm{pool}}}
 \right)^{(\rho-1)/\rho},
 ```
@@ -359,14 +359,14 @@ At signing query $`j`$, the new salt is independent of the prior transcript. For
 and
 
 ```math
-\operatorname{Adv}^{\mathrm{SUF}}(A)
+\mathrm{Adv}^{\mathrm{SUF}}(A)
 \le
 \varepsilon_{\mathrm{repr}}^{\mathrm{ROM}}
 +M_*^{q_S/\rho}
 \left(
 \frac{
-\operatorname{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I})
-+\operatorname{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S})}
+\mathrm{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I})
++\mathrm{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S})}
 {1-\varepsilon_{\mathrm{pool}}}
 \right)^{(\rho-1)/\rho}.
 ```
@@ -429,7 +429,7 @@ The at most $`q_S`$ programmed target values are determined by the pre-sampled a
 
 ```math
 \varepsilon_{\mathrm{hard}}^{\mathrm{EUF}}
-=(2Q+1)^2\operatorname{Adv}^{1\text{-}\mathrm{ISIS}}(B_{\mathrm I})
+=(2Q+1)^2\mathrm{Adv}^{1\text{-}\mathrm{ISIS}}(B_{\mathrm I})
 +\varepsilon_{\mathrm{hit}},
 ```
 
@@ -438,13 +438,13 @@ and, for SUF-CMA,
 ```math
 \varepsilon_{\mathrm{hard}}^{\mathrm{SUF}}
 =\varepsilon_{\mathrm{hard}}^{\mathrm{EUF}}
-+\operatorname{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S}).
++\mathrm{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S}).
 ```
 
 Then for either freshness notion,
 
 ```math
-\operatorname{Adv}(A)
+\mathrm{Adv}(A)
 \le
 \varepsilon_{\mathrm{repr}}^{\mathrm{QROM}}
 +M_*^{q_S/\rho}
@@ -482,7 +482,7 @@ The [Arb certificate](../verification/core_transfer_bounds.py) evaluates the ana
 | 512 | $`2^{64}`$ | 128 | 75 | $`<3.376`$ bits | $`<0.000409`$ bits | $`<0.000082`$ bits |
 | 1024 | $`2^{64}`$ | 256 | 151 | $`<3.387`$ bits | $`<0.000207`$ bits | $`<5\cdot10^{-9}`$ bits |
 
-The values of $`\lambda_{\mathrm{sim}}`$ describe a probability bound entering the transfer. They are not an assertion that the underlying lattice assumptions have those work factors. If a hardness estimate is expressed as $`\operatorname{Adv}(t)\le t\,2^{-\lambda_{\mathrm{hard}}}`$, it must first be evaluated at the reduction's actual work $`t`$ and substituted into the theorem. Query limits, target count, Gaussian-pool size, and reduction runtime remain part of that calculation.
+The values of $`\lambda_{\mathrm{sim}}`$ describe a probability bound entering the transfer. They are not an assertion that the underlying lattice assumptions have those work factors. If a hardness estimate is expressed as $`\mathrm{Adv}(t)\le t\,2^{-\lambda_{\mathrm{hard}}}`$, it must first be evaluated at the reduction's actual work $`t`$ and substituted into the theorem. Query limits, target count, Gaussian-pool size, and reduction runtime remain part of that calculation.
 
 The oracle terms are separate. For $`q_S=2^{64}`$ and $`\kappa=320`$, the certificate gives these illustrative upper-bound expressions:
 

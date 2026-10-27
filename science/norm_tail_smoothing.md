@@ -34,7 +34,7 @@ interval, with the coset $`y`$ distributed uniformly,
 ```math
 \begin{array}{c|cc}
 n&512&1024\\\hline
-\operatorname{Var}(a_y)&<2^{-90}&<2^{-120}.
+\mathrm{Var}(a_y)&<2^{-90}&<2^{-120}.
 \end{array}
 ```
 
@@ -558,8 +558,8 @@ and $`\delta\le D_0`$ to obtain
 
 ```math
 \begin{aligned}
-\operatorname{Var}_U(a_y)
-&=\operatorname{Var}_U(\delta_y)\\
+\mathrm{Var}_U(a_y)
+&=\mathrm{Var}_U(\delta_y)\\
 &\le\|\delta_y-\delta\|_{L^2(U)}^2\\
 &\le\frac{(R+D_0Q_0)^2}{(1-\eta_\alpha)^2}
 \le V,
@@ -649,7 +649,7 @@ is $`a'_y=a_y-b_y`$. Popoviciu's inequality and the triangle inequality for
 centered $`L^2`$ norms imply
 
 ```math
-\operatorname{Var}_U(a'_y)
+\mathrm{Var}_U(a'_y)
 \le\left(\sqrt V+\frac{C_{\mathrm{cap}}}{2}\right)^2,
 \qquad
 a'_y\ge1-D_0-C_{\mathrm{cap}}.

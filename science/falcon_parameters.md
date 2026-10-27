@@ -199,8 +199,8 @@ Only $`s_2`$ needs to be transmitted. Given the target $`c`$, verification
 reconstructs
 
 ```math
-\widehat s_1=\operatorname{ctr}_q(c-hs_2),
-\qquad \operatorname{ctr}_q:\mathbb Z_q\longrightarrow[-6144,6144].
+\widehat s_1=\mathrm{ctr}_q(c-hs_2),
+\qquad \mathrm{ctr}_q:\mathbb Z_q\longrightarrow[-6144,6144].
 ```
 
 If a sampled pair satisfies the syndrome equation, each reconstructed

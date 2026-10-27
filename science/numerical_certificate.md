@@ -136,8 +136,8 @@ $`\vartheta(x)-1`$. Powers close to $`1`$ are evaluated as
 \vartheta(x)^m
 &\le\exp\!\left(m\log(1+U_\vartheta(x))\right),\\
 \vartheta(x)^m-1
-&\le\operatorname{expm1}\!\left(
-m\operatorname{log1p}(U_\vartheta(x))\right).
+&\le\mathrm{expm1}\!\left(
+m\mathrm{log1p}(U_\vartheta(x))\right).
 \end{aligned}
 \tag{4}
 ```

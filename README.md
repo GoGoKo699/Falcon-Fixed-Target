@@ -15,7 +15,7 @@ For a target $`y`$, let $`a_y`$ be the probability that an exact coset Gaussian 
 | Ring degree $`n`$; vector dimension $`d=2n`$ | 512; 1024 | 1024; 2048 |
 | Gaussian width $`\sigma`$ | $`165.736617\ldots`$ | $`168.388571\ldots`$ |
 | Accepted squared norm $`\lVert z\rVert^2\le T`$ | 34,034,726 | 70,265,242 |
-| Variance over uniform targets $`\operatorname{Var}_{y\sim U}(a_y)`$ | $`<2^{-90}`$ | $`<2^{-120}`$ |
+| Variance over uniform targets $`\mathrm{Var}_{y\sim U}(a_y)`$ | $`<2^{-90}`$ | $`<2^{-120}`$ |
 | Accepted-image distance $`\chi^2(\nu\Vert U)`$ | $`<2^{-81}`$ | $`<2^{-83}`$ |
 
 These are analytical upper bounds with reproducible numerical certificates, rather than sampled estimates of key quality. The variance statement concerns variation across targets; it does not say that the rejection probability itself is as small as that variance.

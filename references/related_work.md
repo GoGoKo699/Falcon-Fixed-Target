@@ -162,7 +162,7 @@ and their $`a_y`$. The proof must control this reweighting.
 At the original Falcon parameter sets, the
 [validated numerical certificate](../science/numerical_certificate.md)
 establishes the sufficient bounds
-$`\operatorname{Var}_{U}(a_y)<2^{-90}`$ and $`2^{-120}`$, respectively.
+$`\mathrm{Var}_{U}(a_y)<2^{-90}`$ and $`2^{-120}`$, respectively.
 It also bounds the accepted ambient image's chi-square distance from uniform
 by $`2^{-81}`$ and $`2^{-83}`$. A positive pointwise density floor then
 converts that estimate into the required reverse Rényi moments. The security

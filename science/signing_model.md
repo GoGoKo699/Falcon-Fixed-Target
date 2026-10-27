@@ -121,7 +121,7 @@ The same salt and syndrome are used in every iteration. This is the `Sign`/`Sgn`
 
 ### Verification and extraction
 
-For odd $`q`$, let $`\operatorname{ctr}_q`$ denote coefficientwise reduction into
+For odd $`q`$, let $`\mathrm{ctr}_q`$ denote coefficientwise reduction into
 $`\{-(q-1)/2,\ldots,(q-1)/2\}`$. Verification reconstructs the omitted component:
 
 ```text
