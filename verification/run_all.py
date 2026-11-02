@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the numerical certificates, then the finite identity diagnostics.
+"""Check repository integrity, numerical certificates, and identity diagnostics.
 
 The individual programs contain their numerical gates. This runner preserves
 their complete output under verification/output and propagates any failure.
@@ -16,6 +16,7 @@ def main() -> int:
     output = directory / "output"
     output.mkdir(exist_ok=True)
     programs = (
+        ("check_repository.py", "report, learning map, and navigation integrity"),
         ("norm_circle_interval.py", "rigorous norm-tail certificate"),
         ("core_transfer_bounds.py", "rigorous security-transfer arithmetic"),
         ("norm_circle_identity_checks.py", "floating-point identity diagnostics"),

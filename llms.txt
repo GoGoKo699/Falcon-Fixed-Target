@@ -21,17 +21,19 @@ Scientific question: Can CoreFalcon retain the same fresh hash target during pri
 
 ## Learning route
 
+- learning/report/Falcon_Fixed_Target_Report.pdf: self-contained account from lattice-signature foundations and the three accepted laws through norm-tail smoothing, certification, representation conditions, and ROM/QROM security.
 - learning/README.md: study entrypoint and routes through the geometric and cryptographic arguments.
 - learning/ANCHOR.md: the single educational anchor, Chris Peikert's A Decade of Lattice Cryptography (2016); verified source sections, Gaussian-width and notation translation, a worked target-law example, and the steps supplied by this project.
 - learning/MILESTONES.md: the common project-defined map, exactly M01–M30; 14 background/preliminaries milestones and 16 narrative/innovation milestones, with understanding targets, dependencies, conceptual connections, and canonical source pointers.
 
 ## Reader intentions
 
-- Understand the scientific story: read science/README.md and science/signing_model.md, follow the norm and security arguments, then join their meaning in science/interpretation.md.
+- Understand the scientific story: read learning/report/Falcon_Fixed_Target_Report.pdf for a continuous explanation; use science/README.md to locate the authoritative definitions, claims, proofs, and source attribution.
 - Study the project: use learning/ANCHOR.md alongside learning/MILESTONES.md. The map follows the project's dependencies and is independent of a reader's prior knowledge.
 - Inspect a mathematical claim: start with the quantified theorem in science/norm_tail_smoothing.md, check the key bridge in science/falcon_parameters.md, and follow the analytic estimates into science/numerical_certificate.md.
 - Inspect unforgeability: read science/signing_model.md before science/security_transfer.md. Preserve the direction of the moments, finite-pool correction, hardness games, signature representation, and ROM/QROM costs.
 - Reproduce a numerical ingredient: follow verification/README.md and the corresponding script. Distinguish an enclosing numerical bound, a floating-point diagnostic, and a general proof.
+- Rebuild the explanatory report: follow verification/README.md#rebuild-the-explanatory-report; learning/source/Falcon_Fixed_Target_Report.tex is the matching self-contained source. Keep compilation and report integrity distinct from scientific verification.
 - Check attribution: use references/related_work.md and references/bibliography.bib. The educational anchor supplies foundations; the scientific pages retain primary citations for imported proof ingredients.
 
 ## Essential distinctions

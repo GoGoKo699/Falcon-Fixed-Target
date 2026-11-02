@@ -41,6 +41,8 @@ Start with the [scientific overview](science/README.md) and the [signing model](
 
 ## Learn the project
 
+Read the [explanatory report](learning/report/Falcon_Fixed_Target_Report.pdf) for a self-contained account of lattice preimages, the three accepted target laws, the integer norm-tail analysis, and the resulting security reduction.
+
 The single educational anchor is **Chris Peikert, *A Decade of Lattice Cryptography* (2016)**. The [Peikert bridge](learning/ANCHOR.md) identifies the relevant source sections, translates the Gaussian and lattice conventions, and develops the steps from preimage-sampleable functions to this project's fixed-target question. A worked probability example separates the three accepted target laws used in the argument.
 
 The [30-milestone map](learning/MILESTONES.md) follows the scientific dependencies. Its **14 background/preliminaries milestones** connect lattices, Gaussian sampling, conditioning, and signature security into one model. Its **16 narrative/innovation milestones** follow the discrete norm-tail estimate through certification, accepted-output simulation, and the complete security bound.
@@ -56,7 +58,7 @@ python3 -m pip install -r verification/requirements.txt
 python3 verification/run_all.py
 ```
 
-The verification account distinguishes rigorous numerical enclosures from floating-point identity diagnostics. The general lattice theorem and security reduction are established by the written arguments; finite checks test the specified formulas and instances.
+The verification account distinguishes report and navigation integrity, rigorous numerical enclosures, and floating-point identity diagnostics. The general lattice theorem and security reduction are established by the written arguments; finite checks test the specified formulas and instances.
 
 ## Scope
 
