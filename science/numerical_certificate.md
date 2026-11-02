@@ -12,7 +12,7 @@ default run certifies the following inequalities.
 |---|---:|---:|
 | Rejected-tail image norm $`R`$ | $`<2^{-45.59}`$ | $`<2^{-60.41}`$ |
 | Variance of the coset acceptance probability | $`<2^{-90}`$ | $`<2^{-120}`$ |
-| Accepted ambient image $`\chi^2(\nu\|U)`$ | $`<2^{-81}`$ | $`<2^{-83}`$ |
+| Accepted ambient image $`\chi^2(\nu\Vert U)`$ | $`<2^{-81}`$ | $`<2^{-83}`$ |
 | Acceptance variance with the individual coordinate cap | $`<2^{-90}`$ | $`<2^{-120}`$ |
 | Accepted-image $`\chi^2`$ with the individual coordinate cap | $`<2^{-81}`$ | $`<2^{-83}`$ |
 
@@ -167,7 +167,7 @@ The program extends both major-arc integrals to
 $`L_{\max}=512\beta`$. It verifies with ball comparisons that
 
 ```math
-0<L\le L_{\max}<\pi,\qquad t>0.
+0\lt L\le L_{\max}\lt\pi,\qquad t\gt0.
 ```
 
 The integrands are nonnegative. Extending their ranges and weakening the
