@@ -1,0 +1,9 @@
+{
+  "source": "learning/source/Falcon_Fixed_Target_Report.tex",
+  "source_sha256": "90662598ba3a33a23f7cead20d6139db9fe7d8aa3ba96056c1b67c09f9ec05e0",
+  "pdf": "learning/report/Falcon_Fixed_Target_Report.pdf",
+  "pdf_sha256": "e8015d31ec6f7cebfa4a7d852dd84bf6d74d6f7e1bba5d6d0e83c325017d6bc2",
+  "pages": 22,
+  "engine": "pdfTeX 3.141592653-2.6-1.40.28 (TeX Live 2025)",
+  "scientific_source_commit": "24c9167ab2d3df72e5917a75003b18827b58fd7b"
+}

@@ -2,6 +2,8 @@
 
 The project studies a specific step in a lattice signature: repeated private sampling at the **same public target** until a norm test succeeds. Its mathematical contribution bounds the target bias produced by a sharp norm cutoff. Its cryptographic consequence is a security transfer for the fixed-target CoreFalcon model under explicit sampler and hardness assumptions.
 
+For a continuous explanation with prerequisites and worked examples, read the [explanatory report](../learning/report/Falcon_Fixed_Target_Report.pdf). The topic pages below retain the authoritative statements, proofs, and source attribution.
+
 ## The distribution that the proof must simulate
 
 A public key defines a syndrome map $`f_h:\mathbb Z^{2n}\to R_q`$, where $`R_q=\mathbb Z_q[X]/(X^n+1)`$. Its kernel is an integer lattice $`\Lambda_h`$. A target $`y`$ specifies the coset $`f_h^{-1}(y)`$.

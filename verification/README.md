@@ -1,6 +1,6 @@
 # Reproduce the bounds
 
-The scripts serve two distinct purposes. The Arb programs certify numerical inequalities that occur in the analytic proof. The standard-library identity program checks phases and normalizations in small examples using ordinary floating-point arithmetic. Its agreement is a diagnostic, not an interval certificate.
+The checks distinguish repository integrity, certified arithmetic, and finite diagnostics. The Arb programs certify numerical inequalities that occur in the analytic proof. The standard-library identity program checks phases and normalizations in small examples using ordinary floating-point arithmetic. Its agreement is a diagnostic, not an interval certificate.
 
 ## Environment and commands
 
@@ -15,12 +15,13 @@ python3 -m pip install -r verification/requirements.txt
 python3 verification/run_all.py
 ```
 
-The runner executes the norm certificate before the security calculation that consumes its bounds. It prints one success line per program, writes full outputs to `verification/output/`, and returns a nonzero exit status if any program fails. Reference certificate outputs are committed under [expected](expected/). The internal inequality gates, rather than a string comparison against those outputs, establish a successful numerical run.
+The runner first checks report/source integrity, relative links, and the settled milestone map, then executes the norm certificate before the security calculation that consumes its bounds. It prints one success line per program, writes full outputs to `verification/output/`, and returns a nonzero exit status if any program fails. Reference certificate outputs are committed under [expected](expected/). The internal inequality gates, rather than a string comparison against those outputs, establish a successful numerical run. The read-only GitHub Actions workflow runs the same command on pushes and pull requests.
 
 ## What each program establishes
 
 | Program | Calculation | Meaning of success |
 |---|---|---|
+| [check_repository.py](check_repository.py) | Report/source hashes, local links and heading targets, and the 30-milestone dependency order | The checked files agree with [report_manifest.json](report_manifest.json), navigation resolves, and the existing learning-map structure is intact; this does not validate proofs or rendered layout |
 | [norm_circle_interval.py](norm_circle_interval.py) | Theta upper bounds, exact rational integration grid, major-arc upper rectangles, minor-arc bound, and Gaussian parameter enclosures | The evaluated upper expressions imply the declared tail, variance, and accepted-image inequalities at both parameter sets, including the optional individual coefficient cap |
 | [core_transfer_bounds.py](core_transfer_bounds.py) | Accepted sampler moments, reverse image moments, conditional bit losses, retry-pool bounds, and encoding-size arithmetic | The concrete arithmetic in the security account satisfies its stated ceilings, using the norm certificate's contracts |
 | [norm_circle_identity_checks.py](norm_circle_identity_checks.py) | Twisted quadratic Gauss expansions, the scaled dual-coset identity, and the tail contour on a small lattice | The specified finite examples agree within the program's floating-point tolerances |
@@ -61,4 +62,24 @@ The norm program also accepts `--n 512` or `--n 1024`, `--precision-bits`, and `
 
 The [norm-tail proof](../science/norm_tail_smoothing.md) establishes the contour identity, the rational-arc bounds, the quotient summation, and the passage to accepted distributions. The [parameter account](../science/falcon_parameters.md) proves that the mathematical Falcon key-generation test supplies the required basis. The [security account](../science/security_transfer.md) proves the distribution comparison and reduction.
 
-The programs do not enumerate Falcon keys, estimate cryptanalytic hardness, audit a floating-point signer, or prove a statement about a total padded encoding budget. Their scope is the explicit arithmetic and finite diagnostics described above.
+The programs do not enumerate Falcon keys, estimate cryptanalytic hardness, audit a floating-point signer, or prove a statement about a total padded encoding budget. Their scope is the integrity checks, explicit arithmetic, and finite diagnostics described above.
+
+## Rebuild the explanatory report
+
+The report's editable source is [Falcon_Fixed_Target_Report.tex](../learning/source/Falcon_Fixed_Target_Report.tex). It is self-contained, including the probability diagram, and requires pdfLaTeX from **TeX Live 2025** with the packages declared in its preamble. The [manifest](report_manifest.json) records the matching source/PDF hashes, page count, engine, and scientific source revision.
+
+From the repository root:
+
+```bash
+python3 verification/build_report.py
+```
+
+If the required engine is outside `PATH`, specify it explicitly:
+
+```bash
+python3 verification/build_report.py --engine /path/to/texlive/2025/bin/x86_64-linux/pdflatex
+```
+
+The script checks the engine version and source identity, compiles three times into `verification/output/report/`, checks the final log, and reports the fresh PDF/log paths and whether the rebuilt PDF is byte-identical to the stored report. It never overwrites the stored PDF. A difference requires inspection of the fresh output; a successful compile or matching hash alone does not establish scientific validity. After source or layout changes, render and inspect every page before updating the stored pair and its manifest.
+
+The standard Python verification suite does not require TeX. Report compilation is a separate check, with its fresh output and final log retained together.

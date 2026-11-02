@@ -19,6 +19,7 @@ The first phase ends by assembling the three accepted laws that the proof must k
 
 | Purpose | Route |
 |---|---|
+| Read the complete argument continuously | Start with the [explanatory report](report/Falcon_Fixed_Target_Report.pdf), which introduces the prerequisites before developing the norm-conditioned estimate and security reduction. Use the milestone map to revisit individual dependencies. |
 | Understand why the retry policy matters | Read [the interpretation](../science/interpretation.md), then the worked target-law example in [the bridge](ANCHOR.md). |
 | Build the mathematical framework | Follow M01–M09 with the bridge's lattice and Gaussian conventions; continue through M15–M24 and the [norm-tail proof](../science/norm_tail_smoothing.md). |
 | Follow the security argument | Use M10–M14 to assemble the signing model, then M25–M30 alongside [the security transfer](../science/security_transfer.md). |
