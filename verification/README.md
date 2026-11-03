@@ -74,6 +74,14 @@ The first command regenerates all three assets in a temporary directory and comp
 
 The JSON stores the source-module hash, parameter enclosures, all curve-value balls, and the floating-point midpoints used for plotting. The curves visualize analytic upper-bound expressions. Oracle-programming errors, lattice-hardness work factors, and the other reduction costs are accounted for separately in the theorem.
 
+## Capture hosted mathematics
+
+The separate read-only CI job uses [hosted/capture_math.cjs](hosted/capture_math.cjs) with Playwright 1.56.1 and fresh anonymous browser contexts. It visits each tracked Markdown page at the exact checked-out commit on GitHub, at 1440 × 1000 and 760 × 1000 pixels. For pull requests, the checkout is the actual PR head rather than GitHub's synthetic merge commit.
+
+After asynchronous MathML hydration, the job retains every expression, including table cells, with its MathML, rendered text, measured geometry and renderer errors. It also records source hashes, observed URLs, browser/runtime versions, full-page screenshots and HTML under `verification/output/hosted/`. The one-day CI artifact contains `raw-capture-1440.json` and `raw-capture-760.json` plus their referenced files.
+
+These are raw observations, not a mathematical-rendering verdict. A complete capture still requires source-to-render comparison and visual review. An unavailable or incomplete capture cannot establish a hosted-rendering pass. The collector uses no existing browser profile or account, and stops on access or transport failures without retries or alternative routes.
+
 ## Analytical obligations
 
 The [norm-tail proof](../science/norm_tail_smoothing.md) establishes the contour identity, the rational-arc bounds, the quotient summation, and the passage to accepted distributions. The [parameter account](../science/falcon_parameters.md) proves that the mathematical Falcon key-generation test supplies the required basis. The [security account](../science/security_transfer.md) proves the distribution comparison and reduction.

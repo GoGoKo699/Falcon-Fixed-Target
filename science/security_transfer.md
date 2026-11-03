@@ -404,10 +404,10 @@ A quantum query first applies the standard oracle unitary
 
 ```math
 |x,b\rangle\longmapsto
-|x,b\mathbin\oplus\operatorname{enc}(H_0(x))\rangle.
+|x,b\mathbin\oplus\mathrm{enc}(H_0(x))\rangle.
 ```
 
-A reversible table lookup then XORs $`\operatorname{enc}(H_0(x))\oplus\operatorname{enc}(h_x)`$ at a matching entry, where $`h_x`$ is its desired current value. It acts trivially off the table. This implements the current programmed oracle exactly. It uses one background query per adversarial hash query and at most one extra background query per signing program. Including final verification, the complete oracle algorithm makes at most
+A reversible table lookup then XORs $`\mathrm{enc}(H_0(x))\oplus\mathrm{enc}(h_x)`$ at a matching entry, where $`h_x`$ is its desired current value. It acts trivially off the table. This implements the current programmed oracle exactly. It uses one background query per adversarial hash query and at most one extra background query per signing program. Including final verification, the complete oracle algorithm makes at most
 
 ```math
 Q=q_H+q_S+1

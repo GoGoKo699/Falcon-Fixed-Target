@@ -311,12 +311,12 @@ Complex Poisson summation gives
 ```math
 \Theta(z,u)=\sqrt{\frac\pi z}
 \sum_{k\in\mathbb Z}e^{-\pi^2(k-u)^2/z},
-\qquad \operatorname{Re}z>0,
+\qquad \mathrm{Re}z>0,
 ```
 
 with the square-root branch positive on the positive real axis. Its
 prefactor has modulus $`\sqrt{\pi/h_v}`$, and
-$`\operatorname{Re}(1/z)=\beta/h_v^2`$. Combining this identity with
+$`\mathrm{Re}(1/z)=\beta/h_v^2`$. Combining this identity with
 (10) and taking absolute values in each coordinate gives
 
 ```math

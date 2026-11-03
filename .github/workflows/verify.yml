@@ -20,3 +20,29 @@ jobs:
         run: python -m pip install -r verification/requirements.txt
       - name: Verify science, navigation, and plot regeneration
         run: python verification/run_all.py
+
+  hosted-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Install pinned anonymous browser dependency
+        run: |
+          npm install --prefix "$RUNNER_TEMP/falcon-hosted-node" --no-save --ignore-scripts --no-audit --no-fund playwright@1.56.1
+          node "$RUNNER_TEMP/falcon-hosted-node/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Capture pinned public pages at both widths
+        run: |
+          NODE_PATH="$RUNNER_TEMP/falcon-hosted-node/node_modules" node verification/hosted/capture_math.cjs
+      - name: Retain raw DOM and screenshots for review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: hosted-math-${{ github.event.pull_request.head.sha || github.sha }}
+          path: verification/output/hosted/
+          if-no-files-found: warn
+          retention-days: 1
