@@ -76,7 +76,7 @@ The JSON stores the source-module hash, parameter enclosures, all curve-value ba
 
 ## Capture hosted mathematics
 
-The separate read-only CI job uses [hosted/capture_math.cjs](hosted/capture_math.cjs) with Playwright 1.56.1 and fresh anonymous browser contexts. It visits each tracked Markdown page at the exact checked-out commit on GitHub, at 1440 × 1000 and 760 × 1000 pixels. For pull requests, the checkout is the actual PR head rather than GitHub's synthetic merge commit.
+The separate read-only CI job runs on Ubuntu 24.04 and uses [hosted/capture_math.cjs](hosted/capture_math.cjs) with Playwright 1.56.1 and fresh anonymous browser contexts. It visits each tracked Markdown page at the exact checked-out commit on GitHub, at 1440 × 1000 and 760 × 1000 pixels. For pull requests, the checkout is the actual PR head rather than GitHub's synthetic merge commit.
 
 After asynchronous MathML hydration, the job retains every expression, including table cells, with its MathML, rendered text, measured geometry and renderer errors. It also records source hashes, observed URLs, browser/runtime versions, full-page screenshots and HTML under `verification/output/hosted/`. The one-day CI artifact contains `raw-capture-1440.json` and `raw-capture-760.json` plus their referenced files.
 
