@@ -18,11 +18,17 @@ For a target $`y`$, let $`a_y`$ be the probability that an exact coset Gaussian 
 | Variance over uniform targets $`\mathrm{Var}_{y\sim U}(a_y)`$ | $`<2^{-90}`$ | $`<2^{-120}`$ |
 | Accepted-image distance $`\chi^2(\nu\Vert U)`$ | $`<2^{-81}`$ | $`<2^{-83}`$ |
 
-These are analytical upper bounds with reproducible numerical certificates, rather than sampled estimates of key quality. The variance statement concerns variation across targets; it does not say that the rejection probability itself is as small as that variance.
+These analytic upper bounds have reproducible numerical certificates. The variance measures variation across targets; a separate pointwise rejection bound ensures positive acceptance in every coset.
 
 The proof combines a discrete norm-tail contour with quadratic Gauss sums and dual-lattice theta estimates. A finite-quotient summation identity controls all target characters together, without multiplying the bound by the number of targets. The treatment of the parity arc preserves the arithmetic effects of the integer norm.
 
 The accepted-image estimate then supplies a public simulator: sample a short integer Gaussian vector, compute its syndrome, and program one fresh salt/message input per signature. An excess-preserving conditioning lemma accounts for the sampler's deviation from the exact coset Gaussian. The resulting [security theorem](science/security_transfer.md) states the assumptions, direction of the distribution comparison, query counts, runtime, and additive errors.
+
+## Distribution-transfer curve
+
+![Analytic distribution-transfer loss versus Rényi order for the three specified parameter cases.](verification/Graph/transfer.svg)
+
+At $`q_S=2^{64}`$, the curves show $`\mathcal L(\rho)=\lambda_{\mathrm{sim}}/\rho+(q_S/\rho)\log_2 M_*`$. The selected orders give certified loss bounds below 3.268, 3.376, and 3.387 bits. Here $`2^{-\lambda_{\mathrm{sim}}}`$ is a conditional upper bound on the public simulator's forging probability. The security theorem accounts separately for NTRU hardness at the solver's work budget and for oracle costs. [Plot, data, and regeneration](verification/README.md#reproduce-the-transfer-plot).
 
 ## Read the science
 
@@ -58,7 +64,7 @@ python3 -m pip install -r verification/requirements.txt
 python3 verification/run_all.py
 ```
 
-The verification account distinguishes report and navigation integrity, rigorous numerical enclosures, and floating-point identity diagnostics. The general lattice theorem and security reduction are established by the written arguments; finite checks test the specified formulas and instances.
+The verification account covers report and navigation integrity, rigorous numerical enclosures, floating-point identity diagnostics, and exact plot regeneration. The general lattice theorem and security reduction are established by the written arguments; finite checks test the specified formulas and instances.
 
 ## Scope
 
@@ -68,4 +74,4 @@ Norm rejection is the acceptance predicate in the central theorem. A separate es
 
 ## Purpose and contact
 
-This repository serves as a record of the work and a guide for the author’s self-directed learning. For discussion or potential collaboration, please contact Ruge Lin at [gogoko699@gmail.com](mailto:gogoko699@gmail.com).
+The project is currently under collaboration, and the manuscript is being written. For questions, please contact Ruge Lin at [gogoko699@gmail.com](mailto:gogoko699@gmail.com).

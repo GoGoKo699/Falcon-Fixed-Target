@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check repository integrity, numerical certificates, and identity diagnostics.
+"""Check repository integrity, numerical certificates, diagnostics, and plot assets.
 
 The individual programs contain their numerical gates. This runner preserves
 their complete output under verification/output and propagates any failure.
@@ -16,14 +16,16 @@ def main() -> int:
     output = directory / "output"
     output.mkdir(exist_ok=True)
     programs = (
-        ("check_repository.py", "report, learning map, and navigation integrity"),
-        ("norm_circle_interval.py", "rigorous norm-tail certificate"),
-        ("core_transfer_bounds.py", "rigorous security-transfer arithmetic"),
-        ("norm_circle_identity_checks.py", "floating-point identity diagnostics"),
+        (("check_repository.py",), "report, learning map, and navigation integrity"),
+        (("norm_circle_interval.py",), "rigorous norm-tail certificate"),
+        (("core_transfer_bounds.py",), "rigorous security-transfer arithmetic"),
+        (("norm_circle_identity_checks.py",), "floating-point identity diagnostics"),
+        (("Graph/generate_plots.py", "--check"), "analytic plot regeneration and asset identity"),
     )
-    for filename, description in programs:
+    for arguments, description in programs:
+        filename = arguments[0]
         result = subprocess.run(
-            [sys.executable, str(directory / filename)],
+            [sys.executable, str(directory / filename), *arguments[1:]],
             cwd=directory.parent,
             text=True,
             stdout=subprocess.PIPE,

@@ -17,7 +17,8 @@ Scientific question: Can CoreFalcon retain the same fresh hash target during pri
 - science/interpretation.md: target bias, meaning of the variance, and scope of the conclusion.
 - references/related_work.md: closest comparisons and inherited ingredients.
 - references/bibliography.bib: primary bibliographic records.
-- verification/README.md: commands, dependencies, expected outputs, and limits of finite checks.
+- verification/README.md: commands, dependencies, expected outputs, plot regeneration, and the role of finite checks.
+- verification/Graph/generate_plots.py: Python-generated quantitative transfer plot, with PDF/SVG assets and certified numeric data.
 
 ## Learning route
 
@@ -33,6 +34,7 @@ Scientific question: Can CoreFalcon retain the same fresh hash target during pri
 - Inspect a mathematical claim: start with the quantified theorem in science/norm_tail_smoothing.md, check the key bridge in science/falcon_parameters.md, and follow the analytic estimates into science/numerical_certificate.md.
 - Inspect unforgeability: read science/signing_model.md before science/security_transfer.md. Preserve the direction of the moments, finite-pool correction, hardness games, signature representation, and ROM/QROM costs.
 - Reproduce a numerical ingredient: follow verification/README.md and the corresponding script. Distinguish an enclosing numerical bound, a floating-point diagnostic, and a general proof.
+- Regenerate the quantitative plot: follow verification/README.md#reproduce-the-transfer-plot. Graph/generate_plots.py imports verification/core_transfer_bounds.py; --check reproduces and compares the committed assets and values.
 - Rebuild the explanatory report: follow verification/README.md#rebuild-the-explanatory-report; learning/source/Falcon_Fixed_Target_Report.tex is the matching self-contained source. Keep compilation and report integrity distinct from scientific verification.
 - Check attribution: use references/related_work.md and references/bibliography.bib. The educational anchor supplies foundations; the scientific pages retain primary citations for imported proof ingredients.
 

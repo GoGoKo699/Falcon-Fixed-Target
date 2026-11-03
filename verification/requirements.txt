@@ -1,1 +1,5 @@
 python-flint==0.8.0
+matplotlib==3.10.8
+numpy==2.3.5
+# PDF TrueType subsetting is part of byte-identical asset regeneration.
+fonttools==4.61.1
