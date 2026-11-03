@@ -4,5 +4,6 @@
   "pdf": "learning/report/Falcon_Fixed_Target_Report.pdf",
   "pdf_sha256": "def1ebf4624a75e2aa6be63ce30a43ff10fc461192aa15c1a96eea71bc5e6c2d",
   "pages": 23,
-  "engine": "pdfTeX 3.141592653-2.6-1.40.28 (TeX Live 2025)"
+  "engine": "pdfTeX 3.141592653-2.6-1.40.28 (TeX Live 2025)",
+  "scientific_source_commit": "a6ff880c7a8729f4d56761dbb9f844a10a3b9ac1"
 }
