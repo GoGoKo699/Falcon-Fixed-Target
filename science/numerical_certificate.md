@@ -73,10 +73,9 @@ their decimal strings. It then takes a ball containing both endpoints.
 No binary floating-point approximation is used to construct these inputs.
 
 The printed balls enclose the values of **upper-bound expressions**.
-For example, a ball printed for log2_R_bound encloses the base-two
-logarithm of the computed expression that bounds $`R`$ from above.
-Its lower endpoint is not a lower bound on the actual $`R`$ of an
-unspecified lattice. The actual quantity can be much smaller.
+For example, a ball for $`\log_2\overline R`$ encloses the logarithm
+of the analytic tail envelope. Its endpoints describe that envelope;
+the actual lattice-specific tail norm satisfies $`R\le\overline R`$.
 
 The same distinction applies to the theta calculation described next:
 the finite expression is a proved upper bound for the infinite sum,
@@ -158,9 +157,9 @@ Use the notation of the proof:
 
 ```math
 \beta=\frac{d}{2K},\quad t=\alpha-\beta,\quad
-L=\frac\pi{512},\quad
-h(v)=\sqrt{\beta^2+v^2},\quad
-A(v)=\frac{\pi^2\beta}{\beta^2+v^2}.
+Q_{\mathrm{arc}}=512,\quad L=\frac\pi{Q_{\mathrm{arc}}},\quad
+h_v=\sqrt{\beta^2+v^2},\quad
+A_v=\frac{\pi^2\beta}{\beta^2+v^2}.
 ```
 
 The program extends both major-arc integrals to
@@ -186,17 +185,17 @@ is also divided into 512 equal pieces. There are ten such blocks in total,
 including $`[0,\beta]`$, and therefore 5120 rectangles for each major arc.
 Every endpoint is an exact rational multiple of $`\beta`$.
 
-The Cauchy–Schwarz parameter is $`\varepsilon=1/100`$ throughout
-$`[0,\beta]`$, and $`\varepsilon=1/2`$ on the remaining blocks. Each
+The Cauchy–Schwarz parameter is $`\xi=1/100`$ throughout
+$`[0,\beta]`$, and $`\xi=1/2`$ on the remaining blocks. Each
 pointwise bound in the proof is valid for either choice.
 
 ### Endpoint bounds
 
-For one interval $`[\ell,h]`$, with $`\varepsilon`$ fixed on that interval,
+For one interval $`[\ell,h]`$, with $`\xi`$ fixed on that interval,
 
 - $`(\alpha/\sqrt{\beta^2+v^2})^{d/2}`$ is largest at $`\ell`$;
-- $`\vartheta(\varepsilon A(v))`$ is largest at $`h`$;
-- $`\vartheta((2-\varepsilon)A(v)/(sB^2))^d-1`$ is largest at $`h`$;
+- $`\vartheta(\xi A_v)`$ is largest at $`h`$;
+- $`\vartheta((2-\xi)A_v/(sB_0^2))^d-1`$ is largest at $`h`$;
 - the zero-arc denominator
   $`\sqrt{(1-e^{-t})^2+4e^{-t}\sin^2(v/2)}`$ is smallest at $`\ell`$,
   because $`0\le v\le L_{\max}<\pi`$.
@@ -207,10 +206,10 @@ Thus the contribution of this interval to the zero-arc bound is at most
 \begin{aligned}
 &\frac{e^{-tK}}{\pi}(h-\ell)
 \left(\frac{\alpha}{\sqrt{\beta^2+\ell^2}}\right)^{d/2}
-\vartheta(\varepsilon A(h))^{d/2}\\
+\vartheta(\xi A_h)^{d/2}\\
 &\qquad{}\times
 \frac{
-\sqrt{\vartheta((2-\varepsilon)A(h)/B^2)^d-1}
+\sqrt{\vartheta((2-\xi)A_h/B_0^2)^d-1}
 }{
 \sqrt{(1-e^{-t})^2+4e^{-t}\sin^2(\ell/2)}
 }.
@@ -218,14 +217,12 @@ Thus the contribution of this interval to the zero-arc bound is at most
 \qquad\text{(5)}
 ```
 
-For the parity arc, replace $`B^2`$ inside the last theta factor by $`4B^2`$
+For the parity arc, replace $`B_0^2`$ inside the last theta factor by $`4B_0^2`$
 and replace the denominator by $`1+e^{-t}\cos L_{\max}`$.
 The program applies the theta upper bounds, evaluates each resulting
 expression in ball arithmetic, and sums the rectangles.
 
-These are individual monotonicity bounds for the factors. No monotonicity
-assumption about their product, quadrature convergence rate, or numerical
-derivative is needed.
+The rectangle bound follows from these factorwise endpoint estimates.
 
 ## Minor arcs and the remaining expressions
 
@@ -239,7 +236,7 @@ The minor-arc contribution is evaluated from the explicit formula
 
 The proof bounds $`C`$ by the maximum of two endpoint values of a convex
 scalar function. The program encloses both endpoints and their maximum,
-and verifies $`C<1`$. It does not numerically sample minor arcs.
+and verifies $`C<1`$.
 
 It then evaluates, with the same theta upper expressions,
 
@@ -249,20 +246,26 @@ D_0&=
 e^{-tK}\left(\frac\alpha\beta\right)^{d/2}
 \frac{1+\eta_\beta}{1-\eta_\alpha},\\
 \overline R&=
-\overline R_{\mathrm{zero}}+
-\overline R_{\mathrm{parity}}+
+\overline R_0+
+\overline R_\pi+
 \overline R_{\mathrm{minor}},\\
 \overline Q_0^2&=
-\vartheta(\varepsilon A)^d
-\left[\vartheta((2-\varepsilon)A/B^2)^d-1\right],\\
+\vartheta(\xi A_0)^d
+\left[\vartheta((2-\xi)A_0/B_0^2)^d-1\right],\\
 V&=\frac{(\overline R+D_0\overline Q_0)^2}{(1-\eta_\alpha)^2},\\
 \chi^2(\nu\|U)&\le
 \frac{(\overline Q_0+\overline R)^2}{(1-D_0)^2}.
 \end{aligned}
 ```
 
-Here $`A=\pi^2/\alpha`$ and $`\varepsilon=1/100`$ in the expression for
-$`\overline Q_0`$. The cap extension uses equations (25)–(27) of
+Here $`A_0=\pi^2/\alpha`$ and $`\xi=1/100`$ in the expression for
+$`\overline Q_0`$. The accepted-image bound is denoted
+$`X_0=(\overline Q_0+\overline R)^2/(1-D_0)^2`$. Together with
+$`\eta=\eta_\alpha`$, the same envelopes give
+$`m_0=(1-\eta)(1-D_0)>0`$ for the reverse target moment.
+The concrete transfer may use the looser certified ceilings
+$`X_0\le2^{-81}`$ and $`X_0\le2^{-83}`$, respectively, in place of the
+evaluated analytic envelope. The cap extension uses equations (25)–(27) of
 [norm_tail_smoothing.md](norm_tail_smoothing.md).
 
 ### Parameter and domain checks
@@ -270,7 +273,7 @@ $`\overline Q_0`$. The cap extension uses equations (25)–(27) of
 A successful run also establishes all of the following:
 
 - The supplied $`\sigma`$ interval contains the exact Falcon specification
-  value $`B\sqrt{\log(4n(1+\sqrt{2^{64}\lambda}))/(2\pi^2)}`$, with
+  value $`B_0\sqrt{\log(4n(1+\sqrt{2^{64}\lambda}))/(2\pi^2)}`$, with
   $`\lambda=128`$ or $`256`$ as appropriate.
 - The unrounded specification value $`1.21d\sigma_{\rm spec}^2`$ lies in
   $`[T,T+1)`$.

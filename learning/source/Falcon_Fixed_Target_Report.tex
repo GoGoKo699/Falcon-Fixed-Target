@@ -6,11 +6,15 @@
 \usepackage{booktabs,array,tabularx,longtable}
 \usepackage{xcolor,microtype,enumitem,titlesec,fancyhdr}
 \usepackage{tikz,pgfplots}
+\usepackage{flafter}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning,calc}
 \definecolor{ink}{HTML}{19334D}
 \definecolor{accent}{HTML}{245E85}
-\usepackage[colorlinks=true,linkcolor=accent,urlcolor=accent,pdfauthor={},pdftitle={Falcon Fixed Target: An Explanatory Report},pdfsubject={Fixed-target norm rejection and conditional security},pdfcreator={pdfLaTeX}]{hyperref}
+\definecolor{curveone}{HTML}{1768AC}
+\definecolor{curvetwo}{HTML}{D17B16}
+\definecolor{curvethree}{HTML}{7B4DA6}
+\usepackage[colorlinks=true,linkcolor=accent,urlcolor=accent,pdfauthor={},pdftitle={Fixed-Target CoreFalcon: An Explanatory Report},pdfsubject={Fixed-target norm rejection and conditional security},pdfcreator={pdfLaTeX}]{hyperref}
 \pdfinfoomitdate=1
 \pdftrailerid{}
 \newcommand{\Z}{\mathbb Z}
@@ -21,7 +25,6 @@
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
 \newcommand{\rhoo}{\rho}
-\newcommand{\U}{U}
 \newcommand{\TV}{\operatorname{TV}}
 \newcommand{\chiq}{\chi^2}
 \newcommand{\Adv}{\operatorname{Adv}}
@@ -52,14 +55,14 @@
 \titlespacing*{\subsection}{0pt}{13pt plus 2pt}{5pt}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\color{ink}Falcon fixed target}
+\fancyhead[L]{\small\color{ink}Fixed-target CoreFalcon}
 \fancyhead[R]{\small\color{ink}Explanatory report}
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0.3pt}
 \numberwithin{equation}{section}
 \setcounter{tocdepth}{1}
 \begin{document}
-{\LARGE\bfseries\color{ink}Falcon Fixed Target\par}
+{\LARGE\bfseries\color{ink}Fixed-Target CoreFalcon\par}
 \vspace{4pt}
 {\large An explanatory report\par}
 \vspace{11pt}
@@ -159,7 +162,7 @@ $q^n$ different targets, so the quotient
 \]
 has cardinality $|Y|=q^n$ and can be identified with $\mathcal R_q$.
 This algebraic fact holds for every public $h$; it does not require $h$ to be
-invertible. Let $\U(y)=1/|Y|$ denote the uniform target law.
+invertible. Let $U(y)=1/|Y|$ denote the uniform target law.
 
 \subsection{A discrete Gaussian and its conditional law}
 
@@ -189,8 +192,8 @@ $\mu$ is to uniform.
 
 This is the role of Gaussian \emph{smoothing}: at a sufficiently large width,
 the total Gaussian masses of different lattice cosets become nearly equal.
-The secret basis controls a geometric quantity that permits a uniform
-smoothing estimate, rather than an estimate based on a typical sampled key.
+The secret basis supplies a geometric bound that makes the smoothing
+estimate uniform over permitted keys.
 The next part of the report establishes that geometric input. Smoothing before
 any rejection, however, is only a starting point. Restricting to short vectors
 can favor some targets over others.
@@ -203,7 +206,7 @@ The accepted event is
  A=\{z:\norm{z}^2\le T\}.
 \]
 Because squared norms of integer vectors are integers, rejection starts at
-$K=T+1$, not at an unspecified real boundary.
+the exact boundary $K=T+1$.
 
 \begin{samepage}
 The relevant parameters are
@@ -226,14 +229,17 @@ estimates. Rounded decimals are descriptive rather than definitions.
 
 The hash is modeled as a random oracle
 \[
- H:\mathsf{PK}\times\{0,1\}^{\kappa}\times\mathsf M
+ H:\mathsf{PK}\times\{0,1\}^{\kappa}\times\mathsf{Msg}
  \longrightarrow\mathcal R_q.
 \]
 This means that distinct inputs have independent uniform outputs, while
 repeating an input returns its previously assigned value. The tuple contains
 the public key, salt and message with an unambiguous encoding. The model
-concerns one honestly generated key. It does not assert that an ordinary
-implemented hash can literally be programmed.
+concerns one honestly generated key. Let $\mathsf{Gen}$ denote its specified
+exact mathematical NTRU trapdoor-generation distribution. It supplies the
+public key, secret basis, and FFO sampling tree; the geometric and sampler
+contracts below hold for every key in its support. Random-oracle programming
+is a proof operation in this ideal hash model.
 
 For a message $m$, the signer draws an independent uniform salt $r$ after
 receiving the message and sets $y=H(h,r,m)$. It then repeatedly draws
@@ -241,8 +247,8 @@ $(u,v)$ from its secret-key sampling distribution $P_y$, using fresh private
 coins, until $A$ holds. Throughout this loop it retains both $r$ and $y$.
 It returns the mathematical signature $(r,v)$.
 
-The declared exact-arithmetic fast-Fourier sampler has law $P_y$, which
-is not assumed identical to $G_y$. Its proved probability-ratio profile
+The declared exact-arithmetic fast-Fourier orthogonalization (FFO) sampler
+has law $P_y$, which need not equal the exact coset-Gaussian law $G_y$. Its proved probability-ratio profile
 enters the security comparison in Section~\ref{sec:tree-sampler};
 Section~\ref{sec:key-quality} checks the geometric hypotheses needed there.
 
@@ -262,10 +268,9 @@ Only the final signature, or a specified public error, is revealed. Retry
 counts, intermediate vectors and running times are absent from the interface.
 Messages may be chosen adaptively using previous answers. Signing requests
 remain classical even in the quantum-oracle variant; quantum access concerns
-the hash queries. A fresh random salt makes a previously queried signing input
-unlikely, but does not make collisions impossible. The security proof pays for
-this issue explicitly before replacing each signing target by a fresh uniform
-one.
+the hash queries. The security proof bounds the probability that the fresh salt selects a
+previously queried signing input before replacing its target by a fresh
+uniform one.
 
 These conditions define the signing interface used below.
 Section~\ref{sec:representation} treats the canonical compressed wrapper,
@@ -286,7 +291,7 @@ later uniform rejection bound will establish.
 
 \subsection{Choose a uniform target and keep it}
 
-In the ideal uniform-target experiment, choose $y\leftarrow\U$ once and
+In the ideal uniform-target experiment, choose $y\leftarrow U$ once and
 repeat independent $G_y$ draws until acceptance. The accepted vector law at
 that target is $G_y\mid A$. Indeed, the probability of eventually returning
 a particular accepted vector $z$ is
@@ -294,11 +299,11 @@ a particular accepted vector $z$ is
  \sum_{j=0}^{\infty}(1-a_y)^jG_y(z)
  =\frac{G_y(z)}{a_y}.
 \]
-Every chosen target eventually succeeds, so its marginal law remains $\U$.
+Every chosen target eventually succeeds, so its marginal law remains $U$.
 In the proof experiment where each signing request receives a fresh uniform
 target, the real sampler analog is the joint law
 \[
- L(y,z)=\U(y)P_y(z\mid A).
+ L(y,z)=U(y)P_y(z\mid A).
 \]
 The norm theorem first addresses the ideal Gaussian; the sampler comparison
 then returns to this real accepted law.
@@ -306,13 +311,13 @@ then returns to this real accepted law.
 \subsection{Choose a new uniform target after each failure}
 
 Suppose instead that each attempt chooses a new uniform target and one
-$G_y$ sample. The successful target masses per attempt are $\U(y)a_y$.
+$G_y$ sample. The successful target masses per attempt are $U(y)a_y$.
 The final target law is therefore
 \[
- \widetilde\nu(y)=\frac{\U(y)a_y}{\E_{y\leftarrow\U}a_y}.
+ \widetilde\nu(y)=\frac{U(y)a_y}{\E_{y\leftarrow U}a_y}.
 \]
-Targets with higher acceptance probability appear more often. This is a useful
-comparison experiment, but it is not yet the public simulator's experiment.
+Targets with higher acceptance probability appear more often. This experiment weights only the acceptance probabilities. The public
+simulator below also weights the original Gaussian image.
 
 \subsection{Accept an ambient Gaussian and compute its target}
 
@@ -323,9 +328,9 @@ target law and joint law are
 \[
  \nu(y)=\frac{\mu(y)a_y}{1-\delta},
  \qquad
- J(y,z)=\nu(y)G_y(z\mid A).
+ M(y,z)=\nu(y)G_y(z\mid A).
 \]
-Equivalently, $J$ samples $z\leftarrow G\mid A$ and sets $y=F_h(z)$.
+Equivalently, $M$ samples $z\leftarrow G\mid A$ and sets $y=F_h(z)$.
 The conditional ideal vector law agrees with fixed-target signing, but the
 target weights differ. Both the unconditioned image $\mu(y)$ and the
 acceptance factor $a_y$ must be controlled.
@@ -405,11 +410,11 @@ additional bias introduced by the integer norm cutoff.
 \subsection{The precise geometric statement}
 
 Let $n$ be either $512$ or $1024$, let $d=2n$, and set
-$q=12289$ and $B=1.17\sqrt q$. Consider any full-rank sublattice
+$q=12289$ and $B_0=(117/100)\sqrt q$. Consider any full-rank sublattice
 $\Lambda\subset\Z^d$ of index $N=q^n$ that has a basis whose
-Gram--Schmidt lengths are all at most $B$. The index is the number of
-cosets: the quotient group $Y=\Z^d/\Lambda$ has $N$ elements. The theorem
-does not require a typical key or an average over key generation.
+Gram--Schmidt lengths are all at most $B_0$. The index is the number of
+cosets: the quotient group $Y=\Z^d/\Lambda$ has $N$ elements. The bounds
+hold for every lattice in this class.
 
 An ordered basis $b_1,\ldots,b_d$ generates the lattice by integer linear combinations. Its Gram--Schmidt vector $\widetilde b_i$ is the part of $b_i$ orthogonal to the real span of the preceding basis vectors. Bounding these orthogonal lengths controls Gaussian sums even if the original basis vectors themselves are longer.
 
@@ -476,14 +481,14 @@ sign change and preserves Euclidean length.
 
 Write $a^*=a(X^{-1})$ in the quotient ring and $D=ff^*+gg^*$.
 The fractions below are computed in the real coefficient algebra
-$\R[X]/(X^n+1)$. At a complex root $\xi$ of $X^n+1$,
-$D(\xi)=|f(\xi)|^2+|g(\xi)|^2>0$: the equation $fG-gF=q$
+$\R[X]/(X^n+1)$. At a complex root $\zeta$ of $X^n+1$,
+$D(\zeta)=|f(\zeta)|^2+|g(\zeta)|^2>0$: the equation $fG-gF=q$
 prevents $f$ and $g$ from vanishing together. Thus $D$ is invertible.
 The mathematical key-generation check is
 \[
  \max\left\{\norm{(g,-f)},
  \left\|\left(\frac{qf^*}{D},\frac{qg^*}{D}\right)\right\|\right\}
- \le B.
+ \le B_0.
 \]
 This initially bounds two polynomial vectors. To see why it bounds
 every ordinary Gram--Schmidt length, let $W$ be the real span of the
@@ -499,27 +504,26 @@ $u_1$ and $v$ vanishes, and therefore $v$ is orthogonal to every shift
 of $u_1$. Shifts preserve $W$ and its orthogonal complement. Each
 second-block vector first projects to a shift of $v$; further
 Gram--Schmidt projections can only shorten it. Hence every resulting
-length is at most $B$. The argument permits any ordering within a block.
+length is at most $B_0$. The argument permits any ordering within a block.
 
 Splitting a polynomial as $a(X)=a_{\rm even}(X^2)+X a_{\rm odd}(X^2)$ merely rearranges its coefficients into the even and odd positions, preserving their total squared norm. Repeating this split expands the sampling tree into ordinary coefficient coordinates. The exact tree factorization identifies the sampler's
 unnormalized leaf values $D_i$ with these squared lengths. Thus
-$\sqrt{D_i}\le B$ and its one-dimensional widths satisfy
-$\sigma_i=\sigma/\sqrt{D_i}\ge\sigma/B$. This establishes the geometric
-input to the exact-arithmetic sampler profile. It is separate from
-proving that profile, or validating finite-precision arithmetic.
+$\sqrt{D_i}\le B_0$ and its one-dimensional widths satisfy
+$\sigma_i=\sigma/\sqrt{D_i}\ge\sigma/B_0$. This establishes the geometric
+input to the exact-arithmetic sampler profile. The exact-arithmetic profile is used in Section~\ref{sec:tree-sampler}.
 
-The exact width is determined by
+The exact parameter definitions are
 \[
- \sigma=\frac B\pi
- \sqrt{\frac{\log(4n(1+1/\varepsilon_{\rm des}))}{2}},
- \qquad
- \varepsilon_{\rm des}=\frac1{\sqrt{2^{64}\lambda}},
- \qquad
- T=\left\lfloor1.21d\sigma^2\right\rfloor,
+\begin{aligned}
+ \eps_{\mathrm{des}}&=(2^{64}\lambda)^{-1/2},\\
+ \sigma&=\frac{B_0}{\pi}
+ \sqrt{\frac{\ln(4n(1+1/\eps_{\mathrm{des}}))}{2}},\\
+ T&=\left\lfloor\frac{121}{100}d\sigma^2\right\rfloor.
+\end{aligned}
 \]
-where $\log$ is natural and $\lambda=128$ or $256$, respectively. The
-parameter $\lambda$ specifies the width design; it is not a proved bit
-security level. These exact widths lie in the displayed intervals.
+Here $\ln$ is the natural logarithm, and $\lambda=128$ or $256$ is the
+sampler design parameter at the respective degree. These exact widths lie
+in the displayed intervals.
 
 \subsection{Separate the original image from the rejected image}
 
@@ -570,10 +574,10 @@ the enormous number $N$.
 \subsection{The smoothing estimates available before rejection}
 
 The reversed dual basis has Gram--Schmidt lengths reciprocal to the
-original ones, hence at least $1/B$. Summing its coefficients
+original ones, hence at least $1/B_0$. Summing its coefficients
 successively gives
 \[
- \rho_c(\Lambda^*)\le\vartheta(c/B^2)^d,
+ \rho_c(\Lambda^*)\le\vartheta(c/B_0^2)^d,
  \qquad \vartheta(c)\le1+\sqrt{\pi/c}.
 \]
 The first bound uses the fact that a shifted Gaussian sum is largest at
@@ -582,7 +586,7 @@ for $\rho_c(L+z)$ has nonnegative Gaussian magnitudes multiplied by
 phases, so replacing every phase by one bounds it by $\rho_c(L)$.
 
 Define
-$\eta_c=\vartheta(\pi^2/(cB^2))^d-1$. For clarity, the Poisson identity used here is
+$\eta_c=\vartheta(\pi^2/(cB_0^2))^d-1$. For clarity, the Poisson identity used here is
 \[
  \rho_c(L+z)=\frac{(\pi/c)^{d/2}}{\det L}
  \sum_{w\in L^*}e^{-\pi^2\norm{w}^2/c}
@@ -604,18 +608,19 @@ taking absolute values. Counting them as error would weaken the bound.
 
 An energy estimate is sharper than this pointwise bound. Put
 $A_0=\pi^2/\alpha$. For a frequency coset $C=\Z^d-w$ and
-$0<\epsilon<2$, weighted Cauchy--Schwarz gives
-$\rho_{A_0}(C)^2\le\rho_{\epsilon A_0}(C)\rho_{(2-\epsilon)A_0}(C)$.
+$0<\xi<2$, weighted Cauchy--Schwarz gives
+$\rho_{A_0}(C)^2\le\rho_{\xi A_0}(C)\rho_{(2-\xi)A_0}(C)$.
 Apply it to each frequency coset, bound the first factor by an
 unshifted mass, and sum the second over the nontrivial characters. This gives
 \begin{equation}
- Q_0^2\le\vartheta(\epsilon A_0)^d
- \left[\vartheta\!\left(\frac{(2-\epsilon)A_0}{B^2}\right)^d-1\right].
+ Q_0^2\le\vartheta(\xi A_0)^d
+ \left[\vartheta\!\left(\frac{(2-\xi)A_0}{B_0^2}\right)^d-1\right].
  \label{eq:norm-Q0}
 \end{equation}
-The certificate uses $\epsilon=1/100$ here. The small tuning parameter
-$\epsilon$ in an inequality is independent of the width-design
-parameter $\varepsilon_{\rm des}$.
+Let $\overline Q_0$ be the square root of the right-hand expression,
+evaluated with the tuning parameter $\xi=1/100$. Its role is to split this
+inequality; the sampler-width parameter $\eps_{\mathrm{des}}$ has a separate
+definition.
 
 \subsection{An exact integral for a discrete tail}
 
@@ -654,11 +659,11 @@ $\theta$.
 
 Write $\theta=\pi a/b+v$ with $\gcd(a,b)=1$ and $b\ge1$. The integer
 quadratic phase $\phi_{a,b}(x)=e^{i\pi ax^2/b}$ obeys
-$\phi_{a,b}(x+b)=(-1)^{ab}\phi_{a,b}(x)$. Let $\eta=0$ when $ab$ is even and
-$\eta=1/2$ when it is odd. A finite Fourier expansion then has the form
+$\phi_{a,b}(x+b)=(-1)^{ab}\phi_{a,b}(x)$. Let $\eta_b=0$ when $ab$ is even and
+$\eta_b=1/2$ when it is odd. A finite Fourier expansion then has the form
 \[
  \phi_{a,b}(x)=\sum_{\ell=0}^{b-1}c_\ell
- e^{2\pi i(\ell+\eta)x/b},\qquad |c_\ell|=b^{-1/2}.
+ e^{2\pi i(\ell+\eta_b)x/b},\qquad |c_\ell|=b^{-1/2}.
 \]
 The half-frequency is necessary in the antiperiodic case. The uniform
 coefficient magnitude follows by autocorrelation: after removing the
@@ -677,12 +682,12 @@ $A_v=\pi^2\beta/(\beta^2+v^2)$. The one-dimensional complex Poisson identity is
 The square root is the branch positive on positive real $z$.
 For $z=\beta-iv$, its prefactor has modulus $\sqrt{\pi/h_v}$
 and $\operatorname{Re}(1/z)=\beta/h_v^2$. The $b$ shifted frequency sums
-from the finite expansion merge into $b^{-1}(\Z+\eta)$.
+from the finite expansion merge into $b^{-1}(\Z+\eta_b)$.
 Applying these facts in each coordinate gives
 \begin{equation}
  \left|\prod_{j=1}^d\Theta(\beta-i\theta,w_j)\right|
  \le\left(\frac\pi{bh_v}\right)^{d/2}
- \rho_{A_v}\!\left(b^{-1}(\Z^d+\eta\mathbf1)-w\right).
+ \rho_{A_v}\!\left(b^{-1}(\Z^d+\eta_b\mathbf1)-w\right).
  \label{eq:norm-rational}
 \end{equation}
 This converts oscillatory cancellation into a decaying Gaussian mass.
@@ -691,12 +696,12 @@ The decisive summation step uses the finite quotient. If $\gcd(b,N)=1$,
 multiplication by $b$ permutes $\widehat Y$. Consequently
 \begin{equation}
  \sum_{w\in\widehat Y}
- \rho_c\!\left(b^{-1}(\Z^d+\eta\mathbf1)-w\right)
- =\rho_{c/b^2}(\Lambda^*+\eta\mathbf1).
+ \rho_c\!\left(b^{-1}(\Z^d+\eta_b\mathbf1)-w\right)
+ =\rho_{c/b^2}(\Lambda^*+\eta_b\mathbf1).
  \label{eq:norm-merger}
 \end{equation}
 Indeed, multiplying every summation vector by $b$ produces the sets
-$\Z^d+\eta\mathbf1-bw$. They form a disjoint decomposition of the
+$\Z^d+\eta_b\mathbf1-bw$. They form a disjoint decomposition of the
 translated dual lattice. The rescaling changes $c$ to $c/b^2$.
 Thus all characters merge into one Gaussian sum, with no factor $N$.
 If coprimality fails, this equality acquires a kernel multiplicity and
@@ -707,8 +712,8 @@ and $Z_\alpha\ge\sqrt{\pi/\alpha}$ bounds the normalized Euclidean
 norm over all characters by
 \begin{equation}
  \left[\frac\alpha{bh_v}
- \vartheta\!\left(\frac{\epsilon A_v}{b^2}\right)
- \vartheta\!\left(\frac{(2-\epsilon)A_v}{b^2B^2}\right)
+ \vartheta\!\left(\frac{\xi A_v}{b^2}\right)
+ \vartheta\!\left(\frac{(2-\xi)A_v}{b^2B_0^2}\right)
  \right]^{d/2}.
  \label{eq:norm-all-character}
 \end{equation}
@@ -723,12 +728,12 @@ Outside the regions within $L$ of zero and the identified endpoints
 $\pm\pi$, one has $b\ge2$. These remaining angles are called minor arcs.
 
 For completeness, their continuous range reduces to an endpoint bound.
-Use $\epsilon=1/2$, and define
+Use $\xi=1/2$, and define
 \begin{gather*}
  r_{\min}=2\beta,\quad
  r_{\max}=\sqrt{(Q_{\rm arc}\beta)^2+(\pi/Q_{\rm arc})^2},\quad
  u_0=\sqrt{\frac2{\pi\beta}},\quad
- v_0=B\sqrt{\frac2{3\pi\beta}},\\
+ v_0=B_0\sqrt{\frac2{3\pi\beta}},\\
  F(r)=\frac\alpha r+\alpha(u_0+v_0)+\alpha u_0v_0r,
  \qquad C=\max\{F(r_{\min}),F(r_{\max})\}.
 \end{gather*}
@@ -749,7 +754,7 @@ term that the centered quantity $R$ does not contain. Removing it gives
 \[
  \sum_{w\ne0}\rho_c(\Z^d-w)
  =\rho_c(\Lambda^*)-\rho_c(\Z^d)
- \le\vartheta(c/B^2)^d-1.
+ \le\vartheta(c/B_0^2)^d-1.
 \]
 The subtraction is the analytic counterpart of centering the density.
 
@@ -764,34 +769,34 @@ $\Lambda^*+\mathbf1/2$ into $\Lambda^*\setminus\{0\}$, hence
 \[
  \rho_c(\Lambda^*+\mathbf1/2)
  \le\rho_{c/4}(\Lambda^*)-1
- \le\vartheta(c/(4B^2))^d-1.
+ \le\vartheta(c/(4B_0^2))^d-1.
 \]
 Odd quotient order controls this parity term. Denominator coprimality
 controls the earlier merger; the two hypotheses play different roles.
 
 To display the resulting integrals compactly, let
 \[
- H_s(v;\epsilon)=
+ H_s(v;\xi)=
  \left(\frac\alpha{\sqrt{\beta^2+v^2}}\right)^{d/2}
- \vartheta(\epsilon A_v)^{d/2}
- \sqrt{\vartheta\!\left(\frac{(2-\epsilon)A_v}{sB^2}\right)^d-1},
+ \vartheta(\xi A_v)^{d/2}
+ \sqrt{\vartheta\!\left(\frac{(2-\xi)A_v}{sB_0^2}\right)^d-1},
  \qquad s\in\{1,4\}.
 \]
 The two main contributions are bounded by
 \begin{align}
  \overline R_0&=\frac{e^{-tK}}\pi\int_0^L
- \frac{H_1(v;\epsilon(v))}
+ \frac{H_1(v;\xi(v))}
  {\sqrt{(1-e^{-t})^2+4e^{-t}\sin^2(v/2)}}\,dv,
  \label{eq:norm-zero-integral}\\
  \overline R_\pi&=\frac{e^{-tK}}{\pi(1+e^{-t}\cos L)}
- \int_0^L H_4(v;\epsilon(v))\,dv.
+ \int_0^L H_4(v;\xi(v))\,dv.
  \label{eq:norm-parity-integral}
 \end{align}
 The endpoint pieces at $\pi$ and $-\pi$ together have length $2L$;
 both are included in the second expression. Each pointwise bound holds
-for every $0<\epsilon<2$, so its value may vary between integration
+for every $0<\xi<2$, so its value may vary between integration
 subintervals. Minkowski's inequality now gives
-$R\le\overline R_0+\overline R_\pi+\overline R_{\rm minor}$.
+$R\le\overline R:=\overline R_0+\overline R_\pi+\overline R_{\rm minor}$.
 
 \subsection{How a numerical enclosure completes the analytic proof}
 
@@ -821,8 +826,8 @@ the prefactor involving $\sqrt{\beta^2+v^2}$ is largest at $\ell$,
 the theta factors are largest at $h$, and the zero-arc denominator is
 smallest at $\ell$. Multiplying these separate factor bounds and the
 piece width gives a proved upper rectangle. Monotonicity of their
-product is unnecessary. The choice is $\epsilon=1/100$ in
-$[0,\beta]$ and $\epsilon=1/2$ afterwards.
+product is unnecessary. The choice is $\xi=1/100$ in
+$[0,\beta]$ and $\xi=1/2$ afterwards.
 
 For orientation, the following entries are upward-rounded base-two
 logarithms of the certified upper-bound expressions.
@@ -874,8 +879,12 @@ Using $\delta_y=r(y)/p(y)$ gives
 $\delta_y-\delta=(r(y)-\delta p(y))/p(y)$. Since
 $p(y)\ge1-\eta_\alpha$, the triangle inequality yields
 \begin{equation}
+\begin{aligned}
  \operatorname{Var}_U(a_y)
- \le\frac{(R+D_0Q_0)^2}{(1-\eta_\alpha)^2}.
+ &\le\frac{(R+D_0Q_0)^2}{(1-\eta_\alpha)^2}\\
+ &\le V:=\frac{(\overline R+D_0\overline Q_0)^2}
+ {(1-\eta_\alpha)^2}.
+\end{aligned}
  \label{eq:norm-variance}
 \end{equation}
 The variance is no larger than the mean squared distance from any
@@ -887,7 +896,8 @@ Finally \eqref{eq:norm-accepted-density} implies
  \frac{d\nu}{dU}-1
    =\frac{(p-1)-(r-\delta)}{1-\delta},\qquad
  \chi^2(\nu\Vert U)
-   \le\frac{(Q_0+R)^2}{(1-D_0)^2}.
+   \le\frac{(Q_0+R)^2}{(1-D_0)^2}
+   \le\frac{(\overline Q_0+\overline R)^2}{(1-D_0)^2}.
 \]
 The certified variance expressions have logarithms below
 $-91.19687$ and $-120.83204$; the accepted-image expressions have
@@ -918,22 +928,26 @@ For $m=n$ and $L_0=2048$, these bounds are below $2^{-100.14568}$
 and $2^{-95.70363}$. If $b_y$ is the probability of passing the norm
 test but failing the cap, then $0\le b_y\le C_{\rm cap}$ and the new
 acceptance probability is $a'_y=a_y-b_y$. The square root of its variance changes
-by at most $C_{\rm cap}/2$: for any variable in $[0,C_{\rm cap}]$, its variance is no greater than its mean squared distance from $C_{\rm cap}/2$, which is at most $C_{\rm cap}^2/4$. Thus, if $V$ denotes the right-hand bound
-in \eqref{eq:norm-variance},
+by at most $C_{\rm cap}/2$: for any variable in $[0,C_{\rm cap}]$, its variance is no greater than its mean squared distance from $C_{\rm cap}/2$, which is at most $C_{\rm cap}^2/4$. Thus, using the certified variance envelope $V$ in \eqref{eq:norm-variance},
 \[
  \operatorname{Var}_U(a'_y)
  \le(\sqrt V+C_{\rm cap}/2)^2.
 \]
-Let $\nu'$ be the ambient syndrome law conditioned on passing both the norm
-test and the cap. Its accepted-image bound becomes
+For the accepted image, write $e(y)=p(y)b_y$. Then
+$0\le e(y)\le(1+\eta_\alpha)C_{\rm cap}$, so its centered $L^2(U)$
+norm is at most $(1+\eta_\alpha)C_{\rm cap}/2$. Its mean is at most
+$C_{\rm cap}$ because $\E_U p=1$; subtracting it reduces the acceptance
+mass by at most that amount. If $\nu'$ is the ambient syndrome law
+conditioned on passing both tests, these two changes give
 \[
  \chi^2(\nu'\Vert U)
- \le\frac{\bigl(Q_0+R+(1+\eta_\alpha)C_{\rm cap}/2\bigr)^2}
+ \le\frac{\bigl(\overline Q_0+\overline R+(1+\eta_\alpha)C_{\rm cap}/2\bigr)^2}
  {(1-D_0-C_{\rm cap})^2}.
 \]
-The additions fit within the stated powers of two. A cap on individual
-coordinates does not bound the sum of their encoded lengths; a retry
-triggered by a total padded byte budget remains a different problem.
+The additions fit within the stated powers of two. These individual caps
+do not by themselves establish that the total encoding fits a specified
+padded-byte budget; retrying on that total budget remains a different
+conditioning problem.
 
 The analytic conclusion is now in the form needed for security:
 uniform acceptance is bounded away from zero, the accepted ambient
@@ -978,7 +992,7 @@ A smaller fixed padded byte budget imposes another restriction on the sum of enc
 
 Under existential unforgeability with chosen-message access (EUF), a forgery must concern a message never requested, including requests that returned a public error. Strong unforgeability (SUF) requires a valid message/signature pair never successfully returned, even for a requested message. It can involve an earlier salt and hash input. For either notion $\mathsf F$, write $\operatorname{Adv}^{\mathsf F}(\mathcal A)$ for adversary $\mathcal A$'s probability of producing a successful forgery.
 
-The compressed wrapper accepts one canonical format and has enough space for every norm-passing, coefficient-encodable vector. A new canonical signature at the same input must contain a different $v$. If the earlier request returned an encoding error, its hidden $v$ has no admitted encoding, so any valid forgery again differs. The reconstructed pair is a different preimage regardless of centering.
+The compressed wrapper accepts one canonical format and has enough space for every norm-passing, coefficient-encodable vector. At a programmed input, compare the forgery with the most recent signing program there. A new canonical signature must contain a different $v$. If that request returned an encoding error, its hidden $v$ has no admitted encoding, so any valid forgery again differs. The reconstructed pair is therefore a different preimage regardless of centering.
 
 Sufficient space, a unique format, and the stated error semantics enter the theorem. Multiple byte strings for one $v$, or errors caused by undersized buffers, require a separate extraction argument.
 
@@ -1018,7 +1032,7 @@ exponents $\rho$ and $\rho/(\rho-1)$. The same argument applies to any
 success function taking values in $[0,1]$. This is how a bound for one
 simulation becomes a bound for the real adversary's success.
 
-\subsection{Rejection should preserve a small error, not create one}
+\subsection{Conditioning preserves the sampler's moment excess}
 \label{sec:tree-sampler}
 
 Recall that $P_y$ is the declared exact-arithmetic tree-sampler law, while
@@ -1033,7 +1047,8 @@ division by the acceptance probability would charge a loss even if the
 sampler were already exact. The correct quantity to propagate is the
 \emph{excess above one}.
 
-Let $s=P(E)>0$ and $t=Q(E)>0$. Splitting the moment between $E$ and its
+Assume $M_\rho(P\Vert Q)<\infty$, and let $s=P(E)>0$ and $t=Q(E)>0$.
+Splitting the moment between $E$ and its
 complement gives
 \begin{align}
  M_\rho(P\Vert Q)
@@ -1068,17 +1083,21 @@ amplifies an existing small sampler discrepancy; it does not create a
 standalone discrepancy of the size of the rejection probability.
 
 For the specified exact-arithmetic sampler, the width-design parameter
-$\varepsilon_{\rm des}$ is $2^{-35.5}$ or $2^{-36}$ at the two degrees,
+$\eps_{\mathrm{des}}$ is $2^{-35.5}$ or $2^{-36}$ at the two degrees,
 and $d=2n$. Its probability-ratio contract is
 \begin{equation}
  a\le P_y(z)/G_y(z)\le b,\qquad
- b=\left(\frac{1+\varepsilon_{\rm des}/d}{1-\varepsilon_{\rm des}/d}\right)^d,
+ b=\left(\frac{1+\eps_{\mathrm{des}}/d}{1-\eps_{\mathrm{des}}/d}\right)^d,
  \qquad a=b^{-1}.
  \label{eq:tree-profile}
 \end{equation}
-This imports the tree sampler's actual normalization-product guarantee;
-it is not inferred by identifying it with an arbitrarily ordered lattice
-sampler. Under $G_y$, the ratio $W=P_y/G_y$ has mean one. Since
+The exact tree analysis supplies a normalization-product guarantee. Its
+likelihood ratio has the form $c_yV_y(z)$, where
+$V_y(z)=\prod_i\xi_i(z)^{-1}$ and each factor satisfies
+$\xi_i\in[(1-\eps_{\mathrm{des}}/d)/(1+\eps_{\mathrm{des}}/d),1]$.
+Thus $1\le V_y\le b$. Normalization gives
+$c_y=1/\E_{G_y}V_y\in[b^{-1},1]$, proving both sides of the ratio bound.
+Under $G_y$, the ratio $W=P_y/G_y$ has mean one. Since
 $(W-a)(b-W)\ge0$, its variance is at most $(b-1)(1-a)$. A second-order
 Taylor bound for $x^\rho$ at one gives the nonasymptotic profile
 \begin{equation}
@@ -1140,13 +1159,13 @@ After isolating each fresh signing input in the random oracle, the real
 accepted pair and the public pair have laws
 \begin{equation}
  L(y,z)=U(y)P_y(z\mid A),\qquad
- J(y,z)=\nu(y)G_y(z\mid A).
+ M(y,z)=\nu(y)G_y(z\mid A).
 \end{equation}
 The public law can be sampled without a trapdoor: draw $z$ from $G\mid A$
 and compute $y=F_h(z)$. Combining the target and conditional-preimage moments
 in one sum gives
 \begin{equation}
- M_\rho(L\Vert J)
+ M_\rho(L\Vert M)
  \le(1+C_\rho e_p(\rho))(1+e_u(\rho))=:M_*.
  \label{eq:joint-moment-security}
 \end{equation}
@@ -1167,7 +1186,7 @@ function proves
 \begin{equation}
  \Pr_L[\mathrm{forge}]
  \le M_*^{q_S/\rho}
-       \Pr_J[\mathrm{forge}]^{(\rho-1)/\rho}.
+       \Pr_M[\mathrm{forge}]^{(\rho-1)/\rho}.
  \label{eq:adaptive-list-security}
 \end{equation}
 Uniformity of the analytic and sampler bounds permits averaging over key
@@ -1212,9 +1231,9 @@ on its call count is not itself an implementation proof.
 
 \subsection{Which hardness assumptions receive a forgery?}
 
-Both lattice games use the same honestly generated public-key distribution
-as the signer, with the secret key discarded. They do not assume that the
-public ring element is uniform.
+Both lattice games draw $(\mathsf{sk},h)\leftarrow\mathsf{Gen}$, as the
+signer does, and discard the secret key. Their hardness is evaluated on
+this actual public-key distribution.
 
 In the $t$-target \emph{inhomogeneous short-preimage game}, labeled
 NTRU-ISIS here, the solver receives
@@ -1223,16 +1242,17 @@ index $j$ and $(u,v)$ satisfying
 \begin{equation}
  u+hv=c_j\pmod q,\qquad \norm{(u,v)}^2\le T.
 \end{equation}
-Denote its success probability by
-$\operatorname{Adv}^{t\text{-}\mathrm{ISIS}}(B_{\mathrm I})$.
+Write its success probability as
+$I_t(B_{\mathrm I})$. The subscript $t$ counts independently supplied
+uniform targets; $B_{\mathrm I}$ denotes the solver.
 
 The additional strong-unforgeability game, labeled NTRU-SPISIS$^*$,
 supplies $C$ independent
 \emph{unconditioned} vectors $z_i=(u_i,v_i)\leftarrow G$, together with
 their syndromes $c_i$. The solver sees all the triples and must return a
 short preimage of some $c_j$ different from the supplied $z_j$. Write its
-advantage as
-$\operatorname{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S})$.
+advantage as $S_C(B_{\mathrm S})$. The subscript $C$ is the number of
+supplied Gaussian challenge vectors.
 The star records the unconditioned challenge distribution: a Gaussian pool
 conditioned in advance on passing its norms would be a different assumption.
 
@@ -1266,29 +1286,34 @@ Under the uniform geometric and sampler hypotheses established above, fix
 $\rho>1$ with $bD_0<1$, a pool size $C\ge q_S$, and
 $\eps_{\mathrm{pool}}<1$. For every classical adversary $\mathcal A$ within
 the query budgets, there exist corresponding hardness solvers $B_{\mathrm I}$
-and, for SUF, $B_{\mathrm S}$. Define their contributions by
-\begin{align}
- H_{\mathrm{EUF}}^{\mathrm{ROM}}
-   &:=\operatorname{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I}),\\
- H_{\mathrm{SUF}}^{\mathrm{ROM}}
-   &:=H_{\mathrm{EUF}}^{\mathrm{ROM}}
-       +\operatorname{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S}).
-\end{align}
-For either freshness definition, the resulting theorem is
+and, for SUF, $B_{\mathrm S}$. For the two freshness notions, the bounds are
 \begin{equation}
- \operatorname{Adv}^{\mathsf F}(\mathcal A)
- \le\eps_{\mathrm{repr}}^{\mathrm{ROM}}
-   +M_*^{q_S/\rho}
-    \left(\frac{H_{\mathsf F}^{\mathrm{ROM}}}
-                    {1-\eps_{\mathrm{pool}}}\right)^{(\rho-1)/\rho},
- \qquad \mathsf F\in\{\mathrm{EUF},\mathrm{SUF}\}.
- \label{eq:complete-rom-security}
+\begin{split}
+ \operatorname{Adv}^{\mathrm{EUF}}(\mathcal A)
+ &\le\eps_{\mathrm{repr}}^{\mathrm{ROM}}+
+ M_*^{q_S/\rho}
+ \left(\frac{I_{q_H+1}(B_{\mathrm I})}
+ {1-\eps_{\mathrm{pool}}}\right)^{(\rho-1)/\rho},\\
+ \operatorname{Adv}^{\mathrm{SUF}}(\mathcal A)
+ &\le\eps_{\mathrm{repr}}^{\mathrm{ROM}}+
+ M_*^{q_S/\rho}
+ \left(\frac{I_{q_H+1}(B_{\mathrm I})+S_C(B_{\mathrm S})}
+ {1-\eps_{\mathrm{pool}}}\right)^{(\rho-1)/\rho}.
+\end{split}
+\label{eq:complete-rom-security}
 \end{equation}
+The first term pays for the oracle comparison. The moment multiplier and
+exponent transfer a public-simulator probability to the real signer. The
+denominator accounts for the finite public pool. SUF has an additional
+distinct-preimage contribution because its forged message may have been
+requested already. Both inequalities cover the mathematical signature and
+the canonical compressed wrapper under the stated representation conditions.
+
 The ISIS solver assigns independent challenge targets to new unprogrammed
 hash inputs, reserving one additional target for the final forgery if
 necessary. The strong case uses the unconditioned challenge vectors as
-its public pool. These extractors run the adversary once; splitting the
-two disjoint forgery cases gives the sum above.
+its public pool. Each extractor runs the adversary once; the two disjoint forgery cases
+give the sum above.
 
 Each reduction pays for the Gaussian pool, syndrome arithmetic and a
 classical table of at most $q_H+q_S+1$ entries, together with challenge
@@ -1303,7 +1328,7 @@ queries may be superpositions of inputs. The retained adaptive programming
 bound is
 \begin{equation}
  \eps_{\mathrm{repr}}^{\mathrm{QROM}}
- \le\frac{3q_S}{2}\sqrt{\frac{q_H+q_S+1}{2^\kappa}}.
+ =\frac{3q_S}{2}\sqrt{\frac{q_H+q_S+1}{2^\kappa}}.
  \label{eq:qrom-reprogram}
 \end{equation}
 Private norm retries add no programs or hash queries: the target was
@@ -1322,8 +1347,8 @@ queries is at most
  Q=q_H+q_S+1.
 \end{equation}
 The table can be compiled into an ordinary reversible circuit. A direct
-implementation scans up to $q_S$ entries per query; it requires no quantum
-random-access-memory instruction, but its gate overhead is not constant.
+implementation scans up to $q_S$ entries per query and charges the resulting
+gate work.
 
 Quantum extraction measures a candidate oracle input and reprograms it
 to a supplied uniform challenge, with a loss bounded by $(2Q+1)^2$.
@@ -1335,24 +1360,32 @@ the conservative target-value collision allowance
  \eps_{\mathrm{hit}}=\frac{10Q^2q_S}{|Y|}.
 \end{equation}
 The programmed target list is independent of the background oracle, as
-required by that search allowance. Put
+required by that search allowance. Define
 \begin{align}
- H_{\mathrm{EUF}}^{\mathrm{QROM}}
-   &:=(2Q+1)^2\operatorname{Adv}^{1\text{-}\mathrm{ISIS}}(B_{\mathrm I})
-       +\eps_{\mathrm{hit}},\\
- H_{\mathrm{SUF}}^{\mathrm{QROM}}
-   &:=H_{\mathrm{EUF}}^{\mathrm{QROM}}
-       +\operatorname{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S}).
+ \eps_{\mathrm{hard}}^{\mathrm{EUF}}
+   &:=(2Q+1)^2I_1(B_{\mathrm I})+\eps_{\mathrm{hit}},\\
+ \eps_{\mathrm{hard}}^{\mathrm{SUF}}
+   &:=\eps_{\mathrm{hard}}^{\mathrm{EUF}}+S_C(B_{\mathrm S}).
 \end{align}
-For every quantum adversary within the stated budgets, there are corresponding
-quantum hardness solvers for which~\eqref{eq:complete-rom-security} holds with
-$\mathrm{ROM}$ replaced by $\mathrm{QROM}$ in its programming and hardness
-terms. The other geometric, sampler, and pool hypotheses remain in force.
-The extraction solver has polynomial local simulation
-overhead and the finite Gaussian-pool cost. Eliminating the ideal background
-oracle uses a sufficiently independent family evaluated reversibly; this
-does not establish near-linear runtime in $Q$. The stated corollary uses
-single-target extraction and no quantum random-access-memory assumption.
+Under the same uniform analytic, sampler, representation and interface
+hypotheses, fix $\rho>1$ with $bD_0<1$, and $C\ge q_S$ with
+$\eps_{\mathrm{pool}}<1$. For every quantum adversary within the stated
+query budgets and with oracle-independent initial advice, corresponding
+quantum hardness solvers satisfy
+\begin{equation}
+ \operatorname{Adv}^{\mathsf F}(\mathcal A)
+ \le\eps_{\mathrm{repr}}^{\mathrm{QROM}}+
+ M_*^{q_S/\rho}
+ \left(\frac{\eps_{\mathrm{hard}}^{\mathsf F}}
+ {1-\eps_{\mathrm{pool}}}\right)^{(\rho-1)/\rho},
+ \qquad\mathsf F\in\{\mathrm{EUF},\mathrm{SUF}\}.
+ \label{eq:complete-qrom-security}
+\end{equation}
+The single-target extraction solver has polynomial local overhead,
+including the finite public Gaussian pool and reversible oracle simulation.
+A sufficiently independent function family can replace the ideal background
+oracle within this bounded-query reduction. The construction uses ordinary
+reversible circuits, including the table scan charged above.
 
 \subsection{Interpreting the concrete losses}
 
@@ -1365,8 +1398,12 @@ $\lambda_{\mathrm{sim}}-\mathcal L(\rho)$, where the exact transfer loss is
                     +\frac{q_S}{\rho}\log_2 M_*.
  \label{eq:transfer-bit-loss}
 \end{equation}
-Rigorous interval evaluation at $q_S=2^{64}$ gives the following outward
-rounded bounds. The logarithm is base two, so the unit of loss is bits.
+For the concrete calculation, the reverse moment uses the conservative
+contracts $X_0=2^{-81}$ and $X_0=2^{-83}$ at the respective degree. They
+are outward roundings of the smaller analytic expression in
+\eqref{eq:security-X0}. Rigorous interval evaluation at $q_S=2^{64}$
+gives the following bounds. The logarithm is base two, so loss is measured
+in bits.
 
 \begin{center}
 \begin{tabular}{rrrr}
@@ -1382,25 +1419,62 @@ $n$ & $\lambda_{\mathrm{sim}}$ & $\rho$ & $\mathcal L(\rho)$\\
 In these rows, the accepted-image contribution is respectively below
 $0.000398$, $0.000409$ and $0.000207$ bits. The additional sampler cost
 caused by conditioning is below $0.000080$, $0.000082$ and
-$5\cdot10^{-9}$ bits. These figures isolate a distribution transfer; they
-are not measured or proven lattice work factors.
+$5\cdot10^{-9}$ bits. These figures quantify the distribution transfer in
+\eqref{eq:adaptive-list-security}; lattice hardness and reduction work enter
+the complete theorem separately.
+
+Choosing $\rho$ trades the decreasing term
+$\lambda_{\mathrm{sim}}/\rho$ against the growth of the moment terms.
+A larger order makes the event-probability exponent closer to one, while
+increasing the weight placed on larger likelihood ratios. This is a choice
+in the proof; the signing algorithm and its query budget remain fixed.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.94\linewidth,height=7.7cm,
+ xmin=40,xmax=220,ymin=2.95,ymax=7.05,
+ xlabel={R\'enyi order $\rho$},ylabel={Transfer-loss bound $\mathcal L(\rho)$ (bits)},
+ xtick={40,60,80,100,120,140,160,180,200,220},ytick={3,4,5,6,7},
+ tick label style={font=\small},label style={font=\small},
+ grid=major,xmajorgrids=false,grid style={gray!25},
+ legend style={font=\footnotesize,draw=none,fill=white,at={(.98,.98)},anchor=north east},
+ legend cell align={left},clip=true]
+\addplot[color=curveone,solid,line width=1.2pt,no marks] coordinates {
+(40,3.879400495183517) (41,3.828778504982262) (42,3.781640835882059) (43,3.737744395751029) (44,3.696868191742016) (45,3.6588108748165) (46,3.623388604548011) (47,3.590433186503825) (48,3.559790442453947) (49,3.531318780146347) (50,3.504887934709157) (51,3.480377858123209) (52,3.457677736832352) (53,3.436685120567694) (54,3.417305147969153) (55,3.399449856684654) (56,3.383037567387276) (57,3.367992332632689) (58,3.354243442731351) (59,3.341724981870974) (60,3.330375428626765) (61,3.320137295765718) (62,3.310956804908575) (63,3.30278359217635) (64,3.295570441432495) (65,3.289273042148869) (66,3.283849769283887) (67,3.279261482873077) (68,3.275471345302817) (69,3.272444654473325) (70,3.270148691261949) (71,3.268552579876893) (72,3.267627159848131) (73,3.267344868539612) (74,3.267679633187506) (75,3.268606771575391) (76,3.270102900550867) (77,3.272145851670754) (78,3.274714593335113) (79,3.277789158835142) (80,3.281350579797484) (81,3.285380824558576) (82,3.289862741048203) (83,3.294780003801947) (84,3.300117064758457) (85,3.30585910752986) (86,3.311992004862605) (87,3.318502279032042) (88,3.325377064937369) (89,3.332604075684566) (90,3.34017157046379) (91,3.348068324544756) (92,3.356283601228931) (93,3.36480712561127) (94,3.373629060016731) (95,3.382739980988171) (96,3.392130857712494) (97,3.401793031781271) (98,3.411718198190502) (99,3.421898387491903) (100,3.432325949015123) (101,3.442993535086661) (102,3.453894086177073) (103,3.465020816913403) (104,3.476367202898576) (105,3.487926968283983) (106,3.499694074045487) (107,3.511662706916869) (108,3.523827268938065) (109,3.536182367578739) (110,3.548722806400572) (111,3.561443576224281) (112,3.574339846769848) (113,3.587406958740618) (114,3.60064041632403) (115,3.614035880083615) (116,3.627589160218645) (117,3.641296210169444) (118,3.655153120547852) (119,3.669156113373715) (120,3.683301536599553) (121,3.697585858906728) (122,3.712005664757545) (123,3.726557649688706) (124,3.741238615832502) (125,3.756045467652995) (126,3.770975207885229) (127,3.786024933666297) (128,3.801191832847755) (129,3.816473180479567) (130,3.83186633545631) (131,3.847368737317004) (132,3.8629779031904) (133,3.878691424878065) (134,3.894506966068091) (135,3.910422259672626) (136,3.926435105282874) (137,3.942543366735552) (138,3.958744969785157) (139,3.975037899876701) (140,3.991420200013915) (141,4.007889968718154) (142,4.024445358073553) (143,4.041084571854202) (144,4.057805863729357) (145,4.074607535542916) (146,4.091487935663602) (147,4.10844545740249) (148,4.125478537494677) (149,4.142585654642106) (150,4.159765328114669) (151,4.177016116406898) (152,4.194336615947681) (153,4.211725459860575) (154,4.229181316772424) (155,4.246702889668088) (156,4.264288914789228) (157,4.281938160575171) (158,4.299649426643995) (159,4.317421542812068) (160,4.335253368150347) (161,4.353143790075857) (162,4.371091723476805) (163,4.389096109869911) (164,4.407155916588561) (165,4.425270136000485) (166,4.443437784753709) (167,4.461657903049599) (168,4.479929553941874) (169,4.498251822660494) (170,4.516623815959422) (171,4.535044661487266) (172,4.553513507179878) (173,4.572029520674014) (174,4.590591888741219) (175,4.609199816741119) (176,4.627852528093346) (177,4.646549263767376) (178,4.665289281789549) (179,4.684071856766625) (180,4.702896279425211) (181,4.721761856166469) (182,4.74066790863549) (183,4.759613773304795) (184,4.77859880107142) (185,4.797622356867056) (186,4.816683819280782) (187,4.835782580193886) (188,4.854918044426356) (189,4.874089629394581) (190,4.893296764779872) (191,4.912538892207384) (192,4.931815464935085) (193,4.951125947552383) (194,4.970469815688082) (195,4.989846555727318) (196,5.009255664537165) (197,5.028696649200594) (198,5.048169026758495) (199,5.067672323959481) (200,5.087206077017197) (201,5.106769831374862) (202,5.126363141476824) (203,5.145985570546851) (204,5.165636690372954) (205,5.185316081098502) (206,5.205023331019414) (207,5.224758036387253) (208,5.244519801217969) (209,5.264308237106158) (210,5.284122963044613) (211,5.303963605249017) (212,5.323829796987584) (213,5.343721178415512) (214,5.363637396414072) (215,5.383578104434186) (216,5.40354296234435) (217,5.423531636282768) (218,5.44354379851355) (219,5.463579127286849) (220,5.483637306702817)
+};
+\addlegendentry{$n=512,\ \lambda_{\mathrm{sim}}=120$}
+\addplot[color=curveone,only marks,mark=o,mark options={fill=white},mark size=2.6pt,forget plot] coordinates {(73,3.267344868539612)};
+\addplot[color=curvetwo,dashed,line width=1.2pt,no marks] coordinates {
+(40,4.079400495183517) (41,4.023900456201774) (42,3.972117026358249) (43,3.923790907378936) (44,3.878686373560198) (45,3.836588652594278) (46,3.797301648026272) (47,3.760645952461271) (48,3.726457109120614) (49,3.694584086268796) (50,3.664887934709157) (51,3.637240603221248) (52,3.611523890678506) (53,3.587628516794109) (54,3.565453296117301) (55,3.544904402139199) (56,3.525894710244418) (57,3.508343209825672) (58,3.492174477214109) (59,3.477318202209958) (60,3.463708761960098) (61,3.451284836749325) (62,3.439989062973091) (63,3.429767719160477) (64,3.420570441432495) (65,3.412349965225792) (66,3.405061890496009) (67,3.398664467947703) (68,3.393118404126346) (69,3.388386683458832) (70,3.384434405547663) (71,3.381228636214921) (72,3.378738270959242) (73,3.376933909635502) (74,3.375787741295614) (75,3.375273438242057) (76,3.375366058445604) (77,3.376041955566858) (78,3.377278695899216) (79,3.379054981619952) (80,3.381350579797484) (81,3.384146256657341) (82,3.387423716657959) (83,3.391165545970622) (84,3.395355159996552) (85,3.399976754588683) (86,3.405015260676559) (87,3.410456302020548) (88,3.41628615584646) (89,3.422491716134004) (90,3.429060459352678) (91,3.435980412456844) (92,3.443240122968061) (93,3.450828630987615) (94,3.458735442995455) (95,3.46695050730396) (96,3.475464191045827) (97,3.484267258585395) (98,3.493350851251726) (99,3.502706468299984) (100,3.512325949015123) (101,3.52220145587874) (102,3.532325458726093) (103,3.542690719826024) (104,3.553290279821653) (105,3.564117444474459) (106,3.575165772158695) (107,3.586429062057056) (108,3.597901343012138) (109,3.609576862991583) (110,3.621450079127845) (111,3.633515648296354) (112,3.64576841819842) (113,3.658203418917609) (114,3.670815854920521) (115,3.68360109747492) (116,3.696554677460024) (117,3.709672278545513) (118,3.722949730717343) (119,3.736383004130017) (120,3.749968203266219) (121,3.763701561386067) (122,3.777579435249349) (123,3.79159830009521) (124,3.80575474486476) (125,3.820045467652995) (126,3.834467271377293) (127,3.849017059650549) (128,3.863691832847755) (129,3.878488684355536) (130,3.893404796994771) (131,3.908437439607081) (132,3.923583963796461) (133,3.938841800817915) (134,3.954208458605404) (135,3.969681518931885) (136,3.985258634694638) (137,4.000937527319494) (138,4.01671598427791) (139,4.032591856711234) (140,4.048563057156772) (141,4.064627557370637) (142,4.080783386242567) (143,4.097028627798258) (144,4.113361419284912) (145,4.129779949336019) (146,4.146282456211548) (147,4.162867226109973) (148,4.179532591548731) (149,4.196276929809891) (150,4.213098661448003) (151,4.22999624885723) (152,4.246968194895049) (153,4.264013041559921) (154,4.281129368720475) (155,4.298315792893894) (156,4.315570966071279) (157,4.33289357458791) (158,4.3502823380364) (159,4.367736008220873) (160,4.385253368150347) (161,4.402833231069645) (162,4.420474439526187) (163,4.438175864471138) (164,4.455936404393439) (165,4.473754984485334) (166,4.491630555838046) (167,4.509562094666366) (168,4.527548601560921) (169,4.545589100767002) (170,4.563682639488833) (171,4.581828287218261) (172,4.600025135086855) (173,4.618272295240488) (174,4.636568900235472) (175,4.654914102455404) (176,4.673307073547892) (177,4.69174700388037) (178,4.710233102014269) (179,4.728764594196792) (180,4.747340723869655) (181,4.765960751194093) (182,4.784623952591534) (183,4.803329620299331) (184,4.822077061940985) (185,4.8408656001103) (186,4.859694571968954) (187,4.878563328856988) (188,4.897471235915718) (189,4.916417671722623) (190,4.935402027937767) (191,4.954423708961311) (192,4.973482131601751) (193,4.992576724754456) (194,5.011706929090145) (195,5.03087219675296) (196,5.050071991067778) (197,5.069305786256431) (198,5.088573067162535) (199,5.107873328984607) (200,5.127206077017197) (201,5.146570826399738) (202,5.165967101872863) (203,5.185394437541925) (204,5.204852376647464) (205,5.224340471342404) (206,5.243858282475725) (207,5.263405379382422) (208,5.282981339679507) (209,5.302585749067879) (210,5.322218201139852) (211,5.341878297192145) (212,5.361565646044188) (213,5.381279863861522) (214,5.401020573984166) (215,5.420787406759767) (216,5.440579999381386) (217,5.460397995729773) (218,5.480241046219972) (219,5.500108807652146) (220,5.520000943066453)
+};
+\addlegendentry{$n=512,\ \lambda_{\mathrm{sim}}=128$}
+\addplot[color=curvetwo,only marks,mark=square*,mark options={fill=white},mark size=2.6pt,forget plot] coordinates {(75,3.375273438242057)};
+\addplot[color=curvethree,dashdotted,line width=1.2pt,no marks] coordinates {
+(40,6.839624805407581) (41,6.694799675353113) (42,6.557407762488621) (43,6.426930470266016) (44,6.30289634727794) (45,6.184875848908804) (46,6.072476782248717) (47,5.965340332507784) (48,5.8631375861286) (49,5.765566479640078) (50,5.672349114648815) (51,5.583229388713839) (52,5.497970899581938) (53,5.416355086679393) (54,5.338179579104607) (55,5.26325672383974) (56,5.191412271653939) (57,5.122484201332551) (58,5.056321665537796) (59,4.992784043870047) (60,4.93174009062299) (61,4.873067166366129) (62,4.816650543890294) (63,4.762382780253562) (64,4.710163147697882) (65,4.659897117096468) (66,4.611495888360517) (67,4.56487596289907) (68,4.519958753802986) (69,4.476670229925975) (70,4.43494059047296) (71,4.394703967088027) (72,4.355898150768367) (73,4.318464341223653) (74,4.282346916557631) (75,4.247493221375179) (76,4.213853371617761) (77,4.181380074606506) (78,4.150028462928126) (79,4.119755940937092) (80,4.090522042770155) (81,4.0622883008783) (82,4.035018124178314) (83,4.008676685012685) (84,3.983230814183781) (85,3.958648903397387) (86,3.93490081451251) (87,3.911957795049809) (88,3.889792399460823) (89,3.868378415704889) (90,3.847690796720925) (91,3.827705596417572) (92,3.808399909837873) (93,3.789751817184313) (94,3.771740331416716) (95,3.754345349159759) (96,3.737547604678753) (97,3.7213286267023) (98,3.705670697888441) (99,3.690556816747423) (100,3.675970661849079) (101,3.661896558156518) (102,3.648319445340178) (103,3.635224847937665) (104,3.622598847235136) (105,3.610428054755468) (106,3.59869958724709) (107,3.587401043075311) (108,3.576520479925244) (109,3.566046393732089) (110,3.555967698760677) (111,3.546273708761788) (112,3.536954119137962) (113,3.527998990056251) (114,3.519398730449773) (115,3.511144082853976) (116,3.50322610902722) (117,3.495636176308779) (118,3.488365944670491) (119,3.481407354421276) (120,3.474752614526426) (121,3.468394191506095) (122,3.462324798879779) (123,3.456537387125688) (124,3.451025134125964) (125,3.445781436070516) (126,3.440799898794021) (127,3.436074329522188) (128,3.431598729004923) (129,3.427367284015392) (130,3.423374360195277) (131,3.419614495227737) (132,3.416082392320683) (133,3.412772913984044) (134,3.40968107608566) (135,3.406802042171365) (136,3.404131118035639) (137,3.401663746530062) (138,3.399395502597473) (139,3.397322088520481) (140,3.395439329373625) (141,3.393743168669042) (142,3.392229664186137) (143,3.390894983976216) (144,3.389735402533606) (145,3.388747297125203) (146,3.387927144270867) (147,3.387271516367466) (148,3.386777078449793) (149,3.386440585081906) (150,3.386258877372824) (151,3.386228880110794) (152,3.386347599010691) (153,3.386612118069353) (154,3.38701959702396) (155,3.387567268908796) (156,3.388252437705985) (157,3.389072476086005) (158,3.390024823234004) (159,3.391106982758146) (160,3.392316520676391) (161,3.393651063478301) (162,3.395108296258637) (163,3.396685960919648) (164,3.398381854439138) (165,3.400193827201511) (166,3.402119781389137) (167,3.404157669431513) (168,3.406305492509818) (169,3.408561299114548) (170,3.410923183654073) (171,3.413389285112005) (172,3.415957785751406) (173,3.418626909863939) (174,3.421394922562147) (175,3.424260128613145) (176,3.427220871312066) (177,3.430275531393702) (178,3.433422525980829) (179,3.436660307567778) (180,3.439987363037897) (181,3.443402212713576) (182,3.44690340943759) (183,3.450489537684569) (184,3.45415921270143) (185,3.4579110796757) (186,3.461743812930659) (187,3.465656115146304) (188,3.469646716605189) (189,3.473714374462193) (190,3.477857872037358) (191,3.482076018130931) (192,3.486367646359823) (193,3.490731614514686) (194,3.495166803936883) (195,3.499672118914617) (196,3.50424648609756) (197,3.508888853929297) (198,3.513598192096977) (199,3.518373490997556) (200,3.52321376122005) (201,3.528118033043248) (202,3.533085355948335) (203,3.538114798145935) (204,3.54320544611705) (205,3.548356404167443) (206,3.553566793994997) (207,3.55883575426962) (208,3.564162440225257) (209,3.569546023263625) (210,3.574985690569266) (211,3.580480644735546) (212,3.58603010340124) (213,3.591633298897349) (214,3.597289477903832) (215,3.602997901115902) (216,3.608757842919601) (217,3.614568591076344) (218,3.620429446416145) (219,3.626339722539245) (220,3.63229874552588)
+};
+\addlegendentry{$n=1024,\ \lambda_{\mathrm{sim}}=256$}
+\addplot[color=curvethree,only marks,mark=diamond*,mark options={fill=white},mark size=2.6pt,forget plot] coordinates {(151,3.386228880110794)};
+\node[anchor=north west,font=\small] at (rel axis cs:.02,.98) {$q_S=2^{64}$};
+\end{axis}
+\end{tikzpicture}
+\caption{The same analytic transfer expressions for the three simulator-probability inputs. Markers indicate the orders $73$, $75$ and $151$ used for the certified bounds. The curves draw numerical values of upper-bound expressions; the oracle and hardness costs enter the security theorem separately.}
+\label{fig:transfer}
+\end{figure}
 
 The other costs remain visible. At $q_S=2^{64}$ and $\kappa=320$, the
 classical programming expression is approximately $2^{-191.415}$ for
 $q_H=2^{64}$ and $2^{-128}$ for $q_H=2^{128}$. The conservative quantum
 expression is instead approximately $2^{-62.915}$ and $2^{-31.415}$.
-These are separate additive probability terms, before accounting for the
-quantum extraction loss and simulation work. A roughly $3.3$-bit moment
-loss cannot remove them. This is why the classical theorem is the principal
-concrete-security application.
+These additive probability terms enter alongside the quantum extraction
+loss and simulation work. Their size makes the classical theorem the
+principal concrete-security application at these query budgets.
 
 Finally, an optional real signer capped at $\ell$ norm attempts per query
 adds at most $q_S(bD_0)^\ell$ to either theorem. At $q_S\le2^{64}$,
 $\ell=32$ for degree 512 and $\ell=16$ for degree 1024 give a bound below
-$2^{-390}$. This is a different failure event from exhaustion of the
-simulator's public Gaussian pool. Neither estimate covers a revealed
-retry count or timing transcript: the modeled signing interface exposes
-only the final signature or its specified public error.
+$2^{-390}$. This bounds the real signer's attempt limit; \eqref{eq:finite-pool}
+bounds exhaustion of the simulator's separate public pool.
 
 
 \section{What the complete argument tells us}
@@ -1417,17 +1491,14 @@ Fresh salts and a finite public Gaussian pool complete the simulation, with an e
 
 There are several different quantities in this chain, and their units matter. The variance is a squared-average variation in acceptance probability over uniform targets. The chi-square distance is a squared density discrepancy of the accepted public image. Both are dimensionless. The transfer loss is a base-two logarithmic loss in a conditional forgery-probability bound, measured in bits. Signing and hash queries are counts of oracle interactions. The Gaussian-pool budget counts sampler calls, while the reduction's local operations contribute actual work. None of these quantities can replace the others in the final theorem.
 
-The rejection bound and the assumptions behind the bit-loss calculation must
-therefore remain attached to those results when interpreting them.
-
-The theorem applies to every key meeting its geometric hypotheses. The cryptographic assumptions, however, are evaluated on the actual specified trapdoor-generated key distribution. Uniform analytic control does not prove hardness for that distribution, and the numerical certificate does not estimate an attacker's work factor.
+The analytic theorem is uniform over keys meeting its geometric hypotheses. The cryptographic assumptions measure hardness on the specified trapdoor-generated key distribution, at the solver resources charged in the reduction.
 
 \subsection{The model boundary is part of the result}
 \label{sec:model-boundary}
 
 The covered signer draws one independent salt after each chosen message, keeps its target fixed during private norm retries, uses a sampler with the declared distributional profile, and returns only the final specified output. The concrete sampler application is exact arithmetic. The proof covers the mathematical signature and the stated canonical compressed wrapper with adequate buffers and public encoding errors.
 
-A finite-precision signer requires a profile for its actual sampling errors. Rejection on a total padded encoding budget introduces another conditioning event. Caller-selected or reused salts change the fresh-input analysis. Exposed retry counts or timing provide a different observation to the adversary. Several keys or an aggregate interface require corresponding key and oracle models. Each change identifies a definite additional proof obligation.
+A finite-precision signer requires a profile for its actual sampling errors. Rejection on a total padded encoding budget introduces another conditioning event. Caller-selected or reused salts change the fresh-input analysis. Exposed retry counts or timing provide a different observation to the adversary. Several keys or an aggregate interface require corresponding key and oracle models.
 
 \clearpage
 \appendix
@@ -1446,6 +1517,8 @@ $F_h$, $\Lambda_h$ & Public map $(u,v)\mapsto u+hv\bmod q$, and its kernel latti
 $Y$, $N=|Y|$ & Syndrome quotient and its cardinality $q^n$. \\
 $U$ & Uniform probability law on the finite quotient. \\
 $\sigma$, $\alpha$ & Gaussian width and exponent parameter $\alpha=1/(2\sigma^2)$. \\
+$B_0$ & Upper bound $(117/100)\sqrt q$ on Gram--Schmidt lengths. \\
+$\eps_{\mathrm{des}}$, $\xi$ & Sampler-width design parameter and the separate tuning parameter in the Gaussian-mass inequalities. \\
 $\rho_c(S)$ & Unnormalized Gaussian mass $\sum_{x\in S}e^{-c\norm{x}^2}$, for $c>0$. \\
 $G$, $G_y$ & Ambient integer Gaussian and that Gaussian conditioned on syndrome $y$. \\
 $P_y$ & Actual exact-arithmetic preimage-sampler law under the declared contract. \\
@@ -1458,7 +1531,8 @@ $Q_0$, $R$ & Centered image and tail density norms $\norm{p-1}_{L^2(U)}$ and $\n
 $D_0$ & Uniform upper bound on rejection probability in any coset. \\
 $\nu$, $w(y)$ & Accepted ambient syndrome law and its density $w=\mathrm d\nu/\mathrm dU$. \\
 $\rho>1$, $M_\rho$ & Order and unrooted likelihood-ratio moment used in the security comparison. \\
-$L$, $J$ & Joint target/preimage laws for fixed uniform-target signing and public accepted-Gaussian simulation. \\
+$L$, $M$ & Joint target/preimage laws for fixed uniform-target signing and public accepted-Gaussian simulation. \\
+$I_t$, $S_C$ & Success probabilities in the stated uniform-target and unconditioned Gaussian distinct-preimage games, with the indicated challenge budgets. \\
 $q_S$, $q_H$, $\kappa$ & Signing queries, hash queries, and salt length in bits. \\
 $C$, $\eps_{\mathrm{pool}}$ & Finite Gaussian-pool size and upper bound on its failure probability. \\
 $Q=q_H+q_S+1$ & Background-oracle query budget in the stated quantum reduction. \\

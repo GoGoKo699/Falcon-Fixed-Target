@@ -15,6 +15,8 @@ The [milestone map](MILESTONES.md) contains exactly **M01–M30**. Each mileston
 
 The first phase ends by assembling the three accepted laws that the proof must keep distinct. The second ends by joining the analytic result, its numerical certificate, the cryptographic assumptions, and the resource costs. This allocation follows the structure of the project and is common to every reader.
 
+The shared notation uses $`G`$ for the ambient integer Gaussian, $`Y`$ for the syndrome quotient, and $`w(y)=\nu(y)/U(y)`$ for the accepted-image density. The joint laws $`L`$ and $`M`$ describe uniform-target signing in the proof experiment and public accepted-Gaussian simulation. The bridge introduces these objects through a worked example before the security comparison uses them.
+
 ## Choose a reading route
 
 | Purpose | Route |

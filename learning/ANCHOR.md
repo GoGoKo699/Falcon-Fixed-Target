@@ -94,10 +94,13 @@ The ambient dimension and the ring degree are different quantities. The
 survey uses dimension symbols locally; substituting Falcon's degree for every
 occurrence of an ambient dimension would lose the factor of two.
 
-The science pages also have a local symbol difference: the norm-tail proof
-uses $`G`$ for the finite quotient, whereas the signing and security pages
-use $`G`$ for the ambient Gaussian and $`Y`$ for the quotient. This bridge
-follows the latter convention.
+The project uses $`G`$ for the ambient integer Gaussian and $`Y`$ for the
+syndrome quotient, with $`N=|Y|=q^n`$. The Gaussian exponent is
+$`\alpha=1/(2\sigma^2)`$; the order $`\rho>1`$ belongs to the later
+probability comparison. The unnormalized Gaussian mass $`\rho_c(S)`$
+is a function of a set and a positive exponent $`c`$, distinct from that
+order. The [scientific overview](../science/README.md) collects the shared
+notation.
 
 ### The norm and the dual frequencies
 
@@ -279,13 +282,28 @@ Peikert's forward-versus-reverse perspective identifies the comparison to
 make. The new work quantifies it after the sharper acceptance test.
 [Project: [the three accepted laws](../science/signing_model.md#5-three-accepted-laws-that-must-remain-distinct).]
 
+For the actual sampler $`P_y`$, the proof compares the joint laws
+
+```math
+L(y,z)=U(y)P_y(z\mid A),
+\qquad
+M(y,z)=\nu(y)G_y(z\mid A).
+```
+
+Here $`L`$ describes the proof experiment after each signing request has
+received a fresh uniform target; the fresh-salt programming comparison
+accounts for passing from the actual hash interaction to that experiment.
+The public law $`M`$ is sampled by drawing $`z\leftarrow G\mid A`$ and
+computing $`y=F_h(z)`$. This separates the target-law mismatch from the
+actual sampler's conditional error.
+
 ## 5. What the anchor supplies and what the project must add
 
 **From short bases to the actual Falcon sampler.** Theorem 5.4.2 explains
-why Gram–Schmidt lengths govern Gaussian sampling. The project must still
-show that Falcon's polynomial key-quality check implies the needed ordinary
-basis bound, and that the FFO leaves meet the sampler theorem's hypotheses.
-Those bridges are proved in [keys and parameters](../science/falcon_parameters.md).
+why Gram–Schmidt lengths govern Gaussian sampling. The project's
+[parameter argument](../science/falcon_parameters.md) verifies that Falcon's
+polynomial key-quality check supplies the ordinary basis bound and that
+the FFO leaves meet the sampler theorem's hypotheses.
 The exact-arithmetic FFO probability-ratio profile is imported from the
 research literature, not inferred from the survey's asymptotic statistical
 distance statement. Finite-precision sampler errors remain separate.
@@ -304,14 +322,15 @@ smoothing discussion.
 
 **From a forward image bound to the comparison a reduction needs.** The
 public simulator chooses $`\nu`$, while the ideal fixed-target signer
-chooses $`U`$. If $`v(y)=|Y|\nu(y)`$, the relevant reverse power moment is
+chooses $`U`$. Its accepted-image density is $`w(y)=\nu(y)/U(y)=N\nu(y)`$,
+and the relevant reverse power moment is
 
 ```math
-M_\rho(U\|\nu)=\mathbb E_{y\leftarrow U}[v(y)^{1-\rho}],
+M_\rho(U\|\nu)=\mathbb E_{y\leftarrow U}[w(y)^{1-\rho}],
 \qquad \rho>1.
 ```
 
-The exponent is negative, so targets with very small $`v(y)`$ would be
+The exponent is negative, so targets with very small $`w(y)`$ would be
 costly. The project combines its forward chi-square bound with a positive
 pointwise density floor to control this reverse moment. A separate
 conditioning lemma preserves the small excess above one in the actual
@@ -328,8 +347,8 @@ of a classical list of target/preimage pairs. The
 [ROM theorem](../science/security_transfer.md#8-classical-rom-theorem) and
 [QROM corollary](../science/security_transfer.md#9-qrom-corollary-and-explicit-oracle-semantics)
 account for their distinct programming, extraction, and runtime costs.
-Signing queries are classical in both models; quantum hash access is not
-permission to make quantum signing queries.
+Signing queries are classical in both models; the QROM allows superposition
+queries to the hash oracle.
 
 This differs from the informal proof on pp. 53–54, which prepares a pair
 for each distinct message queried to its hash oracle. The project pays for

@@ -8,12 +8,10 @@ syndromes, uniformly over the stated short-basis lattice class. Together with
 an accepted-image density bound, this supplies the reverse Rényi moments
 used in [the security transfer](../science/security_transfer.md).
 
-The problem, the signature framework, and the main analytic tools have
-substantial prior history. The contribution claimed here is the quantitative
-coset estimate at the original Falcon parameters and its consequence for the
-named fixed-target model. It is not the invention of Gaussian smoothing,
-the circle method, accepted-distribution analysis, or Rényi-based security
-reductions. [The analytic theorem](../science/norm_tail_smoothing.md) and
+The quantitative coset estimate at the original Falcon parameters and its
+fixed-target security consequence build on the established Gaussian
+signature framework, circle-method tools, accepted-distribution analysis,
+and Rényi-based reductions. [The analytic theorem](../science/norm_tail_smoothing.md) and
 [the parameter note](../science/falcon_parameters.md) state its exact scope.
 
 ## 1. The closest signature results
@@ -46,10 +44,12 @@ page 70 displays both retry rules. Their Lemma 6 supplies adaptive
 reprogramming with distribution switching. We use that established technique
 when discussing quantum hash access, with classical signing queries.
 
-An accepted-image estimate does not remove quantum reprogramming or
-extraction costs. In particular, the Rényi loss reported for a transcript
-transfer is not by itself an overall concrete QROM security level. The
-separate terms are retained in the security theorem.
+The QROM argument also uses the adaptive reprogramming tools of
+[Grilo, Hövelmanns, Hülsing, and Majenz](https://doi.org/10.1007/978-3-030-92062-3_22)
+and the single-input measure-and-reprogram theorem of
+[Don, Fehr, and Majenz](https://doi.org/10.1007/978-3-030-56877-1_21).
+The security theorem retains their reprogramming and extraction costs,
+together with the work of the full oracle simulator.
 
 ### Basis-specific improvements
 
@@ -154,8 +154,8 @@ misidentify the contribution.
 
 A small overall rejection probability is insufficient for the signing
 argument. Let $`a_y`$ be the probability of passing the norm test under the
-ideal Gaussian in syndrome $`y`$. Fixed-target signing keeps the target
-uniform and returns an accepted conditional preimage. Sampling an ambient
+ideal Gaussian in syndrome $`y`$. After the fresh-salt oracle comparison, fixed-target signing keeps its
+initially uniform target and returns an accepted conditional preimage. Sampling an ambient
 Gaussian until acceptance instead reweights targets by their Gaussian mass
 and their $`a_y`$. The proof must control this reweighting.
 
@@ -166,8 +166,8 @@ $`\mathrm{Var}_{U}(a_y)<2^{-90}`$ and $`2^{-120}`$, respectively.
 It also bounds the accepted ambient image's chi-square distance from uniform
 by $`2^{-81}`$ and $`2^{-83}`$. A positive pointwise density floor then
 converts that estimate into the required reverse Rényi moments. The security
-argument also accounts for conditioning the approximate sampler; it does
-not discard sampler error when introducing the norm test.
+argument also carries the approximate sampler’s moment excess through
+norm conditioning.
 
 The resulting scope is narrower than that of
 [Aerie](https://eprint.iacr.org/2026/2501), Appendix C: Aerie's

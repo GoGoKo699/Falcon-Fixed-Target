@@ -2,11 +2,11 @@
 
 This page proves how the norm-conditioned smoothing bound gives an unforgeability reduction for the [signing model](signing_model.md). The principal corollary is in the classical random-oracle model. A QROM corollary uses established adaptive reprogramming and measure-and-reprogram techniques, with their query and runtime costs stated explicitly.
 
-The reduction uses the accepted **ambient** Gaussian distribution. It does not identify that distribution with the result of repeatedly choosing uniform syndromes and accepting their coset samples. The distinction is essential for the direction of Rényi divergence required in the proof.
+The reduction samples the accepted **ambient** Gaussian distribution. Its target law contains both the unconditioned Gaussian-image weights and the norm-acceptance probabilities. The [signing model](signing_model.md#5-three-accepted-laws-that-must-remain-distinct) distinguishes it from uniform-target retry experiments.
 
 ## 1. Analytic and sampler hypotheses
 
-Fix a key generated as in [the model](signing_model.md). The dimension is $`d=2n`$, the accepted squared norm is $`T`$, and the first rejected squared norm is $`K=T+1`$. Let
+Fix a key generated as in [the model](signing_model.md). The dimension is $`d=2n`$, the quotient has size $`N=|Y|=q^n`$, the accepted squared norm is $`T`$, and the first rejected squared norm is $`K=T+1`$. Let
 
 ```math
 G=D_{\mathbb Z^d,\sigma},\qquad
@@ -17,11 +17,11 @@ U=U(Y).
 For the syndrome map $`F_h`$, use the densities
 
 ```math
-p(y)=|Y|\Pr_G[F_h(Z)=y],
+p(y)=N\Pr_G[F_h(Z)=y],
 \qquad
-r(y)=|Y|\Pr_G[F_h(Z)=y,\neg A],
+r(y)=N\Pr_G[F_h(Z)=y,A^c],
 \qquad
-\delta=\mathbb E_U r=\Pr_G[\neg A].
+\delta=\mathbb E_U r=\Pr_G[A^c].
 ```
 
 The actual $`L^2(U)`$ norms are $`Q_0=\|p-1\|_2`$ and $`R=\|r-\delta\|_2`$. The [norm theorem](norm_tail_smoothing.md) supplies certified upper bounds $`\overline Q_0,\overline R`$, together with
@@ -30,7 +30,7 @@ The actual $`L^2(U)`$ norms are $`Q_0=\|p-1\|_2`$ and $`R=\|r-\delta\|_2`$. The 
 Q_0\le\overline Q_0,\qquad
 R\le\overline R,\qquad
 p(y)\ge1-\eta>0,\qquad
-\Pr_{G_y}[\neg A]\le D_0<1.
+\Pr_{G_y}[A^c]\le D_0<1.
 ```
 
 The sampler $`P_y`$ is the ideal FFO law, or another explicitly specified sampler satisfying the same declared profile. For a Rényi order $`\rho>1`$, assume
@@ -42,7 +42,7 @@ The sampler $`P_y`$ is the ideal FFO law, or another explicitly specified sample
 \qquad bD_0<1.
 ```
 
-All bounds are uniform over the support of key generation. The exact FFO choices for $`b`$ and $`e_p`$ are given in §4.
+All bounds are uniform over the support of key generation, with $`0\le\eta<1`$. Normalization implies $`b\ge1`$. The exact FFO choices for $`b`$ and $`e_p`$ are given in §4.
 
 We use the following three distinct Rényi quantities:
 
@@ -51,7 +51,7 @@ M_\rho(P\|Q)=\sum_x P(x)^\rho Q(x)^{1-\rho},
 \qquad
 \mathcal R_\rho(P\|Q)=M_\rho(P\|Q)^{1/(\rho-1)},
 \qquad
-D_\rho(P\|Q)=\log\mathcal R_\rho(P\|Q).
+D_\rho(P\|Q)=\ln\mathcal R_\rho(P\|Q).
 ```
 
 Here $`M_\rho`$ is the unrooted power moment. The multiplicative divergence denoted $`R_\rho`$ in the cited Falcon papers is $`\mathcal R_\rho`$ here; the plain symbol $`R`$ remains the norm-tail $`L^2`$ quantity. The order $`\rho`$ is unrelated to the Gaussian contour exponent used in the analytic proof.
@@ -88,7 +88,7 @@ The cases with a zero complementary probability follow by omitting its zero cont
 
 The lemma bounds the **excess** $`M_\rho-1`$. Multiplying the entire moment by an inverse acceptance probability would introduce a false cost even when $`P=Q`$.
 
-For the signing predicate, put $`d_y=G_y(\neg A)`$. The pointwise sampler profile implies
+For the signing predicate, put $`d_y=G_y(A^c)`$. The pointwise sampler profile implies
 
 ```math
 G_y(A)=1-d_y,
@@ -107,37 +107,37 @@ C_\rho=
 \frac{(1-D_0)^{\rho-1}}{(1-bD_0)^\rho}.
 ```
 
-When $`b`$ is close to one, this factor is close to $`1/(1-D_0)`$. In particular, it does not accumulate a standalone loss proportional to the rejection probability at every signing query.
+When $`b`$ is close to one, this factor is close to $`1/(1-D_0)`$. It amplifies the existing moment excess and leaves a zero excess when the two input laws agree.
 
 This lemma concerns the accepted output law. It does not simulate the geometric retry count, which is absent from the signing-oracle output in the model.
 
 ## 3. The accepted ambient image and the required reverse moment
 
-Let $`\nu`$ be the syndrome distribution of $`G\mid A`$, and write its density relative to $`U`$ as $`v(y)=|Y|\nu(y)`$. Then
+Let $`\nu`$ be the syndrome distribution of $`G\mid A`$, and write its density relative to $`U`$ as $`w(y)=N\nu(y)`$. Then
 
 ```math
-v(y)=\frac{p(y)-r(y)}{1-\delta}.
+w(y)=\frac{p(y)-r(y)}{1-\delta}.
 ```
 
 The analytic hypotheses imply
 
 ```math
 \chi^2(\nu\|U)
-=\mathbb E_U[(v-1)^2]
+=\mathbb E_U[(w-1)^2]
 \le\frac{(\overline Q_0+\overline R)^2}{(1-D_0)^2}
 =:X_0.
 ```
 
-Indeed, the numerator of $`v-1`$ is $`(p-1)-(r-\delta)`$, and $`\delta\le D_0`$. Also,
+Indeed, the numerator of $`w-1`$ is $`(p-1)-(r-\delta)`$, and $`\delta\le D_0`$. Also,
 
 ```math
-v(y)=\frac{p(y)G_y(A)}{1-\delta}
+w(y)=\frac{p(y)G_y(A)}{1-\delta}
 \ge (1-\eta)(1-D_0)=:m_0>0.
 ```
 
-The moment needed for changing a uniform hash target to an accepted ambient target is $`M_\rho(U\|\nu)`$, in the reverse direction from the displayed chi-square divergence. A lower bound on $`v`$ is therefore part of the argument.
+The moment needed for changing a uniform hash target to an accepted ambient target is $`M_\rho(U\|\nu)`$, in the reverse direction from the displayed chi-square divergence. A lower bound on $`w`$ is therefore part of the argument.
 
-**Lemma 2 — reverse moment from a density lower bound.** If $`\mathbb E_Uv=1`$, $`v\ge m_0>0`$ with $`m_0\le1`$, and $`\mathbb E_U(v-1)^2\le X_0`$, then
+**Lemma 2 — reverse moment from a density lower bound.** If $`\mathbb E_U w=1`$, $`w\ge m_0>0`$ with $`m_0\le1`$, and $`\mathbb E_U(w-1)^2\le X_0`$, then
 
 ```math
 M_\rho(U\|\nu)-1
@@ -147,7 +147,7 @@ M_\rho(U\|\nu)-1
 ```
 
 **Proof.** For $`f(x)=x^{1-\rho}`$, the second derivative is
-$`f''(x)=\rho(\rho-1)x^{-\rho-1}`$. Every point between $`1`$ and $`v(y)`$ is at least $`m_0`$. Taylor's theorem at one gives a remainder bounded by $`\rho(\rho-1)m_0^{-\rho-1}(v-1)^2/2`$. On averaging, the linear term vanishes. Finally $`M_\rho(U\|\nu)=\mathbb E_Uv^{1-\rho}`$.
+$`f''(x)=\rho(\rho-1)x^{-\rho-1}`$. Every point between $`1`$ and $`w(y)`$ is at least $`m_0`$. Taylor's theorem at one gives a remainder bounded by $`\rho(\rho-1)m_0^{-\rho-1}(w-1)^2/2`$. On averaging, the linear term vanishes. Finally $`M_\rho(U\|\nu)=\mathbb E_U w^{1-\rho}`$.
 
 The certified parameter bounds permit the convenient outward rounding
 
@@ -161,18 +161,18 @@ These bounds use both the untruncated Gaussian image and the rejected-tail profi
 
 ## 4. An exact moment profile for the ideal FFO sampler
 
-Fouque et al., Lemma 7 and its Appendix F.3 proof, supply
+With $`\varepsilon_{\mathrm{des}}=2^{-35.5}`$ at degree 512 and $`2^{-36}`$ at degree 1024, Fouque et al., Lemma 7 and its Appendix F.3 proof, supply
 
 ```math
 a\le\frac{P_y(z)}{G_y(z)}\le b,
 \qquad
-b=\left(\frac{1+\epsilon/d}{1-\epsilon/d}\right)^d,
+b=\left(\frac{1+\varepsilon_{\mathrm{des}}/d}{1-\varepsilon_{\mathrm{des}}/d}\right)^d,
 \qquad a=b^{-1}.
 ```
 
-The reciprocal lower bound comes from the normalization-product argument in the proof of Lemma 20, printed p. 41. The FFO product formula in Lemma 22 transports that argument to FFO in Appendix F.3, pp. 43–45. Specifically, each leaf normalizer lies between $`(1-\epsilon/d)/(1+\epsilon/d)`$ and one times its zero-centered value; bounding their product and using that both probability laws sum to one gives both sides of the displayed sandwich. Lemma 7's relative-error statement alone would only give the lower bound $`2-b`$.
+The reciprocal lower bound comes from the normalization-product argument in the proof of Lemma 20, printed p. 41. The FFO product formula in Lemma 22 transports that argument to FFO in Appendix F.3, pp. 43–45. The published product formula has likelihood ratio $`c_y\prod_i\xi_i(z)^{-1}`$, where each normalized leaf factor satisfies $`\xi_i(z)\in[(1-\varepsilon_{\mathrm{des}}/d)/(1+\varepsilon_{\mathrm{des}}/d),1]`$. The product lies in $`[1,b]`$; its expectation under $`G_y`$ normalizes the ratio, so $`c_y\in[b^{-1},1]`$. This gives both sides of the sandwich. Lemma 7's relative-error statement alone would only give the lower bound $`2-b`$.
 
-The parameter and leaf-width hypotheses are checked in [the parameter page](falcon_parameters.md). This imports the FFO-specific product formula rather than substituting an ordinary Klein output law. [Fouque et al., Lemma 7; the proof of Lemma 20, p. 41; and Appendix F.3, pp. 43–45](https://eprint.iacr.org/2024/1769).
+The parameter and leaf-width hypotheses are checked in [the parameter page](falcon_parameters.md). The profile uses the FFO-specific product formula and its coefficient expansion. [Fouque et al., Lemma 7; the proof of Lemma 20, p. 41; and Appendix F.3, pp. 43–45](https://eprint.iacr.org/2024/1769).
 
 Under $`G_y`$, the likelihood ratio $`W=P_y/G_y`$ has mean one. Since $`(W-a)(b-W)\ge0`$,
 
@@ -189,7 +189,7 @@ e_p(\rho)=
 (b-1)(1-a).
 ```
 
-For $`\rho\ge2`$, the maximum is $`b^{\rho-2}`$. The certificate uses this nonasymptotic expression, rather than replacing an asymptotic $`\lesssim`$ estimate by an exact inequality. The theorem can use a different proven sampler profile by replacing $`e_p`$ and the acceptance lower bound; an implementation profile must include its own finite-precision effects.
+For $`\rho\ge2`$, the maximum is $`b^{\rho-2}`$. The certificate evaluates this finite-order expression. The abstract theorem can use another proven sampler profile by replacing $`e_p`$ and the acceptance lower bound, including its finite-precision effects when applying it to an implementation.
 
 ## 5. Adaptive signing is a common channel on independent pairs
 
@@ -202,7 +202,7 @@ L(y,z)=U(y)P_y(z\mid A).
 The public simulator uses
 
 ```math
-J(y,z)=\nu(y)G_y(z\mid A)
+M(y,z)=\nu(y)G_y(z\mid A)
       =G(z\mid A)\mathbf 1[F_h(z)=y].
 ```
 
@@ -210,7 +210,7 @@ Conditioning on $`y`$ and applying the previous lemmas gives
 
 ```math
 \begin{aligned}
-M_\rho(L\|J)
+M_\rho(L\|M)
 &=\sum_y U(y)^\rho\nu(y)^{1-\rho}
        M_\rho(P_y\mid A\;\|\;G_y\mid A)\\
 &\le(1+C_\rho e_p(\rho))(1+e_u(\rho))
@@ -222,7 +222,7 @@ This compares the target and preimage jointly, so it introduces one event-probab
 
 ### Why adaptive messages do not invalidate the product bound
 
-Fix a generated key pair. The distributions $`L`$ and $`J`$ depend on that key but not on the message: in the resampled game the target is newly drawn, and the preimage sampler depends on the target and trapdoor. Thus one may sample a list of $`q_S`$ independent pairs before the interaction starts.
+Fix a generated key pair $`(\mathsf{sk},h)`$. The distributions $`L`$ and $`M`$ depend on that key but not on the message: in the resampled game the target is newly drawn, and the preimage sampler depends on the target and trapdoor. Thus one may sample a list of $`q_S`$ independent pairs before the interaction starts.
 
 A single common procedure consumes the next pair when a signing query arrives. It samples the fresh salt, associates the pair's target with the current message, programs the oracle, and returns the specified representation of the pair's preimage. The procedure also runs the adversary, answers hash queries, and checks freshness and verification at the end. It treats the two input lists identically. Adaptive message selection and repeated messages are internal to this procedure.
 
@@ -233,10 +233,10 @@ For a quantum adversary, condition on a classical pair list and average over the
 ```math
 \Pr_L[E]
 \le
-M_*^{q_S/\rho}\Pr_J[E]^{(\rho-1)/\rho}.
+M_*^{q_S/\rho}\Pr_M[E]^{(\rho-1)/\rho}.
 ```
 
-Equivalently, this is classical Rényi data processing through a channel with a quantum output. It does not assert a multiplicative distribution switch for every cell of a quantum oracle. Only the classical list used for the signing programs changes.
+This is classical Rényi data processing through a common interaction procedure with quantum output. Only the classical pair list changes; the procedure handles the adaptive messages and oracle interaction.
 
 The adversary's initial quantum advice is independent of the random oracle. Any oracle-dependent preparation must be included in its query count. Signing queries are classical throughout.
 
@@ -267,9 +267,9 @@ Here $`C\ge q_S`$. Let $`\pi_C`$ be the probability that preprocessing obtains e
 =:\varepsilon_{\mathrm{pool}}.
 ```
 
-**Lemma 3 — exact pool conditioning.** Conditional on successful preprocessing, the retained list has distribution $`(G\mid A)^{q_S}`$ and is independent of the event that preprocessing succeeded.
+**Lemma 3 — exact pool conditioning.** Conditional on successful preprocessing, the retained list has law $`(G\mid A)^{q_S}`$. Its conditional law is identical for every successful acceptance pattern.
 
-**Proof.** Conditional on the entire Boolean acceptance pattern of the $`C`$ independent draws, the accepted values are independent with law $`G\mid A`$; the rejected values have law $`G\mid\neg A`$. The retained list always consists of the first $`q_S`$ accepted values. Its law is therefore the same for every successful pattern. The ambient Gaussian and norm predicate do not depend on the key or oracle, so this independence also holds jointly with the key, background oracle, and adversary's initialization.
+**Proof.** Conditional on the entire Boolean acceptance pattern of the $`C`$ independent draws, the accepted values are independent with law $`G\mid A`$; the rejected values have law $`G\mid A^c`$. The retained list always consists of the first $`q_S`$ accepted values. Its law is therefore the same for every successful pattern. The ambient Gaussian and norm predicate do not depend on the key or oracle, so the retained-list statement also holds jointly with the key, background oracle, and adversary's initialization.
 
 If $`\varepsilon_\infty`$ is the public simulator's forging probability with an unlimited accepted list and $`\varepsilon_C`$ its probability with the finite pool, then
 
@@ -280,7 +280,7 @@ If $`\varepsilon_\infty`$ is the public simulator's forging probability with an 
 \le\frac{\varepsilon_C}{1-\varepsilon_{\mathrm{pool}}}.
 ```
 
-The weaker additive coupling bound $`\varepsilon_\infty\le\varepsilon_C+\varepsilon_{\mathrm{pool}}`$ is also valid. The displayed theorems below use the multiplicative form.
+The displayed theorems use this exact multiplicative pool factor.
 
 The pool consumes at most $`Cd`$ one-dimensional public Gaussian draws and $`q_S`$ syndrome computations. Only the accepted list is programmed, so the number of oracle programs is $`q_S`$, not $`C`$. The Gaussian sampling primitive retains its declared expected running time; bounding the number of calls alone is not a finite-precision implementation proof.
 
@@ -296,7 +296,7 @@ give $`\varepsilon_{\mathrm{pool}}<2^{-1000}`$. The certificate uses the binomia
 
 ## 7. Hardness games and extraction
 
-The assumptions use the same public-key distribution as the signature scheme. They do not replace a trapdoor-generated NTRU key by a uniformly sampled ring element.
+Both hardness games use the signer's actual $`\mathsf{Gen}`$ distribution for the public key.
 
 ### Uniform-target NTRU-ISIS
 
@@ -307,7 +307,7 @@ The game $`t\text{-}\mathsf{NTRU\mbox{-}ISIS}_{n,q,T}`$ is:
 3. Give $`(h,c_1,\ldots,c_t)`$ to the solver.
 4. The solver returns $`(j,u,v)`$ and wins if $`j\in\{1,\ldots,t\}`$, $`u+hv=c_j\bmod q`$, and $`\|(u,v)\|^2\le T`$.
 
-Write its solver advantage as $`\mathrm{Adv}^{t\text{-}\mathrm{ISIS}}(B)`$. A quantum solver receives the same classical challenge. This is the one-key inhomogeneous NTRU problem used in the cited Falcon analyses. Its relationship to ordinary NTRU-SIS hardness must be supplied separately when making a numerical hardness estimate. [Fouque et al., Definition 10 and Figure 5](https://eprint.iacr.org/2024/1769); [Beckmann–Majenz, Definition 20 and Figure 6](https://arxiv.org/pdf/2602.16268v3).
+Write its solver advantage as $`I_t(B)=\mathrm{Adv}^{t\text{-}\mathrm{ISIS}}(B)`$. A quantum solver receives the same classical challenge. This is the one-key inhomogeneous NTRU problem used in the cited Falcon analyses. Its relationship to ordinary NTRU-SIS hardness must be supplied separately when making a numerical hardness estimate. [Fouque et al., Definition 10 and Figure 5](https://eprint.iacr.org/2024/1769); [Beckmann–Majenz, Definition 20 and Figure 6](https://arxiv.org/pdf/2602.16268v3).
 
 ### Unconditioned Gaussian NTRU-SPISIS*
 
@@ -316,11 +316,11 @@ The game $`C\text{-}\mathsf{NTRU\mbox{-}SPISIS}^{*}_{n,q,\sigma,T}`$ is:
 1. Draw $`(\mathsf{sk},h)\leftarrow\mathsf{Gen}`$ and discard the secret key.
 2. Independently sample $`z_i=(u_i,v_i)\leftarrow G`$ for $`i=1,\ldots,C`$ and set $`c_i=F_h(z_i)`$.
 3. Give $`h`$ and every triple $`(c_i,u_i,v_i)`$ to the solver.
-4. The solver returns $`(j,u,v)`$ and wins if $`F_h(u,v)=c_j`$, $`\|(u,v)\|^2\le T`$, and $`(u,v)\ne(u_j,v_j)`$.
+4. The solver returns $`(j,u,v)`$ and wins if $`j\in\{1,\ldots,C\}`$, $`F_h(u,v)=c_j`$, $`\|(u,v)\|^2\le T`$, and $`(u,v)\ne(u_j,v_j)`$.
 
-The supplied vectors are **not** conditioned on their norms. This is the starred game of Beckmann–Majenz, Figure 6, printed p. 49. It differs from the earlier conditioned-target SPISIS formulation, and the distinction is part of the assumption. [Definition 21 and Remark 2](https://arxiv.org/pdf/2602.16268v3).
+Write its solver advantage as $`S_C(B)=\mathrm{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B)`$. The supplied vectors are **not** conditioned on their norms. This is the starred game of Beckmann–Majenz, Figure 6, printed p. 49. It differs from the earlier conditioned-target SPISIS formulation, and the distinction is part of the assumption. [Definition 21 and Remark 2](https://arxiv.org/pdf/2602.16268v3).
 
-The reduction performs the public pool preprocessing on these challenge vectors. It programs only the retained ones. No new assumption about norm-truncated Gaussian challenge generation is required.
+The reduction filters these unconditioned challenge vectors using the public pool construction and programs only the retained ones.
 
 ### Why the SUF extraction is valid
 
@@ -343,15 +343,15 @@ Let $`\varepsilon_{\mathrm{repr}}^{\mathrm{ROM}}`$ be
 
 At signing query $`j`$, the new salt is independent of the prior transcript. For the chosen message, at most $`q_H+j-1`$ inputs are already present in the oracle table. Until one of those inputs is selected, replacing its target by a newly sampled uniform value is exact. Summing these collision probabilities gives the displayed bound. Later hash queries may depend arbitrarily on the released salt.
 
-**Theorem 1 — ROM security.** Under the hypotheses in §1, for every classical adversary $`A`$ making at most $`q_S`$ signing and $`q_H`$ hash queries, there are solvers $`B_{\mathrm{I}}`$ and, for SUF-CMA, $`B_{\mathrm{S}}`$ such that
+**Theorem 1 — ROM security.** Assume the model and the §1 contracts uniformly over the support of $`\mathsf{Gen}`$. Fix $`\rho>1`$ and an integer $`C\ge q_S`$ with $`\varepsilon_{\mathrm{pool}}<1`$. For every classical adversary $`\mathcal A`$ making at most $`q_S`$ signing and $`q_H`$ hash queries, there are classical solvers $`B_{\mathrm I}`$ and, for SUF-CMA, $`B_{\mathrm S}`$ such that
 
 ```math
-\mathrm{Adv}^{\mathrm{EUF}}(A)
+\mathrm{Adv}^{\mathrm{EUF}}(\mathcal A)
 \le
 \varepsilon_{\mathrm{repr}}^{\mathrm{ROM}}
 +M_*^{q_S/\rho}
 \left(
-\frac{\mathrm{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I})}
+\frac{I_{q_H+1}(B_{\mathrm I})}
      {1-\varepsilon_{\mathrm{pool}}}
 \right)^{(\rho-1)/\rho},
 ```
@@ -359,19 +359,19 @@ At signing query $`j`$, the new salt is independent of the prior transcript. For
 and
 
 ```math
-\mathrm{Adv}^{\mathrm{SUF}}(A)
+\mathrm{Adv}^{\mathrm{SUF}}(\mathcal A)
 \le
 \varepsilon_{\mathrm{repr}}^{\mathrm{ROM}}
 +M_*^{q_S/\rho}
 \left(
 \frac{
-\mathrm{Adv}^{(q_H+1)\text{-}\mathrm{ISIS}}(B_{\mathrm I})
-+\mathrm{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S})}
+I_{q_H+1}(B_{\mathrm I})
++S_C(B_{\mathrm S})}
 {1-\varepsilon_{\mathrm{pool}}}
 \right)^{(\rho-1)/\rho}.
 ```
 
-An optional finite-attempt real signer adds at most the real cap error from the model. Bounds may always be capped at one.
+The theorem covers mathematical signatures and the specified canonical compressed wrapper. A real signer capped at $`\ell`$ trials adds at most $`\varepsilon_{\mathrm{cap}}\le q_S(bD_0)^\ell`$, as in [the model](signing_model.md#7-unforgeability-and-termination). Each bound may be capped at one.
 
 **Proof.** First resample the signing targets, paying $`\varepsilon_{\mathrm{repr}}^{\mathrm{ROM}}`$. Apply the joint-list comparison in §5. Replace the unlimited public simulator by its finite-pool version using Lemma 3.
 
@@ -381,7 +381,7 @@ For the ISIS reduction, assign the supplied independent uniform challenge target
 
 Each reduction runs the signature adversary once. It uses at most $`Cd`$ one-dimensional Gaussian draws, $`q_S`$ syndrome evaluations, and a classical oracle table of at most $`q_H+q_S+1`$ entries. An ISIS solver must also read the challenge targets that it uses; the SPISIS* solver receives the Gaussian pool as its challenge input. Balanced-tree or hash-table bookkeeping has the usual dependence on the encoded input length.
 
-In particular, the reduction has a finite Gaussian-call budget and ordinary classical storage. Its local work includes public Gaussian sampling and ring arithmetic; it is not asserted to be exactly the adversary's running time. A work-normalized hardness estimate must evaluate the ISIS/SPISIS advantages at the resulting solver resources.
+The reduction has a finite Gaussian-call budget and ordinary classical storage. Its local work includes public Gaussian sampling, ring arithmetic, and encoded-input handling. Concrete hardness estimates evaluate $`I_t`$ and $`S_C`$ at these full solver resources.
 
 ## 9. QROM corollary and explicit oracle semantics
 
@@ -400,7 +400,14 @@ The signer obtains its target once per signing request. Its private retries add 
 
 For extraction, represent the simulated oracle using a static background function $`H_0`$ and a classical table of overrides. When programming an input $`x`$ for the first time, make one classical query to obtain $`H_0(x)`$ and store both that original value and the desired current value. Reprogramming the same input updates its desired value while preserving its original value.
 
-A quantum query first applies the standard oracle unitary for $`H_0`$. A reversible table lookup then XORs the difference between the encodings of the stored original and current values whenever the queried input is in the table. This implements the current programmed oracle exactly. It uses one background query per adversarial hash query and at most one extra background query per signing program. Including final verification, the complete oracle algorithm makes at most
+A quantum query first applies the standard oracle unitary
+
+```math
+|x,b\rangle\longmapsto
+|x,b\mathbin\oplus\mathrm{enc}(H_0(x))\rangle.
+```
+
+A reversible table lookup then XORs $`\mathrm{enc}(H_0(x))\oplus\mathrm{enc}(h_x)`$ at a matching entry, where $`h_x`$ is its desired current value. It acts trivially off the table. This implements the current programmed oracle exactly. It uses one background query per adversarial hash query and at most one extra background query per signing program. Including final verification, the complete oracle algorithm makes at most
 
 ```math
 Q=q_H+q_S+1
@@ -414,7 +421,7 @@ The lookup can be compiled as an ordinary reversible circuit containing the clas
 
 Apply the single-input measure-and-reprogram theorem to this complete public simulator. Its classical output may include the forged input and signature, the set of programmed inputs, and the list of queried messages. The success predicate checks the appropriate freshness condition, absence of the forged input from the override domain, and the norm equation against the newly supplied uniform target. The theorem permits this auxiliary output. On a successful run, centering the omitted component produces the required ISIS solution.
 
-If the measured point is later overridden by signing, it fails the unprogrammed-input predicate. Thus the proof does not silently assume that adaptive later programs leave the measured point untouched. The static-oracle implementation above accounts for the extra queries used to maintain overrides.
+If the measured point is later overridden by signing, it fails the unprogrammed-input predicate. The static-oracle implementation accounts for the extra queries used to maintain overrides.
 
 For a conservative comparison with Beckmann–Majenz, retain their target-value collision allowance
 
@@ -425,11 +432,11 @@ For a conservative comparison with Beckmann–Majenz, retain their target-value 
 
 The at most $`q_S`$ programmed target values are determined by the pre-sampled accepted Gaussian list, independently of the background oracle. Their compressed-oracle search bound therefore applies. The other unprogrammed-input cases are covered by measure-and-reprogram with loss $`(2Q+1)^2`$. This follows the extraction split in their Appendix E.1, pp. 71–72; the extra nonnegative collision allowance is retained rather than used to claim a tighter quantum reduction. [Beckmann–Majenz, Theorem 1 and Appendix E.1](https://arxiv.org/pdf/2602.16268v3).
 
-**Corollary 2 — QROM security with the single-target reduction.** Define
+**Corollary 2 — QROM security with the single-target reduction.** Under the analytic, sampler, pool, representation, and interface hypotheses of Theorem 1, for every quantum adversary $`\mathcal A`$ with at most $`q_S`$ classical signing requests and $`q_H`$ quantum hash queries, and advice independent of the oracle, there are quantum hardness solvers $`B_{\mathrm I}`$ and, for SUF-CMA, $`B_{\mathrm S}`$ satisfying the following bounds. Define
 
 ```math
 \varepsilon_{\mathrm{hard}}^{\mathrm{EUF}}
-=(2Q+1)^2\mathrm{Adv}^{1\text{-}\mathrm{ISIS}}(B_{\mathrm I})
+=(2Q+1)^2I_1(B_{\mathrm I})
 +\varepsilon_{\mathrm{hit}},
 ```
 
@@ -438,13 +445,13 @@ and, for SUF-CMA,
 ```math
 \varepsilon_{\mathrm{hard}}^{\mathrm{SUF}}
 =\varepsilon_{\mathrm{hard}}^{\mathrm{EUF}}
-+\mathrm{Adv}^{C\text{-}\mathrm{SPISIS}^{*}}(B_{\mathrm S}).
++S_C(B_{\mathrm S}).
 ```
 
 Then for either freshness notion,
 
 ```math
-\mathrm{Adv}(A)
+\mathrm{Adv}(\mathcal A)
 \le
 \varepsilon_{\mathrm{repr}}^{\mathrm{QROM}}
 +M_*^{q_S/\rho}
@@ -454,7 +461,9 @@ Then for either freshness notion,
 \right)^{(\rho-1)/\rho}.
 ```
 
-The sampler cap error, when present, is added separately as in the classical theorem.
+**Proof.** Apply the adaptive reprogramming bound to reach the fresh uniform-target game. Use the common classical-list comparison from §5, which applies to the quantum success function, and then the exact finite-pool factor from §6. In the public finite-pool experiment, the unprogrammed-input success probability is bounded by the single-target measure-and-reprogram reduction and the target-hit allowance. A programmed-input SUF forgery gives a SPISIS* solution as in the classical proof; the supplied Gaussian vectors and override list remain classical. EUF excludes this programmed-input case. Substituting the appropriate sum of hardness contributions gives the bound.
+
+The real-signer cap error, when present, is added separately as in Theorem 1.
 
 ### Quantum runtime and scope of the corollary
 
@@ -474,7 +483,7 @@ If the unlimited public simulator's forging probability is bounded by $`2^{-\lam
  +\frac{q_S}{\rho}\log_2 M_*.
 ```
 
-The [Arb certificate](../verification/core_transfer_bounds.py) evaluates the analytic expressions with rigorous ball arithmetic and checks the following outward-rounded inequalities. It imports the independently certified norm-tail contracts $`\overline R<2^{-45.59}`$ and $`\overline R<2^{-60.41}`$, then rechecks the accepted-image bounds used here.
+The [Arb certificate](../verification/core_transfer_bounds.py) evaluates the analytic expressions with rigorous ball arithmetic and checks the following outward-rounded inequalities. For this table, it uses the conservative accepted-image contracts $`X_0=2^{-81}`$ and $`X_0=2^{-83}`$ in the reverse-moment bound. It imports the independently certified norm-tail contracts $`\overline R<2^{-45.59}`$ and $`\overline R<2^{-60.41}`$, then rechecks the accepted-image bounds used here.
 
 | Degree | $`q_S`$ | $`\lambda_{\mathrm{sim}}`$ | Order $`\rho`$ | Transfer loss | Image contribution | Additional sampler cost from norm conditioning |
 |---|---:|---:|---:|---:|---:|---:|
@@ -491,7 +500,7 @@ The oracle terms are separate. For $`q_S=2^{64}`$ and $`\kappa=320`$, the certif
 | $`q_H=2^{64}`$ | approximately $`2^{-191.415}`$ | approximately $`2^{-62.915}`$ |
 | $`q_H=2^{128}`$ | approximately $`2^{-128}`$ | approximately $`2^{-31.415}`$ |
 
-These are probability terms, not standalone security levels. The small Rényi-transfer loss does not remove them, the quantum extraction loss, or the runtime cost of simulating a quantum oracle.
+These additive oracle terms, the quantum extraction factor, and simulation work enter separately from the conditional distribution-transfer loss.
 
 ## 11. What the theorem establishes
 

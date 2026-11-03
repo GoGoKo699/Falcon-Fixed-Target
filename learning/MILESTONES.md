@@ -39,7 +39,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M03; background/preliminaries.
 - **Central question:** How can oscillating functions detect that some syndromes occur more often than others?
-- **Understanding target:** Relate the dual lattice's integer inner-product condition to characters that are constant on lattice cosets. Identify the quotient characters with $`\Lambda^*/\mathbb Z^d`$ and distinguish the trivial character, which records total mass, from nontrivial characters, which record bias.
+- **Understanding target:** Relate the dual lattice's integer inner-product condition to characters that are constant on lattice cosets. Identify the quotient characters with $`\widehat Y=\Lambda^*/\mathbb Z^d`$ and distinguish the trivial character, which records total mass, from nontrivial characters, which record bias.
 - **Dependencies and story role:** M01–M02. This introduces the local frequency coordinates in which the later distributional question becomes manageable.
 - **Conceptual connection:** The geometry of a dual lattice controls Fourier coefficients of probabilities on the finite syndrome quotient.
 - **Source pointers:** Peikert §2.2.1, “The dual lattice,” p. 7; the project supplies the finite-character identification in [norm-tail notation and equation (2)](../science/norm_tail_smoothing.md#notation-and-the-two-image-distributions).
@@ -84,7 +84,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M08; background/preliminaries.
 - **Central question:** How can many small target biases be summarized by one quantity that remains useful in a security proof?
-- **Understanding target:** Explain density relative to the uniform quotient law and its centered $`L^2`$ norm. Use the meaning of Parseval's identity to connect this norm to nontrivial Fourier energy, and identify chi-square distance as the squared density error for a normalized distribution.
+- **Understanding target:** Explain density relative to the uniform quotient law and its centered $`L^2`$ norm. For the accepted ambient image, write $`w(y)=\nu(y)/U(y)`$. Use the meaning of Parseval's identity to connect density error to nontrivial Fourier energy, and identify $`\chi^2(\nu\|U)=\mathbb E_U[(w-1)^2]`$ as the squared density error for a normalized distribution.
 - **Dependencies and story role:** M03 and M07. This selects the quantitative language for the new smoothing estimate.
 - **Conceptual connection:** Fourier energy measures total distributional bias without requiring a separate worst-case estimate for every syndrome.
 - **Source pointers:** Peikert §2.3, p. 9, provides the Gaussian/Fourier context; the finite-quotient energy identity is supplied in [norm-tail notation, equation (2)](../science/norm_tail_smoothing.md#notation-and-the-two-image-distributions), and the density interpretation in [security transfer §3](../science/security_transfer.md#3-the-accepted-ambient-image-and-the-required-reverse-moment).
@@ -138,7 +138,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M14; background/preliminaries.
 - **Central question:** Which two experiments must the proof compare, and which tempting third experiment must remain distinct?
-- **Understanding target:** Distinguish the fixed uniform-target law $`U(y)P_y(z\mid A)`$, the public accepted ambient law $`J(y,z)=\nu(y)G_y(z\mid A)`$, and the comparator that chooses a fresh uniform syndrome and samples its ideal coset Gaussian $`G_y`$ after each rejection. Explain why control of acceptance variance alone does not identify the public simulator's image $`\nu`$.
+- **Understanding target:** Distinguish the fixed uniform-target law $`L(y,z)=U(y)P_y(z\mid A)`$, the public accepted ambient law $`M(y,z)=\nu(y)G_y(z\mid A)`$, and the comparator that chooses a fresh uniform syndrome and samples its ideal coset Gaussian $`G_y`$ after each rejection. Locate $`L`$ in the proof experiment that gives each signing request a fresh uniform target, with the fresh-salt programming cost accounted for separately. Explain why control of acceptance variance alone does not identify the public simulator's image $`\nu`$.
 - **Dependencies and story role:** M02, M06–M13. This completes the background phase by expressing the geometry, retry policy, and security objective as one joint-distribution problem.
 - **Conceptual connection:** The PSF forward/reverse correspondence now includes a sharp norm predicate, a concrete sampler, and an adaptive signing interface. Those additions specify exactly what the narrative must establish.
 - **Source pointers:** Peikert Definition 5.4.3, pp. 47–48, and §5.5.1, pp. 53–54; [signing model §5](../science/signing_model.md#5-three-accepted-laws-that-must-remain-distinct) and [scientific overview: the distribution to simulate](../science/README.md#the-distribution-that-the-proof-must-simulate).
@@ -149,7 +149,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M15; narrative/innovation.
 - **Central question:** Why does the actual key-quality promise satisfy both the analytic basis hypothesis and the sampler's leaf-width hypothesis?
-- **Understanding target:** Follow the expansion of the two polynomial columns into their negacyclic shifts and the projection argument bounding ordinary Gram–Schmidt lengths. Explain the coefficient-isometric FFO expansion and leaf identity, while keeping the geometric bound separate from the theorem controlling the sampler's output law.
+- **Understanding target:** Follow the expansion of the two polynomial columns into their negacyclic shifts and the projection argument bounding ordinary Gram–Schmidt lengths by $`B_0=1.17\sqrt q`$. Explain how the coefficient-isometric FFO expansion identifies the unnormalized leaf values $`D_i`$ and their one-dimensional Gaussian widths $`\sigma_i`$, giving $`\sqrt{D_i}\le B_0`$ and $`\sigma_i\ge\sigma/B_0`$. Keep this geometric bound separate from the theorem controlling the sampler's output law.
 - **Dependencies and story role:** M05–M06 and M13–M14. This establishes the first concrete input to the narrative for every key in the specified support.
 - **Conceptual connection:** Peikert's short-basis sampling framework becomes applicable through a verified Falcon-specific geometry argument, not through an assumed equality between FFO and an arbitrarily ordered Klein sampler.
 - **Source pointers:** Peikert Theorems 2.3.2 and 5.4.2, pp. 9 and 46, provide the framework; [parameter page §2](../science/falcon_parameters.md#2-why-the-generated-lattice-satisfies-the-gs-hypothesis), especially [the FFO leaf-width hypothesis](../science/falcon_parameters.md#the-ffo-leaf-width-hypothesis), supplies the bridge and its primary-source attribution.
@@ -158,7 +158,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M16; narrative/innovation.
 - **Central question:** What can ordinary Gaussian smoothing already prove before any samples are rejected?
-- **Understanding target:** Explain the pointwise bound on $`p(y)-1`$ and the separate Fourier-energy bound on $`Q_0`$. Identify why the integer dual contributions must be canceled before taking absolute values and how weighted Cauchy–Schwarz improves the energy estimate.
+- **Understanding target:** Explain the pointwise bound on $`p(y)-1`$ and the separate Fourier-energy bound on $`Q_0`$. Identify why the integer dual contributions must be canceled before taking absolute values and how weighted Cauchy–Schwarz improves the energy estimate. Keep its tuning parameter $`0<\xi<2`$ separate from the sampler's design tolerance $`\varepsilon_{\rm des}`$.
 - **Dependencies and story role:** M07–M08 and M15. This establishes the baseline image control that the accepted-image theorem will later combine with the tail estimate.
 - **Conceptual connection:** The anchor's qualitative smoothing picture is converted into explicit theta expressions suitable for the fixed Falcon widths.
 - **Source pointers:** Peikert §2.3, p. 9, for smoothing; [unconditioned quotient image, equations (6)–(8)](../science/norm_tail_smoothing.md#unconditioned-quotient-image) for the quantitative derivation.
@@ -176,7 +176,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M18; narrative/innovation.
 - **Central question:** Why do rational contour angles admit a controlled finite Fourier expansion?
-- **Understanding target:** Explain the periodic or antiperiodic behavior of the quadratic phase at $`\theta=\pi a/b`$. Relate the half-frequency shift to the parity of $`ab`$ and the coefficient magnitude $`b^{-1/2}`$ to cancellation in the autocorrelation sum; then identify the role of complex Poisson summation.
+- **Understanding target:** Explain the periodic or antiperiodic behavior of the quadratic phase at $`\theta=\pi a/b`$. Relate the half-frequency shift $`\eta_b\in\{0,1/2\}`$ to the parity of $`ab`$ and the coefficient magnitude $`b^{-1/2}`$ to cancellation in the autocorrelation sum; then identify the role of complex Poisson summation.
 - **Dependencies and story role:** M03 and M17. This supplies a local estimate near each rational angle before summing over quotient characters.
 - **Conceptual connection:** Integer quadratic phases, rather than continuous radial symmetry, determine the useful frequency decomposition.
 - **Source pointers:** Peikert §2.2.1, p. 7, provides dual-lattice context; the additional harmonic analysis is in [twisted quadratic Gauss sums, equations (10)–(11)](../science/norm_tail_smoothing.md#twisted-quadratic-gauss-sums), with methodological attribution in [the discrete circle method](../references/related_work.md#the-discrete-circle-method).
@@ -194,7 +194,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M20; narrative/innovation.
 - **Central question:** How are all angles away from the two main regions bounded without enumerating them one by one?
-- **Understanding target:** Explain how Dirichlet approximation provides denominators at most $`Q=512`$, why these are coprime to $`12289^n`$, and why denominators away from the main arcs are at least two. Identify how theta bounds and convexity reduce the remaining continuum to an endpoint envelope.
+- **Understanding target:** Explain how Dirichlet approximation provides denominators at most $`Q_{\rm arc}=512`$, why these are coprime to $`12289^n`$, and why denominators away from the main arcs are at least two. Identify how theta bounds and convexity reduce the remaining continuum to an endpoint envelope.
 - **Dependencies and story role:** M13 and M17–M19. This completes one of the three contributions to the tail-energy bound.
 - **Conceptual connection:** Arithmetic approximation and geometric decay together control a whole angular region with an explicit conservative bound.
 - **Source pointers:** Peikert's Gaussian and quotient background in §§2.2.1–2.3 supports the objects; the additional arc argument is [minor arcs, equation (15)](../science/norm_tail_smoothing.md#minor-arcs), with its numerical domain checks in [the certificate](../science/numerical_certificate.md#parameter-and-domain-checks).
@@ -244,7 +244,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 - **Conceptual connection:** Representation preserves the norm bound and second-preimage argument under the stated decoding, buffer, and error semantics; recentering can strictly decrease the sampled norm.
 - **Source pointers:** Peikert §5.5.1, p. 53, provides the abstract vector-signature setting; the project supplies [the coordinate-cap extension](../science/norm_tail_smoothing.md#optional-individual-coordinate-cap), [verification and reconstruction](../science/signing_model.md#verification-and-extraction), and [canonical compressed output](../science/signing_model.md#6-canonical-compressed-output).
 
-### M26 — Conditioning the actual FFO sampler without a rejection floor
+### M26 — Conditioning preserves the actual FFO sampler's moment excess
 
 - **ID and phase:** M26; narrative/innovation.
 - **Central question:** How does a proven unconditioned sampler profile survive the fixed-target norm-rejection loop?
@@ -257,7 +257,7 @@ The map records conceptual understanding targets and their dependencies. Detaile
 
 - **ID and phase:** M27; narrative/innovation.
 - **Central question:** Why does the one-query distribution bound remain valid when later messages depend on earlier signatures and hash queries?
-- **Understanding target:** Explain how the accepted-image chi-square bound and a density lower bound control the required reverse Rényi moment. Combine target and preimage in one joint law, then view an independent pre-sampled pair list as input to a common interaction procedure. Identify why adaptivity and a quantum output do not require changing every cell of the random oracle's distribution.
+- **Understanding target:** Explain how the accepted-image chi-square bound and a density lower bound on $`w(y)=\nu(y)/U(y)`$ control the required reverse Rényi moment $`M_\rho(U\|\nu)`$. Compare the joint laws $`L`$ and $`M`$, then view an independent pre-sampled pair list as input to a common interaction procedure. Identify why adaptivity and a quantum output preserve this list-based comparison.
 - **Dependencies and story role:** M11–M12, M14, and M24–M26. This integrates the analytic and sampler results into a transcript-level event bound.
 - **Conceptual connection:** The public and trapdoor experiments differ in one classical source of randomness, while the same channel handles adaptive interaction and public representation.
 - **Source pointers:** Peikert Definition 5.4.3 and §5.5.1, pp. 47 and 53–54, motivate joint-pair simulation; [security transfer §3](../science/security_transfer.md#3-the-accepted-ambient-image-and-the-required-reverse-moment) supplies the reverse moment, and [§5](../science/security_transfer.md#5-adaptive-signing-is-a-common-channel-on-independent-pairs) proves adaptive composition.

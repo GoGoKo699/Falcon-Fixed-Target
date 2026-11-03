@@ -18,7 +18,7 @@ key in the hash input; that convention comes from
 Let
 
 ```math
-R=\mathbb Z[X]/(X^n+1),\qquad q=12289,\qquad d=2n.
+\mathcal R=\mathbb Z[X]/(X^n+1),\qquad \mathcal R_q=\mathcal R/q\mathcal R,\qquad q=12289,\qquad d=2n.
 ```
 
 Polynomials are represented by their coefficient vectors. Every norm below is
@@ -35,21 +35,21 @@ This convention matters: a paper using $`\exp(-\pi\|x\|^2/s^2)`$ has
 $`s=\sqrt{2\pi}\,\sigma`$. Neither convention makes the variance of a
 discrete Gaussian exactly equal to its continuous counterpart's variance.
 
-Set $`B_0=(117/100)\sqrt q`$, $`Q_S^{\rm design}=2^{64}`$, and
-$`\varepsilon=1/\sqrt{Q_S^{\rm design}\lambda}`$. The specification formulas
+Set $`B_0=(117/100)\sqrt q`$, $`Q_S^{\mathrm{des}}=2^{64}`$, and
+$`\varepsilon_{\mathrm{des}}=1/\sqrt{Q_S^{\mathrm{des}}\lambda}`$. The specification formulas
 are
 
 ```math
 \sigma=\frac{B_0}{\pi}
-  \sqrt{\frac{\log(4n(1+1/\varepsilon))}{2}},
+  \sqrt{\frac{\log(4n(1+1/\varepsilon_{\mathrm{des}}))}{2}},
 \qquad
-T=\left\lfloor\left(\frac{11}{10}\right)^2d\sigma^2\right\rfloor,
+T=\left\lfloor\frac{121}{100}d\sigma^2\right\rfloor,
 \qquad K=T+1.
 ```
 
-The signer accepts when $`\|x\|^2\le T`$; rejection is the integer event
-$`\|x\|^2\ge K`$. Thus no boundary rounding is hidden in the contour
-representation of the tail.
+The logarithm is natural. The signer accepts when $`\|x\|^2\le T`$;
+rejection is the integer event
+$`\|x\|^2\ge K`$. This fixes the boundary used by the exact tail contour.
 
 | Parameter | Falcon-512 | Falcon-1024 |
 |---|---:|---:|
@@ -57,16 +57,15 @@ representation of the tail.
 | Coefficient dimension $`d`$ | 1024 | 2048 |
 | Modulus $`q`$ | 12289 | 12289 |
 | Width-design parameter $`\lambda`$ | 128 | 256 |
-| $`\varepsilon`$ | $`2^{-35.5}`$ | $`2^{-36}`$ |
+| $`\varepsilon_{\mathrm{des}}`$ | $`2^{-35.5}`$ | $`2^{-36}`$ |
 | $`\sigma`$, rounded for display | 165.7366171829776 | 168.38857144654394 |
 | Norm-squared acceptance bound $`T`$ | 34,034,726 | 70,265,242 |
 | Tail threshold $`K`$ | 34,034,727 | 70,265,243 |
 | Fresh salt length | 320 bits | 320 bits |
 
-Here $`\lambda`$ specifies the width formula. It is **not** a conclusion
-about the final bit security of the signature scheme. That conclusion also
-depends on the hardness assumption, adversarial resources, reduction loss,
-and oracle model.
+Here $`\lambda`$ is the sampler design parameter. The security reduction
+combines these parameters with the stated hardness assumptions, adversarial
+resources, distribution-transfer loss, and oracle costs.
 
 The executable parameter enclosures and their arithmetic guarantees belong
 to [the numerical certificate](numerical_certificate.md). Decimal values in
@@ -78,18 +77,18 @@ the model.
 For an honestly generated mathematical key, let
 
 ```math
-fG-gF=q,\qquad f\in R_q^\times,\qquad h=g/f\pmod q.
+fG-gF=q,\qquad f\in \mathcal R_q^\times,\qquad h=g/f\pmod q.
 ```
 
 Define the public syndrome map and its kernel by
 
 ```math
-\pi_h(s_1,s_2)=s_1+hs_2\pmod q,
+F_h(u,v)=u+hv\pmod q,
 \qquad
-\Lambda_h=\ker\pi_h\subset\mathbb Z^{2n}.
+\Lambda_h=\ker F_h\subset\mathbb Z^{2n}.
 ```
 
-The identity coefficient of $`s_1`$ makes $`\pi_h`$ surjective. Consequently,
+The identity coefficient of $`u`$ makes $`F_h`$ surjective. Consequently,
 
 ```math
 [\mathbb Z^{2n}:\Lambda_h]=q^n.
@@ -105,12 +104,13 @@ The coefficient expansion of the polynomial basis
 has columns given by all negacyclic shifts of $`u_1=(g,-f)`$, followed by all
 negacyclic shifts of $`u_2=(G,-F)`$. Each column lies in $`\Lambda_h`$.
 Its determinant has absolute value $`q^n`$, because the polynomial
-determinant is $`q`$. The generated lattice is therefore exactly
-$`\Lambda_h`$, rather than a proper sublattice of it.
+determinant is $`q`$. The generated lattice is therefore exactly $`\Lambda_h`$.
 
 For a polynomial $`a`$, write $`a^*=a(X^{-1})`$ in the quotient ring and
-put $`D=ff^*+gg^*`$. The NTRU equation ensures that $`D`$ is invertible
-over the real coefficient algebra. The key-generation check is
+put $`D=ff^*+gg^*`$. Divisions by $`D`$ are taken in
+$`\mathbb R[X]/(X^n+1)`$. At any root $`\zeta`$ of $`X^n+1`$,
+$`D(\zeta)=|f(\zeta)|^2+|g(\zeta)|^2>0`$: the NTRU equation
+precludes a common zero. Thus $`D`$ is invertible. The key-generation check is
 
 ```math
 \gamma=\max\!\left\{
@@ -130,14 +130,14 @@ projection cannot increase a vector's norm. For the second block, the identity
 
 ```math
 u_2-\frac{Gg^*+Ff^*}{D}\,u_1
-   =v:=\left(\frac{qf^*}{D},\frac{qg^*}{D}\right)
+   =v_\perp:=\left(\frac{qf^*}{D},\frac{qg^*}{D}\right)
 \qquad\text{(2)}
 ```
 
 gives its projection onto $`W^\perp`$. Indeed, the polynomial inner product
-of $`u_1`$ with $`v`$ vanishes, so $`v`$ is orthogonal to every shift of
-$`u_1`$. Negacyclic shifts are Euclidean isometries and preserve $`W`$.
-Thus the projection of each shifted $`u_2`$ has norm $`\|v\|`$.
+of $`u_1`$ with $`v_\perp`$ vanishes, so $`v_\perp`$ is orthogonal to every
+shift of $`u_1`$. Negacyclic shifts are Euclidean isometries and preserve $`W`$.
+Thus the projection of each shifted $`u_2`$ has norm $`\|v_\perp\|`$.
 Further projection onto the complement of earlier second-block columns can
 only decrease that norm. Equation (1) proves
 
@@ -146,9 +146,8 @@ only decrease that norm. Equation (1) proves
 \qquad\text{(3)}
 ```
 
-This proof works for **any ordering within each block**, provided the entire
-first block precedes the second. It does not use a typical-key model or an
-empirical GS profile.
+The argument permits **any ordering within each block**, with the entire
+first block placed before the second.
 
 Since $`q=12289`$ is an odd prime larger than 512,
 
@@ -158,9 +157,9 @@ Since $`q=12289`$ is an odd prime larger than 512,
 ```
 
 This supplies the quotient arithmetic used by
-[the norm-tail theorem](norm_tail_smoothing.md). The theorem covers a larger
-class of lattices than honest Falcon key generation; its applicability does
-not replace the actual key distribution in the cryptographic assumption.
+[the norm-tail theorem](norm_tail_smoothing.md). The lattice theorem
+holds on this geometric class; the cryptographic
+assumptions retain the actual key-generation distribution.
 
 ### The FFO leaf-width hypothesis
 
@@ -182,37 +181,37 @@ $`D_i`$ with $`\|\widetilde b_i\|^2`$ for that expansion. Hence
 ```
 
 The width formula therefore meets the hypothesis of their Lemma 7 and its
-Appendix F.3 analysis. This imports the **ideal exact-arithmetic FFO profile**;
-it does not identify every FFO execution with a Klein sampler in an arbitrary
-basis order. Validation of finite-precision arithmetic and the implementation
-of the one-dimensional samplers remains a separate requirement.
+Appendix F.3 analysis. This supplies the geometric input to the
+**exact-arithmetic FFO profile**.
+An implementation enters the abstract transfer through its own proved
+sampler profile and arithmetic costs.
 
 ## 3. What a signature exposes
 
 The proved interface chooses a fresh independent 320-bit salt after receiving
-the message, evaluates $`H(\mathrm{pk},r,m)`$ once, and keeps that target
+the message, evaluates $`H(h,r,m)`$ once, and keeps that target
 fixed during private norm retries. It returns the final salt and accepted
 signature representation. The interface does not reveal retry counts,
 sampler randomness, or timing. It does not grant callers control of the salt.
 
-Only $`s_2`$ needs to be transmitted. Given the target $`c`$, verification
+Only $`v`$ needs to be transmitted. Given the target $`y`$, verification
 reconstructs
 
 ```math
-\widehat s_1=\mathrm{ctr}_q(c-hs_2),
+\widehat u=\mathrm{ctr}_q(y-hv),
 \qquad \mathrm{ctr}_q:\mathbb Z_q\longrightarrow[-6144,6144].
 ```
 
 If a sampled pair satisfies the syndrome equation, each reconstructed
-coordinate has absolute value at most that of the original $`s_1`$
+coordinate has absolute value at most that of the original $`u`$
 coordinate. Therefore
 
 ```math
-\|(\widehat s_1,s_2)\|\le\|(s_1,s_2)\|.
+\|(\widehat u,v)\|\le\|(u,v)\|.
 ```
 
 This observation is needed at degree 1024, where $`\sqrt T>q/2`$, so a
-norm-accepted sampled $`s_1`$ need not already be centered. The verifier's
+norm-accepted sampled $`u`$ need not already be centered. The verifier's
 representative change preserves correctness and the extraction norm bound.
 The security comparison is made before this public projection and then
 transferred by data processing; injectivity of the projection is unnecessary
@@ -231,7 +230,7 @@ source as accessed on 27 October 2026, not every Falcon-derived library.
 
 | Output policy | Relation to the proved model |
 |---|---|
-| Return the integer $`s_2`$ from a norm-accepted pair | Direct CoreFalcon output. |
+| Return the integer $`v`$ from a norm-accepted pair | Direct CoreFalcon output. |
 | Canonically compress that output, returning $`\bot`$ on encoding or buffer failure | Public deterministic postprocessing; the transcript comparison is preserved when $`\bot`$ remains an observable result. |
 | Repeat sampling at the same target if an individual encoded coefficient exceeds 2047 | Requires the stated norm-plus-coordinate-cap extension and its corresponding accepted-law bounds. |
 | Repeat until a prescribed total byte budget is met | A different acceptance event; not covered by the norm or coordinate-cap theorem. |
@@ -239,8 +238,8 @@ source as accessed on 27 October 2026, not every Falcon-derived library.
 For the variable-length code, the coefficient payload length in bits is
 
 ```math
-L(s_2)=\sum_{j=0}^{n-1}
-   \left(9+\left\lfloor\frac{|(s_2)_j|}{128}\right\rfloor\right),
+L(v)=\sum_{j=0}^{n-1}
+   \left(9+\left\lfloor\frac{|v_j|}{128}\right\rfloor\right),
 ```
 
 followed by the required zero bits to complete its last byte. A total-byte
@@ -251,9 +250,9 @@ There is, however, no additional length condition when a sufficiently large
 buffer is supplied. Cauchy--Schwarz gives
 
 ```math
-L(s_2)\le 9n+\left\lfloor\frac{\sqrt{nT}}{128}\right\rfloor,
+L(v)\le 9n+\left\lfloor\frac{\sqrt{nT}}{128}\right\rfloor,
 \qquad
-\mathrm{bytes}(r,s_2)
+\mathrm{bytes}(r,v)
  \le 41+\left\lceil
  \frac{9n+\lfloor\sqrt{nT}/128\rfloor}{8}\right\rceil.
 ```
@@ -282,11 +281,10 @@ signature.
 
 ## 5. Scope of the resulting statement
 
-The established bridge is from mathematical Falcon keys and their original
-norm parameters to a norm-only, fresh-initial-salt **CoreFalcon** model with
-an explicit sampler profile. It preserves the named fixed-target question
-from the prior literature. It does not assert an unchanged implementation
-proof, a fixed padded-format proof, arbitrary caller-selected salts, or
-security against leakage of the retry process. Classical-ROM and QROM
-consequences must retain the separate costs stated in
-[the security transfer](security_transfer.md).
+The bridge establishes the norm-only, fresh-initial-salt **CoreFalcon**
+model at the original parameters under the explicit sampler profile.
+A finite-precision implementation, a padded-length retry predicate,
+caller-controlled salts, or observations of the retry process require
+corresponding sampler, accepted-law, or oracle arguments. The
+[security transfer](security_transfer.md) retains the distinct classical-ROM
+and QROM costs.
